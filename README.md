@@ -1,30 +1,11 @@
-# An abstraction over multipeer connectivity that can be tested
+# A testable abstraction over multipeer connectivity
 
-Using the adapter design pattern, we can test multipeer code with heavy mocking.
+Using the adapter pattern, we can test multipeer code with heavy mocking. This library gives you the flexibility to swap
+out the underlying mechanics of p2p with some other protocol such as websockets.
 
 ## Example code
 
-### Testing
-
-```
-let session = MockSession()
-let current = CurrentClient(session: session)
-
-let othersession = MockSession()
-let other = CurrentClient(othersession)
-
-current.rx_string >- subscribeNext { |s| in
-  println(s)
-}
-
-other.rx_data >- subscribeNext { |d| in
-  prinln(NSString(data: d, encoding: UIInt))
-  current.sendData(NSData(string: "there"), mode: Reliable)
-}
-
-other.sendData(NSData(string: "hello"), mode: .Reliable)
-```
-
+### @TODO : Testing
 ### @TODO : Usage
 
 ## License
