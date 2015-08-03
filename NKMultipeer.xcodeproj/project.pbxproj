@@ -7,10 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F5E6D97C4F8624EBBE81C71 /* Pods_NKMultipeer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B67E48B4166B90299DB2AA /* Pods_NKMultipeer.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		87A51DCF90413DF63AA29C47 /* Pods_NKMultipeerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A3BD5B7DCF6080B8C09F89 /* Pods_NKMultipeerTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		D88C85F11B6F2B1700CF42CF /* NKMultipeer.h in Headers */ = {isa = PBXBuildFile; fileRef = D88C85F01B6F2B1700CF42CF /* NKMultipeer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D88C85F71B6F2B1700CF42CF /* NKMultipeer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C85EB1B6F2B1700CF42CF /* NKMultipeer.framework */; };
-		D88C85FE1B6F2B1700CF42CF /* NKMultipeerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C85FD1B6F2B1700CF42CF /* NKMultipeerTests.swift */; };
+		D88C86081B6F2D9000CF42CF /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */; };
+		D88C860A1B6F307700CF42CF /* IntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86091B6F307700CF42CF /* IntegrationSpec.swift */; };
+		D88C860C1B6F308600CF42CF /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C860B1B6F308600CF42CF /* Client.swift */; };
+		D88C860F1B6F42F400CF42CF /* Data.txt in Resources */ = {isa = PBXBuildFile; fileRef = D88C860E1B6F42F400CF42CF /* Data.txt */; };
+		D88C86121B6F4F3700CF42CF /* ClientIden.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86101B6F4F3700CF42CF /* ClientIden.swift */; };
+		D88C86131B6F4F3700CF42CF /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86111B6F4F3700CF42CF /* Session.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,15 +29,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		036CBA6CA523D7AB506902DA /* Pods-NKMultipeer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NKMultipeer.release.xcconfig"; path = "Pods/Target Support Files/Pods-NKMultipeer/Pods-NKMultipeer.release.xcconfig"; sourceTree = "<group>"; };
 		4040EA49402F9220173AC8C5 /* Pods-NKMultipeerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NKMultipeerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NKMultipeerTests/Pods-NKMultipeerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4CAE293DA14A99E32C8E0677 /* Pods-NKMultipeerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NKMultipeerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NKMultipeerTests/Pods-NKMultipeerTests.release.xcconfig"; sourceTree = "<group>"; };
+		619FC76220462366C6F61AA5 /* Pods-NKMultipeer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NKMultipeer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NKMultipeer/Pods-NKMultipeer.debug.xcconfig"; sourceTree = "<group>"; };
 		67A3BD5B7DCF6080B8C09F89 /* Pods_NKMultipeerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NKMultipeerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		99B67E48B4166B90299DB2AA /* Pods_NKMultipeer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NKMultipeer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D88C85EB1B6F2B1700CF42CF /* NKMultipeer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NKMultipeer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D88C85EF1B6F2B1700CF42CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D88C85F01B6F2B1700CF42CF /* NKMultipeer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NKMultipeer.h; sourceTree = "<group>"; };
 		D88C85F61B6F2B1700CF42CF /* NKMultipeerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NKMultipeerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D88C85FC1B6F2B1700CF42CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D88C85FD1B6F2B1700CF42CF /* NKMultipeerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NKMultipeerTests.swift; sourceTree = "<group>"; };
+		D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
+		D88C86091B6F307700CF42CF /* IntegrationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrationSpec.swift; sourceTree = "<group>"; };
+		D88C860B1B6F308600CF42CF /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
+		D88C860E1B6F42F400CF42CF /* Data.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Data.txt; sourceTree = "<group>"; };
+		D88C86101B6F4F3700CF42CF /* ClientIden.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientIden.swift; sourceTree = "<group>"; };
+		D88C86111B6F4F3700CF42CF /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +52,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D88C86081B6F2D9000CF42CF /* MultipeerConnectivity.framework in Frameworks */,
+				5F5E6D97C4F8624EBBE81C71 /* Pods_NKMultipeer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,7 +72,9 @@
 		6A362B832317E525259BEBB4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */,
 				67A3BD5B7DCF6080B8C09F89 /* Pods_NKMultipeerTests.framework */,
+				99B67E48B4166B90299DB2AA /* Pods_NKMultipeer.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -86,7 +102,9 @@
 		D88C85ED1B6F2B1700CF42CF /* NKMultipeer */ = {
 			isa = PBXGroup;
 			children = (
-				D88C85F01B6F2B1700CF42CF /* NKMultipeer.h */,
+				D88C86101B6F4F3700CF42CF /* ClientIden.swift */,
+				D88C86111B6F4F3700CF42CF /* Session.swift */,
+				D88C860B1B6F308600CF42CF /* Client.swift */,
 				D88C85EE1B6F2B1700CF42CF /* Supporting Files */,
 			);
 			path = NKMultipeer;
@@ -103,7 +121,8 @@
 		D88C85FA1B6F2B1700CF42CF /* NKMultipeerTests */ = {
 			isa = PBXGroup;
 			children = (
-				D88C85FD1B6F2B1700CF42CF /* NKMultipeerTests.swift */,
+				D88C860D1B6F42F400CF42CF /* Fixtures */,
+				D88C86091B6F307700CF42CF /* IntegrationSpec.swift */,
 				D88C85FB1B6F2B1700CF42CF /* Supporting Files */,
 			);
 			path = NKMultipeerTests;
@@ -117,11 +136,21 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D88C860D1B6F42F400CF42CF /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				D88C860E1B6F42F400CF42CF /* Data.txt */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
 		EB82402346618094CCA7A1C5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				4040EA49402F9220173AC8C5 /* Pods-NKMultipeerTests.debug.xcconfig */,
 				4CAE293DA14A99E32C8E0677 /* Pods-NKMultipeerTests.release.xcconfig */,
+				619FC76220462366C6F61AA5 /* Pods-NKMultipeer.debug.xcconfig */,
+				036CBA6CA523D7AB506902DA /* Pods-NKMultipeer.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -133,7 +162,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D88C85F11B6F2B1700CF42CF /* NKMultipeer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,10 +172,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D88C86011B6F2B1700CF42CF /* Build configuration list for PBXNativeTarget "NKMultipeer" */;
 			buildPhases = (
+				430E7E5ECD9EE37FF3E0EB9D /* Check Pods Manifest.lock */,
 				D88C85E61B6F2B1700CF42CF /* Sources */,
 				D88C85E71B6F2B1700CF42CF /* Frameworks */,
 				D88C85E81B6F2B1700CF42CF /* Headers */,
 				D88C85E91B6F2B1700CF42CF /* Resources */,
+				444F8C06CAD6344057E8C26A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -226,6 +256,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D88C860F1B6F42F400CF42CF /* Data.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +276,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		430E7E5ECD9EE37FF3E0EB9D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		444F8C06CAD6344057E8C26A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NKMultipeer/Pods-NKMultipeer-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4775252201CC55E1B4671B9F /* Copy Pods Resources */ = {
@@ -284,6 +345,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D88C86121B6F4F3700CF42CF /* ClientIden.swift in Sources */,
+				D88C860C1B6F308600CF42CF /* Client.swift in Sources */,
+				D88C86131B6F4F3700CF42CF /* Session.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D88C85FE1B6F2B1700CF42CF /* NKMultipeerTests.swift in Sources */,
+				D88C860A1B6F307700CF42CF /* IntegrationSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,6 +461,7 @@
 		};
 		D88C86021B6F2B1700CF42CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 619FC76220462366C6F61AA5 /* Pods-NKMultipeer.debug.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -412,6 +477,7 @@
 		};
 		D88C86031B6F2B1700CF42CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 036CBA6CA523D7AB506902DA /* Pods-NKMultipeer.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
