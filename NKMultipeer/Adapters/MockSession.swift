@@ -70,7 +70,7 @@ public class MockSession : Session {
     self.isAdvertising = false
   }
 
-  public func connect(peer: Client) -> Observable<Bool> {
+  public func connect(peer: Client, meta: AnyObject? = nil, timeout: NSTimeInterval = 12) -> Observable<Bool> {
     let otherm = filter(MockSession.sessions, { return $0.iden == peer.iden }).first
     if let other = otherm {
       if other.isAdvertising {

@@ -57,8 +57,8 @@ public class CurrentClient : Client {
     session.stopBrowsing()
   }
 
-  public func connect(peer: Client) -> Observable<Bool> {
-    return session.connect(peer)
+  public func connect(peer: Client, meta: AnyObject? = nil, timeout: NSTimeInterval = 12) -> Observable<Bool> {
+    return session.connect(peer, meta: meta, timeout: timeout)
   }
 
   public func disconnect() -> Observable<Void> {

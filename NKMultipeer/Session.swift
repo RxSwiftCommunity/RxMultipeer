@@ -1,3 +1,4 @@
+import Foundation
 import RxSwift
 import MultipeerConnectivity
 
@@ -14,7 +15,7 @@ public protocol Session {
   func stopAdvertising()
   func startBrowsing()
   func stopBrowsing()
-  func connect(peer: Client) -> Observable<Bool>
+  func connect(peer: Client, meta: AnyObject?, timeout: NSTimeInterval) -> Observable<Bool>
   func disconnect() -> Observable<Void>
   func connectionErrors() -> Observable<NSError>
 
