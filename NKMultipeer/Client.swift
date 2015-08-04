@@ -1,4 +1,5 @@
 
+import MultipeerConnectivity
 import Foundation
 import RxSwift
 
@@ -20,17 +21,13 @@ public class CurrentClient : Client {
   // All state should be stored in the session
   public var session: Session
 
-  override public var iden: ClientIden {
-    return session.iden
-  }
-
   public var connections: [Client] {
     return session.connections.map { Client(iden: $0) }
   }
 
   public init(session: Session) {
     self.session = session
-    self.iden = session.iden
+    super.init(iden: session.iden)
   }
 
   // Advertising and connecting
@@ -56,7 +53,7 @@ public class CurrentClient : Client {
   public func send
   (other: Client,
    _ string: String,
-   _ mode: MCSessionDataMode = .Reliable)
+   _ mode: MCSessionSendDataMode = .Reliable)
   -> Observable<()> {
     return session.send(other, string, mode)
   }
@@ -65,9 +62,9 @@ public class CurrentClient : Client {
   (other: Client,
    name: String,
    url: NSURL,
-   _ mode: MCSessionDataMode = .Reliable)
-  -> Observable<()>? {
-    return session.send?(other, name: name, url: url, mode)
+   _ mode: MCSessionSendDataMode = .Reliable)
+  -> Observable<()> {
+    return session.send(other, name: name, url: url, mode)
   }
 
   // Receiving data
@@ -76,8 +73,8 @@ public class CurrentClient : Client {
     return session.receive()
   }
 
-  public func receive() -> Observable<(String, NSURL)>? {
-    return sesion.receive?()
+  public func receive() -> Observable<(String, NSURL)> {
+    return session.receive()
   }
 
 }

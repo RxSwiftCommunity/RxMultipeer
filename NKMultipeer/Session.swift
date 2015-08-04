@@ -1,9 +1,10 @@
 import RxSwift
+import MultipeerConnectivity
 
 public protocol Session {
 
-  var iden: ClientIden
-  var connections: [ClientIden]
+  var iden: ClientIden { get }
+  var connections: [ClientIden] { get }
 
   func advertise() -> Observable<(Client, (Bool) -> ())>
   func browse() -> Observable<[Client]>
@@ -13,21 +14,18 @@ public protocol Session {
   func send
   (other: Client,
    _ string: String,
-   _ mode: MCSessionDataMode)
+   _ mode: MCSessionSendDataMode)
   -> Observable<()>
 
   func receive() -> Observable<String>
 
-  // NSURL's are optional because not all adapters
-  // will necessarily support this.
-
-  optional func send
+  func send
   (other: Client,
    name: String,
    url: NSURL,
-   _ mode: MCSessionDataMode)
+   _ mode: MCSessionSendDataMode)
   -> Observable<()>
 
-  optional func receive() -> Observable<(String, NSURL)>
+  func receive() -> Observable<(String, NSURL)>
 
 }

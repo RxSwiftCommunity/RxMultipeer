@@ -1,12 +1,13 @@
 import NKMultipeer
 import Quick
 import Nimble
+import RxSwift
 
 public class IntegrationSpec : QuickSpec {
 
-  override func spec() {
+  override public func spec() {
 
-    let disposeBag = DiposeBag()
+    var disposeBag = DisposeBag()
 
     describe("two clients") {
 
@@ -16,7 +17,7 @@ public class IntegrationSpec : QuickSpec {
       beforeEach {
         clientone = CurrentClient(MockSession())
         clienttwo = CurrentClient(MockSession())
-        diposeBag = DisposeBag()
+        disposeBag = DisposeBag()
       }
 
       describe("client two advertises") {
@@ -24,28 +25,30 @@ public class IntegrationSpec : QuickSpec {
         beforeEach {
           // Advertise and always accept connections
           clienttwo!.advertise()
-          >- subscibeNext { (client, respond) in respond(true) }
+          >- subscribeNext { (client, respond) in respond(true) }
           >- disposeBag.addDisposable
         }
 
         it("allows client one to browse for client two") {
           waitUntil { done in
-            clientone.browse()
-            >- subscribeNext { |clients|
-              expect(clients[0].iden).to(equal(clienttwo.iden))
+            clientone!.browse()
+            >- subscribeNext { clients in
+              expect(clients[0].iden.isIdenticalTo(clienttwo!.iden)).to(equal(true))
               done()
             }
-            >- disposable.addDisposable
+            >- disposeBag.addDisposable
+            return
           }
+          return
         }
 
         it("clients can connect with eachother") {
           waitUntil { done in
-            let connection = clientone.connect(clienttwo) >- variable
+            let connection = clientone!.connect(clienttwo!) >- variable
 
             connection
-            >- subscibeNext { expect($0).to(beTrue()) }
-            >- diposeBag.addDisposable
+            >- subscribeNext { expect($0).to(beTrue()) }
+            >- disposeBag.addDisposable
 
             connection
             >- subscribeCompleted { done() }
@@ -56,8 +59,8 @@ public class IntegrationSpec : QuickSpec {
         describe("clients are connected") {
 
           beforeEach {
-            waitUntil { done
-              clientone.connect(clienttwo)
+            waitUntil { done in
+              clientone!.connect(clienttwo!)
               >- subscribeCompleted { done() }
               >- disposeBag.addDisposable
             }
@@ -65,11 +68,11 @@ public class IntegrationSpec : QuickSpec {
 
           it("allows client two to disconnect") {
             waitUntil { done in
-              expect(count(clientone.connections)).to(equal(1))
-              clienttwo.disconnect()
+              expect(count(clientone!.connections)).to(equal(1))
+              clienttwo!.disconnect()
               >- subscribeCompleted {
-                expect(count(clientone.connections)).to(equal(0))
-                expect(count(clienttwo.connections)).to(equal(0))
+                expect(count(clientone!.connections)).to(equal(0))
+                expect(count(clienttwo!.connections)).to(equal(0))
                 done()
               }
               >- disposeBag.addDisposable
@@ -78,11 +81,11 @@ public class IntegrationSpec : QuickSpec {
 
           it("allows client one to disconnect") {
             waitUntil { done in
-              expect(count(clienttwo.connections)).to(equal(1))
-              clientone.disconnect()
+              expect(count(clienttwo!.connections)).to(equal(1))
+              clientone!.disconnect()
               >- subscribeCompleted {
-                expect(count(clientone.connections)).to(equal(0))
-                expect(count(clienttwo.connections)).to(equal(0))
+                expect(count(clientone!.connections)).to(equal(0))
+                expect(count(clienttwo!.connections)).to(equal(0))
                 done()
               }
               >- disposeBag.addDisposable
@@ -91,8 +94,8 @@ public class IntegrationSpec : QuickSpec {
 
           it("lets clients send strings to eachother") {
             waitUntil { done in
-              clientone.send(clienttwo, "hello")
-              clienttwo.receive()
+              clientone!.send(clienttwo!, "hello")
+              clienttwo!.receive()
               >- subscribeNext { (string: String) in
                 expect(string).to(equal("hello"))
                 done()
@@ -104,15 +107,15 @@ public class IntegrationSpec : QuickSpec {
           it("lets clients send resource urls to each other") {
             waitUntil { done in
               let url = NSBundle(forClass: self.dynamicType).URLForResource("Data", withExtension: "txt")
-              clientone.send(clienttwo, name: "txt file", url: NSURL(fileURLWithPath: url))
-              clienttwo.recieve()
+              clientone!.send(clienttwo!, name: "txt file", url: url!)
+              clienttwo!.receive()
               >- subscribeNext { (name: String, url: NSURL) in
                 expect(name).to(equal("txt file"))
-                let contents = NSURL(data: NSData(contentsOfURL: url), encoding: NSUTF8StringEncoding)
+                let contents = NSString(data: NSData(contentsOfURL: url)!, encoding: NSUTF8StringEncoding)
                 expect(url).to(equal("hello there this is random data"))
                 done()
               }
-              >-disposeBag.addDisposable
+              >- disposeBag.addDisposable
             }
           }
 
