@@ -42,7 +42,7 @@ public class MockSession : Session {
 
   var isBrowsing = false
 
-  let connectRequests: Variable<(Client, (Bool) -> ())?> = Variable(nil)
+  let connectRequests: PublishSubject<(Client, (Bool) -> ())> = PublishSubject()
 
   public func nearbyPeers() -> Observable<[Client]> {
     return MockSession.advertisingSessions
@@ -59,7 +59,7 @@ public class MockSession : Session {
   }
 
   public func incomingConnections() -> Observable<(Client, (Bool) -> ())> {
-    return connectRequests >- skip(1) >- map { $0! }
+    return connectRequests
   }
 
   public func startAdvertising() {
@@ -75,7 +75,8 @@ public class MockSession : Session {
     if let other = otherm {
       if other.isAdvertising {
         return create { observer in
-          other.connectRequests.next(
+          sendNext(
+            other.connectRequests,
             (Client(iden: self.iden),
              { [weak self] (response: Bool) in
                if !response {
@@ -113,15 +114,15 @@ public class MockSession : Session {
   // Data reception concerns
   //////////////////////////////////////////////////////////////////////////
 
-  let receivedStrings: Variable<String?> = Variable(nil)
-  let receivedResources: Variable<(String, NSURL)?> = Variable(nil)
+  let receivedStrings: PublishSubject<String> = PublishSubject()
+  let receivedResources: PublishSubject<(String, NSURL)> = PublishSubject()
 
   public func receive() -> Observable<String> {
-    return receivedStrings >- filter { $0 != nil } >- map { $0! }
+    return receivedStrings
   }
 
   public func receive() -> Observable<(String, NSURL)> {
-    return receivedResources >- filter { $0 != nil } >- map { $0! }
+    return receivedResources
   }
 
   // Data delivery concerns
@@ -142,7 +143,7 @@ public class MockSession : Session {
         if !self.isConnected(otherSession) {
           sendError(observer, UnknownError)
         } else {
-          otherSession.receivedStrings.next(string)
+          sendNext(otherSession.receivedStrings, string)
           sendCompleted(observer)
         }
       } else {
@@ -165,7 +166,7 @@ public class MockSession : Session {
         if !self.isConnected(otherSession) {
           sendError(observer, UnknownError)
         } else {
-          otherSession.receivedResources.next((name, url))
+          sendNext(otherSession.receivedResources, (name, url))
           sendCompleted(observer)
         }
       } else {
