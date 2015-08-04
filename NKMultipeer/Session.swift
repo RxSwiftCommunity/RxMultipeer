@@ -1,6 +1,8 @@
 import RxSwift
 import MultipeerConnectivity
 
+// The protocol that adapters must adhere to.
+// We want a concise common interface for p2p related operations.
 public protocol Session {
 
   var iden: ClientIden { get }

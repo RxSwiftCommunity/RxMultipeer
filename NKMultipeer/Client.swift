@@ -3,7 +3,6 @@ import MultipeerConnectivity
 import Foundation
 import RxSwift
 
-// This is the adapter.
 // It will work with any underlying object as long as they conform to the
 // `Session` protocol.
 public class Client {

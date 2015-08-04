@@ -1,11 +1,16 @@
 # A testable abstraction over multipeer connectivity
 
-Using the adapter pattern, we can test multipeer code with heavy mocking. This library gives you the flexibility to swap
-out the underlying mechanics of p2p with some other protocol such as websockets.
+Using the adapter pattern, we can test multipeer code with heavy mocking. In effect, we are trying to isolate all the
+untestable bits of `MultipeerConnectivity` into one library.
+
+This library also gives you the flexibility to swap out the underlying mechanics of p2p with some other protocol such as
+websockets. At the moment it only comes with support for Apple's MultipeerConnectivity, however you can easily write
+your own adapters for different protocols.
 
 ## Example code
 
 ### @TODO : Testing
+
 ### @TODO : Usage
 
 ## License
