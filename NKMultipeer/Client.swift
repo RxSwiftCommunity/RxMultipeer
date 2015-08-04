@@ -31,12 +31,28 @@ public class CurrentClient : Client {
 
   // Advertising and connecting
 
-  public func advertise() -> Observable<(Client, (Bool) -> ())> {
-    return session.advertise()
+  public func incomingConnections() -> Observable<(Client, (Bool) -> ())> {
+    return session.incomingConnections()
   }
 
-  public func browse() -> Observable<[Client]> {
-    return session.browse()
+  public func nearbyPeers() -> Observable<[Client]> {
+    return session.nearbyPeers()
+  }
+
+  public func startAdvertising() {
+    session.startAdvertising()
+  }
+
+  public func stopAdvertising() {
+    session.stopAdvertising()
+  }
+
+  public func startBrowsing() {
+    session.startBrowsing()
+  }
+
+  public func stopBrowsing() {
+    session.stopBrowsing()
   }
 
   public func connect(peer: Client) -> Observable<Bool> {

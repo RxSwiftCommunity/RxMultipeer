@@ -25,7 +25,8 @@ public class IntegrationSpec : QuickSpec {
 
         beforeEach {
           // Advertise and always accept connections
-          clienttwo!.advertise()
+          clienttwo!.startAdvertising()
+          clienttwo!.incomingConnections()
           >- subscribeNext { (client, respond) in
             respond(true) }
           >- disposeBag.addDisposable
@@ -33,7 +34,8 @@ public class IntegrationSpec : QuickSpec {
 
         it("allows client one to browse for client two") {
           waitUntil { done in
-            clientone!.browse()
+            clientone!.startBrowsing()
+            clientone!.nearbyPeers()
             >- subscribeNext { clients in
               expect(clients[0].iden.isIdenticalTo(clienttwo!.iden)).to(equal(true))
               done()

@@ -8,8 +8,12 @@ public protocol Session {
   var iden: ClientIden { get }
   var connections: [ClientIden] { get }
 
-  func advertise() -> Observable<(Client, (Bool) -> ())>
-  func browse() -> Observable<[Client]>
+  func incomingConnections() -> Observable<(Client, (Bool) -> ())>
+  func nearbyPeers() -> Observable<[Client]>
+  func startAdvertising()
+  func stopAdvertising()
+  func startBrowsing()
+  func stopBrowsing()
   func connect(peer: Client) -> Observable<Bool>
   func disconnect() -> Observable<Void>
 

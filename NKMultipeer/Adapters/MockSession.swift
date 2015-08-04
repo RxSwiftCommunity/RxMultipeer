@@ -40,16 +40,34 @@ public class MockSession : Session {
     didSet { MockSession.digestAdvertisingSessions() }
   }
 
+  var isBrowsing = false
+
   let connectRequests: Variable<(Client, (Bool) -> ())?> = Variable(nil)
 
-  public func browse() -> Observable<[Client]> {
+  public func nearbyPeers() -> Observable<[Client]> {
     return MockSession.advertisingSessions
+           >- filter { _ in self.isBrowsing == true }
            >- map { $0.map { Client(iden: $0.iden) } }
   }
 
-  public func advertise() -> Observable<(Client, (Bool) -> ())> {
-    self.isAdvertising = true
+  public func startBrowsing() {
+    self.isBrowsing = true
+  }
+
+  public func stopBrowsing() {
+    self.isBrowsing = false
+  }
+
+  public func incomingConnections() -> Observable<(Client, (Bool) -> ())> {
     return connectRequests >- skip(1) >- map { $0! }
+  }
+
+  public func startAdvertising() {
+    self.isAdvertising = true
+  }
+
+  public func stopAdvertising() {
+    self.isAdvertising = false
   }
 
   public func connect(peer: Client) -> Observable<Bool> {
