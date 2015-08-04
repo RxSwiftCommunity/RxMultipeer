@@ -63,6 +63,10 @@ public class CurrentClient : Client {
     return session.disconnect()
   }
 
+  public func connectionErrors() -> Observable<NSError> {
+    return session.connectionErrors()
+  }
+
   // Sending Data
 
   public func send

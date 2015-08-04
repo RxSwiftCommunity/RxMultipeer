@@ -16,6 +16,7 @@ public protocol Session {
   func stopBrowsing()
   func connect(peer: Client) -> Observable<Bool>
   func disconnect() -> Observable<Void>
+  func connectionErrors() -> Observable<NSError>
 
   func send
   (other: Client,

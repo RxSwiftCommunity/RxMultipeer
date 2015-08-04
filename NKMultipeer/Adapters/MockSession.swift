@@ -111,6 +111,10 @@ public class MockSession : Session {
     return just(())
   }
 
+  public func connectionErrors() -> Observable<NSError> {
+    return PublishSubject()
+  }
+
   // Data reception concerns
   //////////////////////////////////////////////////////////////////////////
 
