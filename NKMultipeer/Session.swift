@@ -7,16 +7,17 @@ import MultipeerConnectivity
 public protocol Session {
 
   var iden: ClientIden { get }
-  var connections: [ClientIden] { get }
 
+  func connectedPeer() -> Observable<Client>
+  func disconnectedPeer() -> Observable<Client>
   func incomingConnections() -> Observable<(Client, (Bool) -> ())>
   func nearbyPeers() -> Observable<[Client]>
   func startAdvertising()
   func stopAdvertising()
   func startBrowsing()
   func stopBrowsing()
-  func connect(peer: Client, meta: AnyObject?, timeout: NSTimeInterval) -> Observable<Bool>
-  func disconnect() -> Observable<Void>
+  func connect(peer: Client, meta: AnyObject?, timeout: NSTimeInterval)
+  func disconnect()
   func connectionErrors() -> Observable<NSError>
 
   func send

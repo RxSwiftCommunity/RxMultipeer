@@ -32,7 +32,7 @@ public class MockSession : Session {
   //////////////////////////////////////////////////////////////////////////
 
   var _connections: [MockSession] = []
-  public var connections: [ClientIden] {
+  var connections: [ClientIden] {
     return _connections.map { $0.iden }
   }
 
@@ -43,6 +43,18 @@ public class MockSession : Session {
   var isBrowsing = false
 
   let connectRequests: PublishSubject<(Client, (Bool) -> ())> = PublishSubject()
+
+  let rx_connectedPeer: PublishSubject<Client> = PublishSubject()
+
+  public func connectedPeer() -> Observable<Client> {
+    return rx_connectedPeer
+  }
+
+  let rx_disconnectedPeer: PublishSubject<Client> = PublishSubject()
+
+  public func disconnectedPeer() -> Observable<Client> {
+    return rx_disconnectedPeer
+  }
 
   public func nearbyPeers() -> Observable<[Client]> {
     return MockSession.advertisingSessions
@@ -70,45 +82,36 @@ public class MockSession : Session {
     self.isAdvertising = false
   }
 
-  public func connect(peer: Client, meta: AnyObject? = nil, timeout: NSTimeInterval = 12) -> Observable<Bool> {
+  public func connect(peer: Client, meta: AnyObject? = nil, timeout: NSTimeInterval = 12) {
     let otherm = filter(MockSession.sessions, { return $0.iden == peer.iden }).first
     if let other = otherm {
       if other.isAdvertising {
-        return create { observer in
-          sendNext(
-            other.connectRequests,
-            (Client(iden: self.iden),
-             { [weak self] (response: Bool) in
-               if !response {
-                 sendNext(observer, false)
-                 sendCompleted(observer)
-                 return
-               }
-
-               if let this = self {
-                 this._connections.append(other)
-                 other._connections.append(this)
-                 sendNext(observer, true)
-               } else {
-                 sendNext(observer, false)
-               }
-
-               sendCompleted(observer)
-             }) as (Client, (Bool) -> ()))
-          return AnonymousDisposable {}
-        }
+        sendNext(
+          other.connectRequests,
+          (Client(iden: self.iden),
+           { [weak self] (response: Bool) in
+             if !response { return }
+             if let this = self {
+               this._connections.append(other)
+               other._connections.append(this)
+               sendNext(this.rx_connectedPeer, Client(iden: other.iden))
+               sendNext(other.rx_connectedPeer, Client(iden: this.iden))
+             }
+           }) as (Client, (Bool) -> ()))
       }
     }
-
-    return just(false)
   }
 
-  public func disconnect() -> Observable<Void> {
+  public func disconnect() {
     self._connections = []
     for session in MockSession.sessions {
+      for c in session._connections {
+        if c.iden == self.iden {
+          sendNext(session.rx_disconnectedPeer, Client(iden: c.iden))
+        }
+      }
       session._connections = session._connections.filter { !$0.iden.isIdenticalTo(self.iden) }
     }
-    return just(())
   }
 
   public func connectionErrors() -> Observable<NSError> {

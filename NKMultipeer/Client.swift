@@ -3,6 +3,11 @@ import MultipeerConnectivity
 import Foundation
 import RxSwift
 
+enum PeerState {
+    case Connected
+    case Disconnected
+}
+
 // It will work with any underlying object as long as they conform to the
 // `Session` protocol.
 public class Client {
@@ -22,13 +27,43 @@ public class CurrentClient : Client {
   // All state should be stored in the session
   public var session: Session
 
-  public var connections: [Client] {
-    return session.connections.map { Client(iden: $0) }
-  }
+  let _connections: Observable<[Client]>
 
   public init(session: Session) {
     self.session = session
+
+    // A list of connections is inferred by looking at
+    // `connectedPeer` and `disconnectedPeer` from the underlying session.
+    self._connections = returnElements(
+        session.connectedPeer() >- map { ($0, PeerState.Connected) },
+        session.disconnectedPeer() >- map { ($0, PeerState.Disconnected) })
+    >- merge
+    >- scan([]) { (connections: [Client], cs) in
+      let client = cs.0
+      let state = cs.1
+      switch state {
+      case .Connected:
+        for c in connections { if c.iden == client.iden { return connections } }
+        return connections + [client]
+      case .Disconnected:
+        return connections.filter { !$0.iden.isIdenticalTo(client.iden) }
+      }
+    }
+    >- variable
+
     super.init(iden: session.iden)
+  }
+
+  public func connections() -> Observable<[Client]> {
+    return _connections
+  }
+
+  public func connectedPeer() -> Observable<Client> {
+    return session.connectedPeer()
+  }
+
+  public func disconnectedPeer() -> Observable<Client> {
+    return session.disconnectedPeer()
   }
 
   // Advertising and connecting
@@ -57,11 +92,11 @@ public class CurrentClient : Client {
     session.stopBrowsing()
   }
 
-  public func connect(peer: Client, meta: AnyObject? = nil, timeout: NSTimeInterval = 12) -> Observable<Bool> {
+  public func connect(peer: Client, meta: AnyObject? = nil, timeout: NSTimeInterval = 12) {
     return session.connect(peer, meta: meta, timeout: timeout)
   }
 
-  public func disconnect() -> Observable<Void> {
+  public func disconnect() {
     return session.disconnect()
   }
 

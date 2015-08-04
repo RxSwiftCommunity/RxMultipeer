@@ -48,14 +48,24 @@ public class IntegrationSpec : QuickSpec {
 
         it("allows clients to connect with eachother") {
           waitUntil { done in
-            let connection = clientone!.connect(clienttwo!) >- variable
-
-            connection
-            >- subscribeNext {
-              expect($0).to(beTrue())
-              done()
-            }
+            clientone!.connectedPeer()
+            >- take(1)
+            >- subscribeNext { _ in done() }
             >- disposeBag.addDisposable
+
+            clientone!.connect(clienttwo!)
+          }
+        }
+
+        it("alters connections when clients connect") {
+          waitUntil { done in
+            combineLatest(
+              clientone!.connections(),
+              clienttwo!.connections()) { count($0) + count($1) }
+            >- subscribeNext { if $0 == 2 { done() } }
+            >- disposeBag.addDisposable
+
+            clientone!.connect(clienttwo!)
           }
         }
 
@@ -63,35 +73,28 @@ public class IntegrationSpec : QuickSpec {
 
           beforeEach {
             waitUntil { done in
-              clientone!.connect(clienttwo!)
-              >- subscribeCompleted { done() }
+              clientone!.connectedPeer()
+              >- take(1)
+              >- subscribeNext { _ in done() }
               >- disposeBag.addDisposable
+
+              clientone!.connect(clienttwo!)
             }
           }
 
           it("allows client two to disconnect") {
             waitUntil { done in
-              expect(count(clientone!.connections)).to(equal(1))
-              clienttwo!.disconnect()
-              >- subscribeCompleted {
-                expect(count(clientone!.connections)).to(equal(0))
-                expect(count(clienttwo!.connections)).to(equal(0))
+              combineLatest(
+                clientone!.disconnectedPeer(),
+                clientone!.connections()) { ($0, $1) }
+              >- take(1)
+              >- subscribeNext { (_, connections) in
+                expect(count(connections)).to(equal(0))
                 done()
               }
               >- disposeBag.addDisposable
-            }
-          }
 
-          it("allows client one to disconnect") {
-            waitUntil { done in
-              expect(count(clienttwo!.connections)).to(equal(1))
-              clientone!.disconnect()
-              >- subscribeCompleted {
-                expect(count(clientone!.connections)).to(equal(0))
-                expect(count(clienttwo!.connections)).to(equal(0))
-                done()
-              }
-              >- disposeBag.addDisposable
+              clienttwo!.disconnect()
             }
           }
 
