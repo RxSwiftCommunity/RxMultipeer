@@ -8,9 +8,9 @@ import RxSwift
 public class Client {
 
   public var iden: ClientIden
-  public var meta: [String: String]?
+  public var meta: AnyObject?
 
-  public init(iden: ClientIden, meta: [String: String]? = nil) {
+  public init(iden: ClientIden, meta: AnyObject? = nil) {
     self.iden = iden
     self.meta = meta
   }
