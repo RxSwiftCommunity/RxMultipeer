@@ -15,8 +15,9 @@ public class IntegrationSpec : QuickSpec {
       var clienttwo: CurrentClient?
 
       beforeEach {
-        clientone = CurrentClient(MockSession())
-        clienttwo = CurrentClient(MockSession())
+        MockSession.reset()
+        clientone = CurrentClient(session: MockSession(name: "one"))
+        clienttwo = CurrentClient(session: MockSession(name: "two"))
         disposeBag = DisposeBag()
       }
 
@@ -25,7 +26,8 @@ public class IntegrationSpec : QuickSpec {
         beforeEach {
           // Advertise and always accept connections
           clienttwo!.advertise()
-          >- subscribeNext { (client, respond) in respond(true) }
+          >- subscribeNext { (client, respond) in
+            respond(true) }
           >- disposeBag.addDisposable
         }
 
@@ -42,16 +44,15 @@ public class IntegrationSpec : QuickSpec {
           return
         }
 
-        it("clients can connect with eachother") {
+        it("allows clients to connect with eachother") {
           waitUntil { done in
             let connection = clientone!.connect(clienttwo!) >- variable
 
             connection
-            >- subscribeNext { expect($0).to(beTrue()) }
-            >- disposeBag.addDisposable
-
-            connection
-            >- subscribeCompleted { done() }
+            >- subscribeNext {
+              expect($0).to(beTrue())
+              done()
+            }
             >- disposeBag.addDisposable
           }
         }
@@ -94,27 +95,31 @@ public class IntegrationSpec : QuickSpec {
 
           it("lets clients send strings to eachother") {
             waitUntil { done in
-              clientone!.send(clienttwo!, "hello")
               clienttwo!.receive()
               >- subscribeNext { (string: String) in
                 expect(string).to(equal("hello"))
-                done()
               }
+              >- disposeBag.addDisposable
+
+              clientone!.send(clienttwo!, "hello")
+              >- subscribeCompleted { done() }
               >- disposeBag.addDisposable
             }
           }
 
           it("lets clients send resource urls to each other") {
             waitUntil { done in
-              let url = NSBundle(forClass: self.dynamicType).URLForResource("Data", withExtension: "txt")
-              clientone!.send(clienttwo!, name: "txt file", url: url!)
               clienttwo!.receive()
               >- subscribeNext { (name: String, url: NSURL) in
                 expect(name).to(equal("txt file"))
                 let contents = NSString(data: NSData(contentsOfURL: url)!, encoding: NSUTF8StringEncoding)
-                expect(url).to(equal("hello there this is random data"))
-                done()
+                expect(contents).to(equal("hello there this is random data"))
               }
+              >- disposeBag.addDisposable
+
+              let url = NSBundle(forClass: self.dynamicType).URLForResource("Data", withExtension: "txt")
+              clientone!.send(clienttwo!, name: "txt file", url: url!)
+              >- subscribeCompleted { done() }
               >- disposeBag.addDisposable
             }
           }

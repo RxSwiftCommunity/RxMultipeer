@@ -16,6 +16,7 @@
 		D88C860F1B6F42F400CF42CF /* Data.txt in Resources */ = {isa = PBXBuildFile; fileRef = D88C860E1B6F42F400CF42CF /* Data.txt */; };
 		D88C86121B6F4F3700CF42CF /* ClientIden.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86101B6F4F3700CF42CF /* ClientIden.swift */; };
 		D88C86131B6F4F3700CF42CF /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86111B6F4F3700CF42CF /* Session.swift */; };
+		D88C86161B7060E000CF42CF /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86151B7060E000CF42CF /* MockSession.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		D88C860E1B6F42F400CF42CF /* Data.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Data.txt; sourceTree = "<group>"; };
 		D88C86101B6F4F3700CF42CF /* ClientIden.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientIden.swift; sourceTree = "<group>"; };
 		D88C86111B6F4F3700CF42CF /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		D88C86151B7060E000CF42CF /* MockSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 		D88C85ED1B6F2B1700CF42CF /* NKMultipeer */ = {
 			isa = PBXGroup;
 			children = (
+				D88C86141B7060E000CF42CF /* Adapters */,
 				D88C86101B6F4F3700CF42CF /* ClientIden.swift */,
 				D88C86111B6F4F3700CF42CF /* Session.swift */,
 				D88C860B1B6F308600CF42CF /* Client.swift */,
@@ -142,6 +145,14 @@
 				D88C860E1B6F42F400CF42CF /* Data.txt */,
 			);
 			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		D88C86141B7060E000CF42CF /* Adapters */ = {
+			isa = PBXGroup;
+			children = (
+				D88C86151B7060E000CF42CF /* MockSession.swift */,
+			);
+			path = Adapters;
 			sourceTree = "<group>";
 		};
 		EB82402346618094CCA7A1C5 /* Pods */ = {
@@ -347,6 +358,7 @@
 			files = (
 				D88C86121B6F4F3700CF42CF /* ClientIden.swift in Sources */,
 				D88C860C1B6F308600CF42CF /* Client.swift in Sources */,
+				D88C86161B7060E000CF42CF /* MockSession.swift in Sources */,
 				D88C86131B6F4F3700CF42CF /* Session.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
