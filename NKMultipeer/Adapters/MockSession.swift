@@ -58,10 +58,10 @@ public class MockSession : Session {
     return rx_disconnectedPeer
   }
 
-  public func nearbyPeers() -> Observable<[I]> {
+  public func nearbyPeers() -> Observable<[(I, AnyObject?)]> {
     return MockSession.advertisingSessions
            >- filter { _ in self.isBrowsing == true }
-           >- map { $0.map { $0.iden } }
+           >- map { $0.map { ($0.iden, nil) } }
   }
 
   public func startBrowsing() {
@@ -100,7 +100,7 @@ public class MockSession : Session {
                sendNext(this.rx_connectedPeer, other.iden)
                sendNext(other.rx_connectedPeer, this.iden)
              }
-           }) as (I, (Bool) -> ()))
+           }) as (I, AnyObject?, (Bool) -> ()))
       }
     }
   }

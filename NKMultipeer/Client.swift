@@ -67,7 +67,7 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
   }
 
   public func nearbyPeers() -> Observable<[Client<I>]> {
-    return session.nearbyPeers() >- map { $0.map { Client(iden: $0) } }
+    return session.nearbyPeers() >- map { $0.map { Client(iden: $0, meta: $1) } }
   }
 
   public func startAdvertising() {
