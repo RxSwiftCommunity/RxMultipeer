@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5F5E6D97C4F8624EBBE81C71 /* Pods_NKMultipeer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99B67E48B4166B90299DB2AA /* Pods_NKMultipeer.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		87A51DCF90413DF63AA29C47 /* Pods_NKMultipeerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67A3BD5B7DCF6080B8C09F89 /* Pods_NKMultipeerTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D8236D491B71A9EB00EF5DE6 /* ResourceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8236D481B71A9EB00EF5DE6 /* ResourceState.swift */; };
 		D88C85F71B6F2B1700CF42CF /* NKMultipeer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C85EB1B6F2B1700CF42CF /* NKMultipeer.framework */; };
 		D88C86081B6F2D9000CF42CF /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */; };
 		D88C860A1B6F307700CF42CF /* IntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86091B6F307700CF42CF /* IntegrationSpec.swift */; };
@@ -36,6 +37,7 @@
 		619FC76220462366C6F61AA5 /* Pods-NKMultipeer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NKMultipeer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NKMultipeer/Pods-NKMultipeer.debug.xcconfig"; sourceTree = "<group>"; };
 		67A3BD5B7DCF6080B8C09F89 /* Pods_NKMultipeerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NKMultipeerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99B67E48B4166B90299DB2AA /* Pods_NKMultipeer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NKMultipeer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8236D481B71A9EB00EF5DE6 /* ResourceState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceState.swift; sourceTree = "<group>"; };
 		D88C85EB1B6F2B1700CF42CF /* NKMultipeer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NKMultipeer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D88C85EF1B6F2B1700CF42CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D88C85F61B6F2B1700CF42CF /* NKMultipeerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NKMultipeerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,6 +106,7 @@
 		D88C85ED1B6F2B1700CF42CF /* NKMultipeer */ = {
 			isa = PBXGroup;
 			children = (
+				D8236D481B71A9EB00EF5DE6 /* ResourceState.swift */,
 				D88C86141B7060E000CF42CF /* Adapters */,
 				D88C86101B6F4F3700CF42CF /* ClientIden.swift */,
 				D88C86111B6F4F3700CF42CF /* Session.swift */,
@@ -358,6 +361,7 @@
 			files = (
 				D88C86121B6F4F3700CF42CF /* ClientIden.swift in Sources */,
 				D88C860C1B6F308600CF42CF /* Client.swift in Sources */,
+				D8236D491B71A9EB00EF5DE6 /* ResourceState.swift in Sources */,
 				D88C86161B7060E000CF42CF /* MockSession.swift in Sources */,
 				D88C86131B6F4F3700CF42CF /* Session.swift in Sources */,
 			);

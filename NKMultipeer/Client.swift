@@ -123,8 +123,14 @@ public class CurrentClient : Client {
     return session.receive()
   }
 
+  public func receive() -> Observable<(Client, String, ResourceState)> {
+    return session.receive()
+  }
+
   public func receive() -> Observable<(Client, String, NSURL)> {
     return session.receive()
+    >- filter { $2.fromFinished() != nil }
+    >- map { ($0, $1, $2.fromFinished()!) }
   }
 
 }

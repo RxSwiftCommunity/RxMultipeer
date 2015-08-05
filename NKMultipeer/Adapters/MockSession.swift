@@ -122,13 +122,13 @@ public class MockSession : Session {
   //////////////////////////////////////////////////////////////////////////
 
   let receivedStrings: PublishSubject<(Client, String)> = PublishSubject()
-  let receivedResources: PublishSubject<(Client, String, NSURL)> = PublishSubject()
+  let receivedResources: PublishSubject<(Client, String, ResourceState)> = PublishSubject()
 
   public func receive() -> Observable<(Client, String)> {
     return receivedStrings
   }
 
-  public func receive() -> Observable<(Client, String, NSURL)> {
+  public func receive() -> Observable<(Client, String, ResourceState)> {
     return receivedResources
   }
 
@@ -173,7 +173,9 @@ public class MockSession : Session {
         if !self.isConnected(otherSession) {
           sendError(observer, UnknownError)
         } else {
-          sendNext(otherSession.receivedResources, (Client(iden: self.iden), name, url))
+          let c = Client(iden: self.iden)
+          sendNext(otherSession.receivedResources, (c, name, .Starting))
+          sendNext(otherSession.receivedResources, (c, name, .Finished(url)))
           sendCompleted(observer)
         }
       } else {
