@@ -8,6 +8,9 @@ public protocol Session {
 
   var iden: ClientIden { get }
 
+  // Connection concerns
+  //////////////////////////////////////////////////////////////////////////
+
   func connectedPeer() -> Observable<Client>
   func disconnectedPeer() -> Observable<Client>
   func incomingConnections() -> Observable<(Client, (Bool) -> ())>
@@ -20,13 +23,20 @@ public protocol Session {
   func disconnect()
   func connectionErrors() -> Observable<NSError>
 
+  // Data reception concerns
+  //////////////////////////////////////////////////////////////////////////
+
+  func receive() -> Observable<(Client, NSData)>
+  func receive() -> Observable<(Client, String, ResourceState)>
+
+  // Data delivery concerns
+  //////////////////////////////////////////////////////////////////////////
+
   func send
   (other: Client,
    _ data: NSData,
    _ mode: MCSessionSendDataMode)
   -> Observable<()>
-
-  func receive() -> Observable<(Client, NSData)>
 
   func send
   (other: Client,
@@ -34,7 +44,5 @@ public protocol Session {
    url: NSURL,
    _ mode: MCSessionSendDataMode)
   -> Observable<()>
-
-  func receive() -> Observable<(Client, String, ResourceState)>
 
 }
