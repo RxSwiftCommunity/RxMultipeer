@@ -4,6 +4,8 @@ import MultipeerConnectivity
 
 public class MockSession : Session {
 
+  public typealias I = MockIden
+
   // Store all available sessions in a global
   static public var sessions: [MockSession] = []
   static public let advertisingSessions: Variable<[MockSession]> = Variable([])
@@ -12,19 +14,19 @@ public class MockSession : Session {
     advertisingSessions.next(sessions.filter { $0.isAdvertising })
   }
 
-  static public func findForClient(client: Client) -> MockSession? {
-    return filter(sessions, { o in return o.iden.isIdenticalTo(client.iden) }).first
+  static public func findForClient(client: I) -> MockSession? {
+    return filter(sessions, { o in return o.iden == client }).first
   }
 
   static public func reset() {
     self.sessions = []
   }
 
-  let _iden: MockIden
-  public var iden: ClientIden { return _iden }
+  let _iden: I
+  public var iden: I { return _iden }
 
   public init(name: String) {
-    self._iden = MockIden(name)
+    self._iden = I(name)
     MockSession.sessions.append(self)
   }
 
@@ -32,7 +34,7 @@ public class MockSession : Session {
   //////////////////////////////////////////////////////////////////////////
 
   var _connections: [MockSession] = []
-  var connections: [ClientIden] {
+  var connections: [I] {
     return _connections.map { $0.iden }
   }
 
@@ -42,24 +44,24 @@ public class MockSession : Session {
 
   var isBrowsing = false
 
-  let connectRequests: PublishSubject<(Client, (Bool) -> ())> = PublishSubject()
+  let connectRequests: PublishSubject<(I, (Bool) -> ())> = PublishSubject()
 
-  let rx_connectedPeer: PublishSubject<Client> = PublishSubject()
+  let rx_connectedPeer: PublishSubject<I> = PublishSubject()
 
-  public func connectedPeer() -> Observable<Client> {
+  public func connectedPeer() -> Observable<I> {
     return rx_connectedPeer
   }
 
-  let rx_disconnectedPeer: PublishSubject<Client> = PublishSubject()
+  let rx_disconnectedPeer: PublishSubject<I> = PublishSubject()
 
-  public func disconnectedPeer() -> Observable<Client> {
+  public func disconnectedPeer() -> Observable<I> {
     return rx_disconnectedPeer
   }
 
-  public func nearbyPeers() -> Observable<[Client]> {
+  public func nearbyPeers() -> Observable<[I]> {
     return MockSession.advertisingSessions
            >- filter { _ in self.isBrowsing == true }
-           >- map { $0.map { Client(iden: $0.iden) } }
+           >- map { $0.map { $0.iden } }
   }
 
   public func startBrowsing() {
@@ -70,7 +72,7 @@ public class MockSession : Session {
     self.isBrowsing = false
   }
 
-  public func incomingConnections() -> Observable<(Client, (Bool) -> ())> {
+  public func incomingConnections() -> Observable<(I, (Bool) -> ())> {
     return connectRequests
   }
 
@@ -82,22 +84,22 @@ public class MockSession : Session {
     self.isAdvertising = false
   }
 
-  public func connect(peer: Client, meta: AnyObject? = nil, timeout: NSTimeInterval = 12) {
-    let otherm = filter(MockSession.sessions, { return $0.iden == peer.iden }).first
+  public func connect(peer: I, meta: AnyObject? = nil, timeout: NSTimeInterval = 12) {
+    let otherm = filter(MockSession.sessions, { return $0.iden == peer }).first
     if let other = otherm {
       if other.isAdvertising {
         sendNext(
           other.connectRequests,
-          (Client(iden: self.iden),
+          (self.iden,
            { [weak self] (response: Bool) in
              if !response { return }
              if let this = self {
                this._connections.append(other)
                other._connections.append(this)
-               sendNext(this.rx_connectedPeer, Client(iden: other.iden))
-               sendNext(other.rx_connectedPeer, Client(iden: this.iden))
+               sendNext(this.rx_connectedPeer, other.iden)
+               sendNext(other.rx_connectedPeer, this.iden)
              }
-           }) as (Client, (Bool) -> ()))
+           }) as (I, (Bool) -> ()))
       }
     }
   }
@@ -107,10 +109,10 @@ public class MockSession : Session {
     for session in MockSession.sessions {
       for c in session._connections {
         if c.iden == self.iden {
-          sendNext(session.rx_disconnectedPeer, Client(iden: c.iden))
+          sendNext(session.rx_disconnectedPeer, c.iden)
         }
       }
-      session._connections = session._connections.filter { !$0.iden.isIdenticalTo(self.iden) }
+      session._connections = session._connections.filter { $0.iden != self.iden }
     }
   }
 
@@ -121,14 +123,14 @@ public class MockSession : Session {
   // Data reception concerns
   //////////////////////////////////////////////////////////////////////////
 
-  let receivedData: PublishSubject<(Client, NSData)> = PublishSubject()
-  let receivedResources: PublishSubject<(Client, String, ResourceState)> = PublishSubject()
+  let receivedData: PublishSubject<(I, NSData)> = PublishSubject()
+  let receivedResources: PublishSubject<(I, String, ResourceState)> = PublishSubject()
 
-  public func receive() -> Observable<(Client, NSData)> {
+  public func receive() -> Observable<(I, NSData)> {
     return receivedData
   }
 
-  public func receive() -> Observable<(Client, String, ResourceState)> {
+  public func receive() -> Observable<(I, String, ResourceState)> {
     return receivedResources
   }
 
@@ -140,7 +142,7 @@ public class MockSession : Session {
   }
 
   public func send
-  (other: Client,
+  (other: I,
    _ data: NSData,
    _ mode: MCSessionSendDataMode)
   -> Observable<()> {
@@ -150,7 +152,7 @@ public class MockSession : Session {
         if !self.isConnected(otherSession) {
           sendError(observer, UnknownError)
         } else {
-          sendNext(otherSession.receivedData, (Client(iden: self.iden), data))
+          sendNext(otherSession.receivedData, (self.iden, data))
           sendCompleted(observer)
         }
       } else {
@@ -162,7 +164,7 @@ public class MockSession : Session {
   }
 
   public func send
-  (other: Client,
+  (other: I,
    name: String,
    url: NSURL,
    _ mode: MCSessionSendDataMode)
@@ -173,7 +175,7 @@ public class MockSession : Session {
         if !self.isConnected(otherSession) {
           sendError(observer, UnknownError)
         } else {
-          let c = Client(iden: self.iden)
+          let c = self.iden
           sendNext(otherSession.receivedResources, (c, name, .Progress(NSProgress(totalUnitCount: 1))))
           sendNext(otherSession.receivedResources, (c, name, .Finished(url)))
           sendCompleted(observer)
@@ -188,7 +190,7 @@ public class MockSession : Session {
 
 }
 
-public class MockIden : ClientIden {
+public class MockIden : Equatable {
 
   public let string: String
 
@@ -196,11 +198,8 @@ public class MockIden : ClientIden {
     self.string = string
   }
 
-  public func isIdenticalTo(other: ClientIden) -> Bool {
-    if let o = other as? MockIden {
-      return o.string == string
-    }
-    return false
-  }
+}
 
+public func ==(left: MockIden, right: MockIden) -> Bool {
+  return left.string == right.string
 }

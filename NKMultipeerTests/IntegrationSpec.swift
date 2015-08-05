@@ -11,8 +11,8 @@ public class IntegrationSpec : QuickSpec {
 
     describe("two clients") {
 
-      var clientone: CurrentClient?
-      var clienttwo: CurrentClient?
+      var clientone: CurrentClient<MockIden, MockSession>?
+      var clienttwo: CurrentClient<MockIden, MockSession>?
 
       beforeEach {
         MockSession.reset()
@@ -37,7 +37,7 @@ public class IntegrationSpec : QuickSpec {
             clientone!.startBrowsing()
             clientone!.nearbyPeers()
             >- subscribeNext { clients in
-              expect(clients[0].iden.isIdenticalTo(clienttwo!.iden)).to(equal(true))
+              expect(clients[0].iden).to(equal(clienttwo!.iden))
               done()
             }
             >- disposeBag.addDisposable
@@ -102,7 +102,7 @@ public class IntegrationSpec : QuickSpec {
             waitUntil { done in
               clienttwo!.receive()
               >- subscribeNext { (client: Client, string: String) in
-                expect(client.iden.isIdenticalTo(clientone!.iden)).to(beTrue())
+                expect(client.iden).to(equal(clientone!.iden))
                 expect(string).to(equal("hello"))
               }
               >- disposeBag.addDisposable
@@ -117,7 +117,7 @@ public class IntegrationSpec : QuickSpec {
             waitUntil { done in
               clienttwo!.receive()
               >- subscribeNext { (client: Client, name: String, url: NSURL) in
-                expect(client.iden.isIdenticalTo(clientone!.iden)).to(beTrue())
+                expect(client.iden).to(equal(clientone!.iden))
                 expect(name).to(equal("txt file"))
                 let contents = NSString(data: NSData(contentsOfURL: url)!, encoding: NSUTF8StringEncoding)
                 expect(contents).to(equal("hello there this is random data"))

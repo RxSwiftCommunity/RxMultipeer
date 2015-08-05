@@ -6,40 +6,42 @@ import MultipeerConnectivity
 // We want a concise common interface for p2p related operations.
 public protocol Session {
 
-  var iden: ClientIden { get }
+  typealias I
+
+  var iden: I { get }
 
   // Connection concerns
   //////////////////////////////////////////////////////////////////////////
 
-  func connectedPeer() -> Observable<Client>
-  func disconnectedPeer() -> Observable<Client>
-  func incomingConnections() -> Observable<(Client, (Bool) -> ())>
-  func nearbyPeers() -> Observable<[Client]>
+  func connectedPeer() -> Observable<I>
+  func disconnectedPeer() -> Observable<I>
+  func incomingConnections() -> Observable<(I, (Bool) -> ())>
+  func nearbyPeers() -> Observable<[I]>
   func startAdvertising()
   func stopAdvertising()
   func startBrowsing()
   func stopBrowsing()
-  func connect(peer: Client, meta: AnyObject?, timeout: NSTimeInterval)
+  func connect(peer: I, meta: AnyObject?, timeout: NSTimeInterval)
   func disconnect()
   func connectionErrors() -> Observable<NSError>
 
   // Data reception concerns
   //////////////////////////////////////////////////////////////////////////
 
-  func receive() -> Observable<(Client, NSData)>
-  func receive() -> Observable<(Client, String, ResourceState)>
+  func receive() -> Observable<(I, NSData)>
+  func receive() -> Observable<(I, String, ResourceState)>
 
   // Data delivery concerns
   //////////////////////////////////////////////////////////////////////////
 
   func send
-  (other: Client,
+  (other: I,
    _ data: NSData,
    _ mode: MCSessionSendDataMode)
   -> Observable<()>
 
   func send
-  (other: Client,
+  (other: I,
    name: String,
    url: NSURL,
    _ mode: MCSessionSendDataMode)
