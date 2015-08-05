@@ -6,7 +6,7 @@ PODS:
 DEPENDENCIES:
   - Nimble (~> 1.0.0)
   - Quick (~> 0.3.1)
-  - RxSwift
+  - RxSwift (~> 1.8)
 
 SPEC CHECKSUMS:
   Nimble: 8bee528e5fcc403653076545db562d2b5db7bb87

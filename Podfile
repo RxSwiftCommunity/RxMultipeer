@@ -4,11 +4,11 @@
 use_frameworks!
 
 target 'NKMultipeer' do
-  pod "RxSwift"
+  pod "RxSwift", "~> 1.8"
 end
 
 target 'NKMultipeerTests' do
   pod "Quick", "~> 0.3.1"
   pod "Nimble", "~> 1.0.0"
-  pod "RxSwift"
+  pod "RxSwift", "~> 1.8"
 end
