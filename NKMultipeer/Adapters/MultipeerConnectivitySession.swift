@@ -244,6 +244,8 @@ extension MultipeerConnectivitySession : MCSessionDelegate {
                       didReceiveStream stream: NSInputStream,
                       withName streamName: String,
                       fromPeer peerID: MCPeerID) {
+    // No stream support yet - what's the best way to do streams
+    // in Rx? Wrap them in Observables? hmmm
   }
 
 }
