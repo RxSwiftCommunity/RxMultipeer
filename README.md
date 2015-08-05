@@ -22,6 +22,9 @@ _For a working example check out the `NKMultipeer Example` folder._
 
 ### Usage
 
+Examples here are _overly type annotated_ in order to give a clear idea of what's going on. For most cases, you can omit
+types found in blocks or even arguments altogether for more concise-looking code.
+
 ##### Imports:
 
 ```swift
@@ -140,6 +143,13 @@ These are [RxSwift][RxSwift] things. `DisposeBag` is how memory management is ha
 operator that applies the argument on the left to the function on the right i.e `a >- f === f(a)`.
 
 Please read up on [ReactiveX][rx] for a general overview on reactive.
+
+## Contributing
+
+* Indent with 2 spaces
+* Strip trailing whitespace
+* Write tests
+* Pull-request from feature branches.
 
 [rx]: http://reactivex.io/
 [RxSwift]: https://github.com/kzaher/RxSwift
