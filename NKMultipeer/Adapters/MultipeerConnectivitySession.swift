@@ -167,7 +167,7 @@ extension MultipeerConnectivitySession : MCNearbyServiceAdvertiserDelegate {
 
   public func advertiser(advertiser: MCNearbyServiceAdvertiser,
                          didReceiveInvitationFromPeer peerID: MCPeerID,
-                         withContext context: NSData,
+                         withContext context: NSData?,
                          invitationHandler: ((Bool, MCSession!) -> Void)) {
     sendNext(rx_incomingConnections, (peerID, context, invitationHandler))
   }
@@ -183,7 +183,7 @@ extension MultipeerConnectivitySession : MCNearbyServiceBrowserDelegate {
 
   public func browser(browser: MCNearbyServiceBrowser,
                       foundPeer peerId: MCPeerID,
-                      withDiscoveryInfo info: [NSObject: AnyObject]) {
+                      withDiscoveryInfo info: [NSObject: AnyObject]?) {
     self._nearbyPeers = self._nearbyPeers + [(peerId, info)]
   }
 
