@@ -125,11 +125,11 @@ public class CurrentClient : Client {
 
   // Receiving data
 
-  public func receive() -> Observable<String> {
+  public func receive() -> Observable<(Client, String)> {
     return session.receive()
   }
 
-  public func receive() -> Observable<(String, NSURL)> {
+  public func receive() -> Observable<(Client, String, NSURL)> {
     return session.receive()
   }
 

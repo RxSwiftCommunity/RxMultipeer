@@ -101,7 +101,8 @@ public class IntegrationSpec : QuickSpec {
           it("lets clients send strings to eachother") {
             waitUntil { done in
               clienttwo!.receive()
-              >- subscribeNext { (string: String) in
+              >- subscribeNext { (client: Client, string: String) in
+                expect(client.iden.isIdenticalTo(clientone!.iden)).to(beTrue())
                 expect(string).to(equal("hello"))
               }
               >- disposeBag.addDisposable
@@ -115,7 +116,8 @@ public class IntegrationSpec : QuickSpec {
           it("lets clients send resource urls to each other") {
             waitUntil { done in
               clienttwo!.receive()
-              >- subscribeNext { (name: String, url: NSURL) in
+              >- subscribeNext { (client: Client, name: String, url: NSURL) in
+                expect(client.iden.isIdenticalTo(clientone!.iden)).to(beTrue())
                 expect(name).to(equal("txt file"))
                 let contents = NSString(data: NSData(contentsOfURL: url)!, encoding: NSUTF8StringEncoding)
                 expect(contents).to(equal("hello there this is random data"))

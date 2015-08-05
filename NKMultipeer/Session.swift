@@ -26,7 +26,7 @@ public protocol Session {
    _ mode: MCSessionSendDataMode)
   -> Observable<()>
 
-  func receive() -> Observable<String>
+  func receive() -> Observable<(Client, String)>
 
   func send
   (other: Client,
@@ -35,6 +35,6 @@ public protocol Session {
    _ mode: MCSessionSendDataMode)
   -> Observable<()>
 
-  func receive() -> Observable<(String, NSURL)>
+  func receive() -> Observable<(Client, String, NSURL)>
 
 }

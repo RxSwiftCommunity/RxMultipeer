@@ -121,14 +121,14 @@ public class MockSession : Session {
   // Data reception concerns
   //////////////////////////////////////////////////////////////////////////
 
-  let receivedStrings: PublishSubject<String> = PublishSubject()
-  let receivedResources: PublishSubject<(String, NSURL)> = PublishSubject()
+  let receivedStrings: PublishSubject<(Client, String)> = PublishSubject()
+  let receivedResources: PublishSubject<(Client, String, NSURL)> = PublishSubject()
 
-  public func receive() -> Observable<String> {
+  public func receive() -> Observable<(Client, String)> {
     return receivedStrings
   }
 
-  public func receive() -> Observable<(String, NSURL)> {
+  public func receive() -> Observable<(Client, String, NSURL)> {
     return receivedResources
   }
 
@@ -150,7 +150,7 @@ public class MockSession : Session {
         if !self.isConnected(otherSession) {
           sendError(observer, UnknownError)
         } else {
-          sendNext(otherSession.receivedStrings, string)
+          sendNext(otherSession.receivedStrings, (Client(iden: self.iden), string))
           sendCompleted(observer)
         }
       } else {
@@ -173,7 +173,7 @@ public class MockSession : Session {
         if !self.isConnected(otherSession) {
           sendError(observer, UnknownError)
         } else {
-          sendNext(otherSession.receivedResources, (name, url))
+          sendNext(otherSession.receivedResources, (Client(iden: self.iden), name, url))
           sendCompleted(observer)
         }
       } else {
