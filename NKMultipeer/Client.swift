@@ -3,11 +3,6 @@ import MultipeerConnectivity
 import Foundation
 import RxSwift
 
-enum PeerState {
-    case Connected
-    case Disconnected
-}
-
 // It will work with any underlying object as long as they conform to the
 // `Session` protocol.
 public class Client {
@@ -35,17 +30,16 @@ public class CurrentClient : Client {
     // A list of connections is inferred by looking at
     // `connectedPeer` and `disconnectedPeer` from the underlying session.
     self._connections = returnElements(
-        session.connectedPeer() >- map { ($0, PeerState.Connected) },
-        session.disconnectedPeer() >- map { ($0, PeerState.Disconnected) })
+        session.connectedPeer() >- map { ($0, true) },
+        session.disconnectedPeer() >- map { ($0, false) })
     >- merge
     >- scan([]) { (connections: [Client], cs) in
       let client = cs.0
       let state = cs.1
-      switch state {
-      case .Connected:
+      if state {
         for c in connections { if c.iden == client.iden { return connections } }
         return connections + [client]
-      case .Disconnected:
+      } else {
         return connections.filter { !$0.iden.isIdenticalTo(client.iden) }
       }
     }
