@@ -102,10 +102,18 @@ public class CurrentClient : Client {
 
   public func send
   (other: Client,
+   _ data: NSData,
+   _ mode: MCSessionSendDataMode = .Reliable)
+  -> Observable<()> {
+    return session.send(other, data, mode)
+  }
+
+  public func send
+  (other: Client,
    _ string: String,
    _ mode: MCSessionSendDataMode = .Reliable)
   -> Observable<()> {
-    return session.send(other, string, mode)
+    return send(other, string.dataUsingEncoding(NSUTF8StringEncoding)!, mode)
   }
 
   public func send
@@ -119,8 +127,15 @@ public class CurrentClient : Client {
 
   // Receiving data
 
+  public func receive() -> Observable<(Client, NSData)> {
+    return session.receive()
+  }
+
   public func receive() -> Observable<(Client, String)> {
     return session.receive()
+    >- map { ($0, NSString(data: $1, encoding: NSUTF8StringEncoding)) }
+    >- filter { $1 != nil }
+    >- map { ($0, String($1!)) }
   }
 
   public func receive() -> Observable<(Client, String, ResourceState)> {

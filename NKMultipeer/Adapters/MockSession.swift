@@ -121,11 +121,11 @@ public class MockSession : Session {
   // Data reception concerns
   //////////////////////////////////////////////////////////////////////////
 
-  let receivedStrings: PublishSubject<(Client, String)> = PublishSubject()
+  let receivedData: PublishSubject<(Client, NSData)> = PublishSubject()
   let receivedResources: PublishSubject<(Client, String, ResourceState)> = PublishSubject()
 
-  public func receive() -> Observable<(Client, String)> {
-    return receivedStrings
+  public func receive() -> Observable<(Client, NSData)> {
+    return receivedData
   }
 
   public func receive() -> Observable<(Client, String, ResourceState)> {
@@ -141,7 +141,7 @@ public class MockSession : Session {
 
   public func send
   (other: Client,
-   _ string: String,
+   _ data: NSData,
    _ mode: MCSessionSendDataMode)
   -> Observable<()> {
     return create { observer in
@@ -150,7 +150,7 @@ public class MockSession : Session {
         if !self.isConnected(otherSession) {
           sendError(observer, UnknownError)
         } else {
-          sendNext(otherSession.receivedStrings, (Client(iden: self.iden), string))
+          sendNext(otherSession.receivedData, (Client(iden: self.iden), data))
           sendCompleted(observer)
         }
       } else {

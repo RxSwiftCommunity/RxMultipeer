@@ -22,11 +22,11 @@ public protocol Session {
 
   func send
   (other: Client,
-   _ string: String,
+   _ data: NSData,
    _ mode: MCSessionSendDataMode)
   -> Observable<()>
 
-  func receive() -> Observable<(Client, String)>
+  func receive() -> Observable<(Client, NSData)>
 
   func send
   (other: Client,
