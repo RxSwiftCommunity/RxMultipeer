@@ -63,7 +63,7 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
   // Advertising and connecting
 
   public func incomingConnections() -> Observable<(Client<I>, (Bool) -> ())> {
-    return session.incomingConnections() >- map { (Client(iden: $0), $1) }
+    return session.incomingConnections() >- map { (Client(iden: $0, meta: $1), $2) }
   }
 
   public func nearbyPeers() -> Observable<[Client<I>]> {

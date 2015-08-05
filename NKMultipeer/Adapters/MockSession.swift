@@ -44,7 +44,7 @@ public class MockSession : Session {
 
   var isBrowsing = false
 
-  let connectRequests: PublishSubject<(I, (Bool) -> ())> = PublishSubject()
+  let connectRequests: PublishSubject<(I, AnyObject?, (Bool) -> ())> = PublishSubject()
 
   let rx_connectedPeer: PublishSubject<I> = PublishSubject()
 
@@ -72,7 +72,7 @@ public class MockSession : Session {
     self.isBrowsing = false
   }
 
-  public func incomingConnections() -> Observable<(I, (Bool) -> ())> {
+  public func incomingConnections() -> Observable<(I, AnyObject?, (Bool) -> ())> {
     return connectRequests
   }
 
@@ -91,6 +91,7 @@ public class MockSession : Session {
         sendNext(
           other.connectRequests,
           (self.iden,
+           nil,
            { [weak self] (response: Bool) in
              if !response { return }
              if let this = self {

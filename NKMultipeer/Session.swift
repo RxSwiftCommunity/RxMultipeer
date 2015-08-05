@@ -15,7 +15,7 @@ public protocol Session {
 
   func connectedPeer() -> Observable<I>
   func disconnectedPeer() -> Observable<I>
-  func incomingConnections() -> Observable<(I, (Bool) -> ())>
+  func incomingConnections() -> Observable<(I, AnyObject?, (Bool) -> ())>
   func nearbyPeers() -> Observable<[I]>
   func startAdvertising()
   func stopAdvertising()
