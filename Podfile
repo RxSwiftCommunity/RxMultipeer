@@ -12,3 +12,9 @@ target 'NKMultipeerTests' do
   pod "Nimble", "~> 1.0.0"
   pod "RxSwift", "~> 1.8"
 end
+
+target 'NKMultipeer Example' do
+  pod "RxSwift", "~> 1.8"
+  pod "RxCocoa"
+  pod "NKMultipeer", :path => "./"
+end
