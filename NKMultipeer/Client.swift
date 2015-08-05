@@ -43,6 +43,7 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
         return connections.filter { $0.iden != client.iden }
       }
     }
+    >- startWith([])
     >- variable
 
     super.init(iden: session.iden)
