@@ -174,7 +174,7 @@ public class MockSession : Session {
           sendError(observer, UnknownError)
         } else {
           let c = Client(iden: self.iden)
-          sendNext(otherSession.receivedResources, (c, name, .Starting))
+          sendNext(otherSession.receivedResources, (c, name, .Progress(NSProgress(totalUnitCount: 1))))
           sendNext(otherSession.receivedResources, (c, name, .Finished(url)))
           sendCompleted(observer)
         }

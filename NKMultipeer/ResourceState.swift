@@ -1,7 +1,7 @@
 import Foundation
 
 public enum ResourceState {
-  case Starting
+  case Progress(NSProgress)
   case Finished(NSURL)
   case Errored(NSError)
 
