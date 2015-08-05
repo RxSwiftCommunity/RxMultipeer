@@ -7,6 +7,9 @@ This library also gives you the flexibility to swap out the underlying mechanics
 websockets. At the moment it only comes with support for Apple's MultipeerConnectivity, however you can easily write
 your own adapters for different protocols.
 
+Please note that NKMultipeer makes heavy use of [RxSwift](https://github.com/kzaher/RxSwift) which you should read up on
+if unfamiliar with Rx* libraries.
+
 ## Example code
 
 ### @TODO : Testing
