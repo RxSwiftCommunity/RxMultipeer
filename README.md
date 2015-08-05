@@ -7,8 +7,7 @@ This library also gives you the flexibility to swap out the underlying mechanics
 websockets. At the moment it only comes with support for Apple's MultipeerConnectivity, however you can easily write
 your own adapters for different protocols.
 
-Please note that NKMultipeer makes heavy use of [RxSwift][RxSwift] which you should read up on if unfamiliar with Rx*
-libraries.
+Please note that NKMultipeer makes heavy use of [RxSwift][RxSwift] which you should read up on if unfamiliar with Rx\* libraries. In this library, **everything is a stream**.
 
 ## Installation
 
@@ -119,10 +118,10 @@ nearby connectable devices. For example, if your app is running in a testing env
 nearby client:
 
 ```swift
-let otherclient = CurrentClient(session: MockSession(name: "mockedother))
+let otherclient = CurrentClient(session: MockSession(name: "mockedother"))
 
 // Accept all connections
-otherclient.startAdvertisign()
+otherclient.startAdvertising()
 otherclient.incomingConnections()
 >- subscribeNext { (client, respond) in respond(true) }
 >- disposeBag.addDisposable
