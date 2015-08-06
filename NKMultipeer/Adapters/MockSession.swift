@@ -62,7 +62,7 @@ public class MockSession : Session {
 
   public func nearbyPeers() -> Observable<[(I, AnyObject?)]> {
     return MockSession.advertisingSessions
-           >- filter { _ in self.isBrowsing == true }
+           >- filter { _ in self.isBrowsing }
            >- map { $0.map { ($0.iden, nil) } }
   }
 
