@@ -89,6 +89,11 @@ public class MockSession : Session {
   public func connect(peer: I, meta: AnyObject? = nil, timeout: NSTimeInterval = 12) {
     let otherm = filter(MockSession.sessions, { return $0.iden == peer }).first
     if let other = otherm {
+      // Skip if already connected
+      if self._connections.filter({
+        $0.iden == other.iden
+      }).count > 0 { return }
+
       if other.isAdvertising {
         sendNext(
           other.connectRequests,
