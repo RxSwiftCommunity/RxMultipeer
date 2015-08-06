@@ -36,6 +36,7 @@ public class IntegrationSpec : QuickSpec {
           waitUntil { done in
             clientone!.startBrowsing()
             clientone!.nearbyPeers()
+            >- filter { $0.count > 0 }
             >- subscribeNext { clients in
               expect(clients[0].iden).to(equal(clienttwo!.iden))
               done()
