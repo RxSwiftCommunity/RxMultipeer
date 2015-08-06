@@ -67,7 +67,7 @@ public class MockSession : Session {
   }
 
   public func incomingConnections() -> Observable<(I, AnyObject?, (Bool) -> ())> {
-    return connectRequests >- filter { self.isAdvertising }
+    return connectRequests >- filter { _ in self.isAdvertising }
   }
 
   public func startBrowsing() {
