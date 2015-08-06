@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "NKMultipeer"
-  s.version          = "0.2.0"
+  s.version          = "0.2.1"
   s.summary          = "Testable p2p abstraction using the adapter pattern. Comes with MultipeerConnectivity support."
   s.homepage         = "https://github.com/nathankot/NKMultipeer"
   s.license          = 'MIT'
