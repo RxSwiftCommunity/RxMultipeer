@@ -7,7 +7,10 @@ public class MockSession : Session {
   public typealias I = MockIden
 
   // Store all available sessions in a global
-  static public var sessions: [MockSession] = []
+  static public var sessions: [MockSession] = [] {
+    didSet { digest() }
+  }
+
   static public let advertisingSessions: Variable<[MockSession]> = Variable([])
 
   static public func digest() {
@@ -33,9 +36,7 @@ public class MockSession : Session {
   // Connection concerns
   //////////////////////////////////////////////////////////////////////////
 
-  var _connections: [MockSession] = [] {
-    didSet { MockSession.digest() }
-  }
+  var _connections: [MockSession] = []
 
   var isAdvertising = false {
     didSet { MockSession.digest() }
