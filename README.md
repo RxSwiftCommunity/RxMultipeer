@@ -115,6 +115,7 @@ sendToOther
 >- disposeBag.addDisposable
 
 // OR, Using vanilla callbacks:
+let other: Client<I> = ???
 client.send(other, "Hello!") { println("message was sent") }
 ```
 
