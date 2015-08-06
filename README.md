@@ -8,9 +8,10 @@ websockets. At the moment it only comes with support for Apple's MultipeerConnec
 your own adapters for different protocols.
 
 Please note that NKMultipeer makes heavy use of [RxSwift][RxSwift] which you should read up on if unfamiliar with Rx\*
-libraries. The mantra for this library: **everything is a stream**. Using Rx* is ultimately optional because the
-interface provides non-rx alternatives for every single method, however it's strongly encouraged to try out _RxSwift_ if
-you're not using any other FRP libraries.
+libraries. The mantra for this library: **everything is a stream**.
+
+_Using Rx* is ultimately optional_ because the interface provides non-rx alternatives for every single method, however
+it's strongly encouraged to try out _RxSwift_ if you're not using any other FRP libraries.
 
 ## Installation
 
@@ -114,7 +115,7 @@ sendToOther
 >- disposeBag.addDisposable
 
 // OR, Using vanilla callbacks:
-client.send(other, "Hello!") {println("message as sent)}
+client.send(other, "Hello!") { println("message was sent") }
 ```
 
 ##### Receiving messages:
