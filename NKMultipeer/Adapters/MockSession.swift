@@ -64,16 +64,16 @@ public class MockSession : Session {
            >- map { $0.map { ($0.iden, nil) } }
   }
 
+  public func incomingConnections() -> Observable<(I, AnyObject?, (Bool) -> ())> {
+    return connectRequests >- filter { self.isAdvertising }
+  }
+
   public func startBrowsing() {
     self.isBrowsing = true
   }
 
   public func stopBrowsing() {
     self.isBrowsing = false
-  }
-
-  public func incomingConnections() -> Observable<(I, AnyObject?, (Bool) -> ())> {
-    return connectRequests
   }
 
   public func startAdvertising() {
