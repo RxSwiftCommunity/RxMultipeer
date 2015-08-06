@@ -42,7 +42,9 @@ public class MockSession : Session {
     didSet { MockSession.digest() }
   }
 
-  var isBrowsing = false
+  var isBrowsing = false {
+    didSet { MockSession.digest() }
+  }
 
   let connectRequests: PublishSubject<(I, AnyObject?, (Bool) -> ())> = PublishSubject()
 
