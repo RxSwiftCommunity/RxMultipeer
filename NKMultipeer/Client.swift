@@ -243,4 +243,8 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
     >- disposeBag.addDisposable
   }
 
+  deinit {
+    self.disconnect()
+  }
+
 }
