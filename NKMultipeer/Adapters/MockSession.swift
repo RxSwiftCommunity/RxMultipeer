@@ -10,7 +10,7 @@ public class MockSession : Session {
   static public var sessions: [MockSession] = []
   static public let advertisingSessions: Variable<[MockSession]> = Variable([])
 
-  static public func digestAdvertisingSessions() {
+  static public func digest() {
     advertisingSessions.next(sessions.filter { $0.isAdvertising })
   }
 
@@ -33,10 +33,12 @@ public class MockSession : Session {
   // Connection concerns
   //////////////////////////////////////////////////////////////////////////
 
-  var _connections: [MockSession] = []
+  var _connections: [MockSession] = [] {
+    didSet { MockSession.digest() }
+  }
 
   var isAdvertising = false {
-    didSet { MockSession.digestAdvertisingSessions() }
+    didSet { MockSession.digest() }
   }
 
   var isBrowsing = false
