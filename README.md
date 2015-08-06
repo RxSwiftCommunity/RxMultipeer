@@ -7,7 +7,10 @@ This library also gives you the flexibility to swap out the underlying mechanics
 websockets. At the moment it only comes with support for Apple's MultipeerConnectivity, however you can easily write
 your own adapters for different protocols.
 
-Please note that NKMultipeer makes heavy use of [RxSwift][RxSwift] which you should read up on if unfamiliar with Rx\* libraries. In this library, **everything is a stream**.
+Please note that NKMultipeer makes heavy use of [RxSwift][RxSwift] which you should read up on if unfamiliar with Rx\*
+libraries. The mantra for this library: **everything is a stream**. Using Rx* is ultimately optional because the
+interface provides non-rx alternatives for every single method, however it's strongly encouraged to try out _RxSwift_ if
+you're not using any other FRP libraries.
 
 ## Installation
 
@@ -65,6 +68,9 @@ client.incomingConnections()
   respond(true)
 }
 >- disposeBag.addDisposable
+
+// OR, Using vanilla callbacks:
+client.incomingConnections() { (c, respond) in respond(true)}
 ```
 
 ##### Browse for and connect to peers:
@@ -73,11 +79,20 @@ client.incomingConnections()
 client.startBrowsing()
 client.nearbyPeers()
 // Here we are just flattening the stream
->- map { (clients: [Clients<I>]) -> Observable<Client<I>> in from(clients) }
+>- map { (clients: [Client<I>]) -> Observable<Client<I>> in from(clients) }
 >- merge
 >- subscribeNext { (c: Client<I>) in
   // Can conditionally connect to client here
   client.connect(c)
+  // You can listen to newly connected peers using
+  // `client.connectedPeer()`
+}
+
+// OR, Using vanilla callbacks:
+client.nearbyPeers() { (clients: [Client<I>]) in
+  for c in clients {
+    c.connect()
+  }
 }
 ```
 
@@ -97,6 +112,9 @@ let sendToOther = other
 sendToOther
 >- subscribeCompleted { println("a message was sent") }
 >- disposeBag.addDisposable
+
+// OR, Using vanilla callbacks:
+client.send(other, "Hello!") {println("message as sent)}
 ```
 
 ##### Receiving messages:
@@ -108,6 +126,11 @@ client.receive()
   println("got message \(s), from client \(o)")
 }
 >- disposeBag.addDisposable
+
+// OR, Using vanilla callbacks:
+client.receive() { (o: Client<I>, s: String) in
+  println("got message \(s), from client \(o)")
+}
 ```
 
 ##### Support for sending/receiving
@@ -168,6 +191,9 @@ These are [RxSwift][RxSwift] things. `DisposeBag` is how memory management is ha
 operator that applies the argument on the left to the function on the right i.e `a >- f === f(a)`.
 
 Please read up on [ReactiveX][rx] for a general overview on reactive.
+
+Every method in `CurrentClient` provides a non-rx alternative that accepts a callback however, so you do not need to use
+Rx* when interfacing with this library.
 
 ## Contributing
 
