@@ -32,10 +32,16 @@ import RxSwift
 import NKMultipeer
 ```
 
+#### Make a new build configuration for testing:
+
+Your project comes with `Debug` and `Release` build configurations by default, we need to make a new one called
+`Testing`. [Please check here for step-by-step instructions][buildconfig].
+
 ##### Setting up the client:
 
 ```swift
-// You'll need to define custom flags under `Build Settings -> Swift Compiler -> Custom Flags`
+// See the link above,
+// You'll need to define a new build configuration and give it the `TESTING` flag
 let name = UIDevice.currentDevice().name
 #if TESTING
 typealias I = MockIden
@@ -114,11 +120,30 @@ client.receive()
 ### Testing
 
 When testing, use preprocesser macros to ensure that your code uses a `MockSession` instance instead of
-`MultipeerConnectivitySession`.
+`MultipeerConnectivitySession` one. In order to achieve this you need to use preprocessor flags and swap out anywhere
+that references `Client<T>` (because `T` will be different depending on whether you are testing or not.) First you will
+need to [set up a new build configuration][buildconfig], and then you can use preprocessor macros like so:
 
-Then it's as simple as creating other `CurrentClient(session: MockSession(name: "other"))` instances in order to mock
-nearby connectable devices. For example, if your app is running in a testing environment the following code will mock a
-nearby client:
+```swift
+let name = UIDevice.currentDevice().name
+#if TESTING
+typealias I = MockIden
+let client = CurrentClient(session: MockSession(name: name))
+#else
+typealias I = MCPeerID
+let client = CurrentClient(session: MultipeerConnectivitySession(
+                 displayName: name,
+                 serviceType: "multipeerex",
+                 encryptionPreference: .None))
+#endif
+```
+
+Don't worry, you should only really need preprocessor macros in one centralized place, the type of your client can be
+inferred by the compiler thereafter.
+
+Mocking other nearby peers in the test environment then becomes as simple as creating other `CurrentClient(session:
+MockSession(name: "other"))`. For example, if your app is running in a testing environment the following code will mock
+a nearby client:
 
 ```swift
 let otherclient = CurrentClient(session: MockSession(name: "mockedother"))
@@ -153,3 +178,4 @@ Please read up on [ReactiveX][rx] for a general overview on reactive.
 
 [rx]: http://reactivex.io/
 [RxSwift]: https://github.com/kzaher/RxSwift
+[buildconfig]: https://github.com/nathankot/NKMultipeer/wiki/How-to-define-custom-flags-for-the-testing-environment
