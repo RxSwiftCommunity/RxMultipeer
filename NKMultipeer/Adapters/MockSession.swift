@@ -107,6 +107,7 @@ public class MockSession : Session {
 
   public func disconnect() {
     self._connections = []
+    MockSession.sessions = MockSession.sessions.filter { $0.iden != self.iden }
     for session in MockSession.sessions {
       for c in session._connections {
         if c.iden == self.iden {
