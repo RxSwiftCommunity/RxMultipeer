@@ -34,9 +34,6 @@ public class MockSession : Session {
   //////////////////////////////////////////////////////////////////////////
 
   var _connections: [MockSession] = []
-  var connections: [I] {
-    return _connections.map { $0.iden }
-  }
 
   var isAdvertising = false {
     didSet { MockSession.digestAdvertisingSessions() }
