@@ -203,8 +203,16 @@ public class MockIden : Equatable {
 
   public let string: String
 
+  public var displayName: String {
+    return string
+  }
+
   public init(_ string: String) {
     self.string = string
+  }
+
+  convenience public init(displayName: String) {
+    self.init(displayName)
   }
 
 }
