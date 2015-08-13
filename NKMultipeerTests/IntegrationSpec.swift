@@ -15,10 +15,12 @@ public class IntegrationSpec : QuickSpec {
       var clienttwo: CurrentClient<MockIden, MockSession>?
 
       beforeEach {
+        disposeBag = DisposeBag()
+        clientone = nil
+        clienttwo = nil
         MockSession.reset()
         clientone = CurrentClient(session: MockSession(name: "one"))
         clienttwo = CurrentClient(session: MockSession(name: "two"))
-        disposeBag = DisposeBag()
       }
 
       describe("client two advertises") {
