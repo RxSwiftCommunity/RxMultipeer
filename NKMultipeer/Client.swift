@@ -1,4 +1,3 @@
-
 import MultipeerConnectivity
 import Foundation
 import RxSwift
@@ -178,6 +177,28 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
 
   public func send
   (other: Client<I>,
+   _ json: [String: AnyObject],
+   _ mode: MCSessionSendDataMode = .Reliable)
+  -> Observable<()> {
+    var err: NSError?
+    let data = NSJSONSerialization.dataWithJSONObject(
+      json, options: NSJSONWritingOptions(), error: &err)
+    if err != nil { return failWith(err!) }
+    return send(other, data!, mode)
+  }
+
+  public func send
+  (other: Client<I>,
+   _ json: [String: AnyObject],
+   _ mode: MCSessionSendDataMode = .Reliable,
+   onComplete cb: () -> ()) {
+    send(other, json, mode)
+    >- subscribeNext(cb)
+    >- disposeBag.addDisposable
+  }
+
+  public func send
+  (other: Client<I>,
    name: String,
    url: NSURL,
    _ mode: MCSessionSendDataMode = .Reliable)
@@ -203,6 +224,27 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
   }
 
   public func receive(cb: (Client<I>, NSData) -> ()) {
+    receive()
+    >- subscribeNext(cb)
+    >- disposeBag.addDisposable
+  }
+
+  public func receive() -> Observable<(Client<I>, [String: AnyObject])> {
+    return (receive() as Observable<(Client<I>, NSData)>)
+    >- map { (client: Client<I>, data: NSData) in
+      var err: NSError?
+      let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(
+        data,
+        options: NSJSONReadingOptions(),
+        error: &err)
+      if err != nil { return failWith(err!) }
+      if let j = json as? [String: AnyObject] { return just((client, j)) }
+      return never()
+    }
+    >- merge
+  }
+
+  public func receive(cb: (Client<I>, [String: AnyObject]) -> ()) {
     receive()
     >- subscribeNext(cb)
     >- disposeBag.addDisposable

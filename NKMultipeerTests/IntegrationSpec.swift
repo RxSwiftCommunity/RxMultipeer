@@ -134,6 +134,24 @@ public class IntegrationSpec : QuickSpec {
             }
           }
 
+          it("lets clients send JSON data to each other via foundation objects") {
+            waitUntil { done in
+              clienttwo!.receive()
+              >- subscribeNext { (client: Client, json: [String: AnyObject]) in
+                expect(client.iden).to(equal(clientone!.iden))
+                expect(json["one"] as? String).to(equal("two"))
+                expect(json["three"] as? Int).to(equal(4))
+                expect(json["five"] as? Bool).to(beTrue())
+              }
+              >- disposeBag.addDisposable
+
+              clientone!.send(clienttwo!, [
+                "one": "two", "three": 4, "five": true])
+              >- subscribeCompleted { done() }
+              >- disposeBag.addDisposable
+            }
+          }
+
         }
 
       }
