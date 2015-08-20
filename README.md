@@ -64,14 +64,14 @@ let client = CurrentClient(session: MultipeerConnectivitySession(
 ```swift
 client.startAdvertising() // Allow other clients to try and connect
 client.incomingConnections()
->- subscribeNext { (c, respond) in
+>- subscribeNext { (c, context: [String: AnyObject]?, respond) in
   // You can put response logic here
   respond(true)
 }
 >- disposeBag.addDisposable
 
 // OR, Using vanilla callbacks:
-client.incomingConnections() { (c, respond) in respond(true)}
+client.incomingConnections() { (c, context, respond) in respond(true)}
 ```
 
 ##### Browse for and connect to peers:
@@ -82,17 +82,17 @@ client.nearbyPeers()
 // Here we are just flattening the stream
 >- map { (clients: [Client<I>]) -> Observable<Client<I>> in from(clients) }
 >- merge
->- subscribeNext { (c: Client<I>) in
+>- subscribeNext { (c: Client<I>, meta: [String: String]?) in
   // Can conditionally connect to client here
-  client.connect(c)
+  client.connect(c, context: ["Name": "John"], timeout: 12)
   // You can listen to newly connected peers using
   // `client.connectedPeer()`
 }
 
 // OR, Using vanilla callbacks:
-client.nearbyPeers() { (clients: [Client<I>]) in
+client.nearbyPeers() { (clients: [(Client<I>, [String: String]?)]) in
   for c in clients {
-    c.connect()
+    client.connect(c, context: ["Name": "John"], timeout: 12)
   }
 }
 ```
@@ -176,7 +176,7 @@ let otherclient = CurrentClient(session: MockSession(name: "mockedother"))
 // Accept all connections
 otherclient.startAdvertising()
 otherclient.incomingConnections()
->- subscribeNext { (client, respond) in respond(true) }
+>- subscribeNext { (client, context, respond) in respond(true) }
 >- disposeBag.addDisposable
 
 // Respond to all messages with 'Roger'
