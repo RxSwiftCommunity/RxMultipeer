@@ -14,7 +14,7 @@ public class MockSession : Session {
   static public let advertisingSessions: Variable<[MockSession]> = Variable([])
 
   static public func digest() {
-    advertisingSessions.next(sessions.filter { $0.isAdvertising })
+      advertisingSessions.next(sessions.filter { $0.isAdvertising })
   }
 
   static public func findForClient(client: I) -> MockSession? {
@@ -28,8 +28,12 @@ public class MockSession : Session {
   let _iden: I
   public var iden: I { return _iden }
 
-  public init(name: String) {
+  let _meta: [String: String]?
+  public var meta: [String: String]? { return _meta }
+
+  public init(name: String, meta: [String: String]? = nil) {
     self._iden = I(name)
+    self._meta = meta
     MockSession.sessions.append(self)
   }
 
@@ -46,7 +50,7 @@ public class MockSession : Session {
     didSet { MockSession.digest() }
   }
 
-  let connectRequests: PublishSubject<(I, AnyObject?, (Bool) -> ())> = PublishSubject()
+  let connectRequests: PublishSubject<(I, [String: AnyObject]?, (Bool) -> ())> = PublishSubject()
 
   let rx_connectedPeer: PublishSubject<I> = PublishSubject()
 
@@ -60,13 +64,13 @@ public class MockSession : Session {
     return rx_disconnectedPeer
   }
 
-  public func nearbyPeers() -> Observable<[(I, AnyObject?)]> {
+  public func nearbyPeers() -> Observable<[(I, [String: String]?)]> {
     return MockSession.advertisingSessions
            >- filter { _ in self.isBrowsing }
-           >- map { $0.map { ($0.iden, nil) } }
+           >- map { $0.map { ($0.iden, $0.meta) } }
   }
 
-  public func incomingConnections() -> Observable<(I, AnyObject?, (Bool) -> ())> {
+  public func incomingConnections() -> Observable<(I, [String: AnyObject]?, (Bool) -> ())> {
     return connectRequests >- filter { _ in self.isAdvertising }
   }
 
@@ -86,7 +90,7 @@ public class MockSession : Session {
     self.isAdvertising = false
   }
 
-  public func connect(peer: I, meta: AnyObject? = nil, timeout: NSTimeInterval = 12) {
+  public func connect(peer: I, context: [String: AnyObject]? = nil, timeout: NSTimeInterval = 12) {
     let otherm = filter(MockSession.sessions, { return $0.iden == peer }).first
     if let other = otherm {
       // Skip if already connected
@@ -98,7 +102,7 @@ public class MockSession : Session {
         sendNext(
           other.connectRequests,
           (self.iden,
-           nil,
+           context,
            { [weak self] (response: Bool) in
              if !response { return }
              if let this = self {
@@ -107,7 +111,7 @@ public class MockSession : Session {
                sendNext(this.rx_connectedPeer, other.iden)
                sendNext(other.rx_connectedPeer, this.iden)
              }
-           }) as (I, AnyObject?, (Bool) -> ()))
+           }) as (I, [String: AnyObject]?, (Bool) -> ()))
       }
     }
   }

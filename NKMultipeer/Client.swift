@@ -6,12 +6,10 @@ import RxSwift
 // `Session` protocol.
 public class Client<I: Equatable> {
 
-  public var iden: I
-  public var meta: AnyObject?
+  public let iden: I
 
-  public init(iden: I, meta: AnyObject? = nil) {
+  public init(iden: I) {
     self.iden = iden
-    self.meta = meta
   }
 
 }
@@ -19,7 +17,7 @@ public class Client<I: Equatable> {
 public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> {
 
   // All state should be stored in the session
-  public var session: S
+  public let session: S
 
   let _connections: Observable<[Client<I>]>
 
@@ -83,21 +81,24 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
 
   // Advertising and connecting
 
-  public func incomingConnections() -> Observable<(Client<I>, (Bool) -> ())> {
-    return session.incomingConnections() >- map { (Client(iden: $0, meta: $1), $2) }
+  public func incomingConnections() -> Observable<(Client<I>, [String: AnyObject]?, (Bool) -> ())> {
+    return session.incomingConnections()
+    >- map { (iden, context, respond) in
+      (Client(iden: iden), context, respond)
+    }
   }
 
-  public func incomingConnections(cb: ((Client<I>, (Bool) -> ())) -> ()) {
+  public func incomingConnections(cb: ((Client<I>, [String: AnyObject]?, (Bool) -> ())) -> ()) {
     incomingConnections()
     >- subscribeNext(cb)
     >- disposeBag.addDisposable
   }
 
-  public func nearbyPeers() -> Observable<[Client<I>]> {
-    return session.nearbyPeers() >- map { $0.map { Client(iden: $0, meta: $1) } }
+  public func nearbyPeers() -> Observable<[(Client<I>, [String: String]?)]> {
+    return session.nearbyPeers() >- map { $0.map { (Client(iden: $0), $1) } }
   }
 
-  public func nearbyPeers(cb: ([Client<I>]) -> ()) {
+  public func nearbyPeers(cb: ([(Client<I>, [String: String]?)]) -> ()) {
     nearbyPeers()
     >- subscribeNext(cb)
     >- disposeBag.addDisposable
@@ -119,8 +120,8 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
     session.stopBrowsing()
   }
 
-  public func connect(peer: Client<I>, meta: AnyObject? = nil, timeout: NSTimeInterval = 12) {
-    return session.connect(peer.iden, meta: meta, timeout: timeout)
+  public func connect(peer: Client<I>, context: [String: AnyObject]? = nil, timeout: NSTimeInterval = 12) {
+    return session.connect(peer.iden, context: context, timeout: timeout)
   }
 
   public func disconnect() {

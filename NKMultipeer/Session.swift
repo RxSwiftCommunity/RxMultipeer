@@ -9,19 +9,20 @@ public protocol Session {
   typealias I
 
   var iden: I { get }
+  var meta: [String: String]? { get }
 
   // Connection concerns
   //////////////////////////////////////////////////////////////////////////
 
   func connectedPeer() -> Observable<I>
   func disconnectedPeer() -> Observable<I>
-  func incomingConnections() -> Observable<(I, AnyObject?, (Bool) -> ())>
-  func nearbyPeers() -> Observable<[(I, AnyObject?)]>
+  func incomingConnections() -> Observable<(I, [String: AnyObject]?, (Bool) -> ())>
+  func nearbyPeers() -> Observable<[(I, [String: String]?)]>
   func startAdvertising()
   func stopAdvertising()
   func startBrowsing()
   func stopBrowsing()
-  func connect(peer: I, meta: AnyObject?, timeout: NSTimeInterval)
+  func connect(peer: I, context: [String: AnyObject]?, timeout: NSTimeInterval)
   func disconnect()
   func connectionErrors() -> Observable<NSError>
 

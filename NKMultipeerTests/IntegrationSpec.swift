@@ -29,7 +29,7 @@ public class IntegrationSpec : QuickSpec {
           // Advertise and always accept connections
           clienttwo!.startAdvertising()
           clienttwo!.incomingConnections()
-          >- subscribeNext { (client, respond) in
+          >- subscribeNext { (client, _, respond) in
             respond(true) }
           >- disposeBag.addDisposable
         }
@@ -40,7 +40,7 @@ public class IntegrationSpec : QuickSpec {
             clientone!.nearbyPeers()
             >- filter { $0.count > 0 }
             >- subscribeNext { clients in
-              expect(clients[0].iden).to(equal(clienttwo!.iden))
+              expect(clients[0].0.iden).to(equal(clienttwo!.iden))
               done()
             }
             >- disposeBag.addDisposable

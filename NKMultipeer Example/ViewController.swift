@@ -71,20 +71,22 @@ class ViewController: UIViewController {
 
     combineLatest(client.connections(),
                   client.nearbyPeers()) { (connections, nearby) in
-      return nearby.filter { find(connections.map { $0.iden }, $0.iden) == nil }
+      return nearby.filter { (p, _) in
+               find(connections.map { $0.iden }, p.iden) == nil
+             }
     }
     >- subscribeNext {
       println("\(name): there are \(count($0)) devices nearby")
       for p in $0 {
-        println("\(name): connecting to \(p.iden)")
-        client.connect(p)
+        println("\(name): connecting to \(p.0.iden)")
+        client.connect(p.0)
       }
     }
     >- disposeBag.addDisposable
 
     // Just accept everything
     client.incomingConnections()
-    >- subscribeNext { (_, respond) in respond(true) }
+    >- subscribeNext { (_, _, respond) in respond(true) }
     >- disposeBag.addDisposable
 
     // Logging

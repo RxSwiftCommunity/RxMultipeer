@@ -13,10 +13,12 @@ public class MultipeerConnectivitySession : NSObject, Session {
   let browser: MCNearbyServiceBrowser
 
   public var iden: MCPeerID { return _session.myPeerID }
+  public var meta: [String: String]? { return self.advertiser.discoveryInfo as? [String: String] }
 
   public init(
       displayName: String,
       serviceType: String,
+      meta: [String: String]? = nil,
       encryptionPreference: MCEncryptionPreference = .None) {
     let peerId = MCPeerID(displayName: displayName)
     self.serviceType = serviceType
@@ -26,7 +28,7 @@ public class MultipeerConnectivitySession : NSObject, Session {
 
     self.advertiser = MCNearbyServiceAdvertiser(
         peer: self._session.myPeerID,
-        discoveryInfo: nil,
+        discoveryInfo: meta,
         serviceType: self.serviceType)
 
     self.browser = MCNearbyServiceBrowser(
@@ -55,12 +57,12 @@ public class MultipeerConnectivitySession : NSObject, Session {
     return rx_disconnectedPeer
   }
 
-  var rx_incomingConnections: PublishSubject<(MCPeerID, AnyObject?, (Bool, MCSession) -> Void)> = PublishSubject()
+  var rx_incomingConnections: PublishSubject<(MCPeerID, [String: AnyObject]?, (Bool, MCSession) -> Void)> = PublishSubject()
 
-  public func incomingConnections() -> Observable<(MCPeerID, AnyObject?, (Bool) -> ())> {
+  public func incomingConnections() -> Observable<(MCPeerID, [String: AnyObject]?, (Bool) -> ())> {
     return rx_incomingConnections
-    >- map { [unowned self] (client, meta, handler) in
-      return (client, meta, { (accept: Bool) in handler(accept, self._session) })
+    >- map { [unowned self] (client, context, handler) in
+      return (client, context, { (accept: Bool) in handler(accept, self._session) })
     }
   }
 
@@ -72,13 +74,13 @@ public class MultipeerConnectivitySession : NSObject, Session {
     advertiser.stopAdvertisingPeer()
   }
 
-  var _nearbyPeers: [(MCPeerID, AnyObject?)] = [] {
+  var _nearbyPeers: [(MCPeerID, [String: String]?)] = [] {
     didSet { sendNext(rx_nearbyPeers, _nearbyPeers) }
   }
 
-  let rx_nearbyPeers: Variable<[(MCPeerID, AnyObject?)]> = Variable([])
+  let rx_nearbyPeers: Variable<[(MCPeerID, [String: String]?)]> = Variable([])
 
-  public func nearbyPeers() -> Observable<[(MCPeerID, AnyObject?)]> {
+  public func nearbyPeers() -> Observable<[(MCPeerID, [String: String]?)]> {
     return rx_nearbyPeers
   }
 
@@ -90,10 +92,19 @@ public class MultipeerConnectivitySession : NSObject, Session {
     browser.stopBrowsingForPeers()
   }
 
-  public func connect(peer: MCPeerID, meta: AnyObject?, timeout: NSTimeInterval) {
+  public func connect(peer: MCPeerID, context: [String: AnyObject]?, timeout: NSTimeInterval) {
+    let data: NSData?
+    if let c = context {
+      var err: NSError?
+      data = NSJSONSerialization.dataWithJSONObject(
+        c, options: NSJSONWritingOptions(), error: &err)
+    } else{
+      data = nil
+    }
+
     browser.invitePeer(peer,
                        toSession: self._session,
-                       withContext: meta as? NSData,
+                       withContext: data,
                        timeout: timeout)
   }
 
@@ -169,7 +180,16 @@ extension MultipeerConnectivitySession : MCNearbyServiceAdvertiserDelegate {
                          didReceiveInvitationFromPeer peerID: MCPeerID,
                          withContext context: NSData?,
                          invitationHandler: ((Bool, MCSession!) -> Void)) {
-    sendNext(rx_incomingConnections, (peerID, context, invitationHandler))
+    let json: AnyObject?
+    if let c = context {
+      var err: NSError?
+      json = NSJSONSerialization.JSONObjectWithData(
+        c, options: NSJSONReadingOptions(), error: &err)
+    } else {
+      json = nil
+    }
+
+    sendNext(rx_incomingConnections, (peerID, json as? [String: AnyObject], invitationHandler))
   }
 
   public func advertiser(advertiser: MCNearbyServiceAdvertiser,
@@ -184,7 +204,7 @@ extension MultipeerConnectivitySession : MCNearbyServiceBrowserDelegate {
   public func browser(browser: MCNearbyServiceBrowser,
                       foundPeer peerId: MCPeerID,
                       withDiscoveryInfo info: [NSObject: AnyObject]?) {
-    self._nearbyPeers = self._nearbyPeers + [(peerId, info)]
+    self._nearbyPeers = self._nearbyPeers + [(peerId, info as? [String: String])]
   }
 
   public func browser(browser: MCNearbyServiceBrowser,
