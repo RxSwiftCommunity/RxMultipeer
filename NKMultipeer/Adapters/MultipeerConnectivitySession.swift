@@ -204,7 +204,15 @@ extension MultipeerConnectivitySession : MCNearbyServiceBrowserDelegate {
   public func browser(browser: MCNearbyServiceBrowser,
                       foundPeer peerId: MCPeerID,
                       withDiscoveryInfo info: [NSObject: AnyObject]?) {
-    self._nearbyPeers = self._nearbyPeers + [(peerId, info as? [String: String])]
+    // Get a unique list of peers
+    var result: [(MCPeerID, [String: String]?)] = []
+    for o in (self._nearbyPeers + [(peerId, info as? [String: String])]) {
+      if find(result.map { $0.0 }, o.0) == nil {
+        result = result + [o]
+      }
+    }
+
+    self._nearbyPeers = result
   }
 
   public func browser(browser: MCNearbyServiceBrowser,
