@@ -86,6 +86,10 @@ public class MultipeerConnectivitySession : NSObject, Session {
 
   public func startBrowsing() {
     browser.startBrowsingForPeers()
+    // Because we are aggregating found and lost peers in order
+    // to get nearby peers, we should start with a clean slate when
+    // browsing is kicked off again.
+    sendNext(rx_nearbyPeers, [])
   }
 
   public func stopBrowsing() {
