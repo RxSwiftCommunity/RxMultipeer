@@ -10,8 +10,8 @@ your own adapters for different protocols.
 Please note that NKMultipeer makes heavy use of [RxSwift][RxSwift] which you should read up on if unfamiliar with Rx\*
 libraries. The mantra for this library: **everything is a stream**.
 
-_Using Rx* is ultimately optional_ because the interface provides non-rx alternatives for every single method, however
-it's strongly encouraged to try out _RxSwift_ if you're not using any other FRP libraries.
+_Using RxSwift is ultimately **optional**_ because the interface provides non-rx alternatives for every single method, however
+I strongly encouraged checking out _RxSwift_ if you want to get into reactive programming.
 
 ## Installation
 
