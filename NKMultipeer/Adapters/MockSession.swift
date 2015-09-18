@@ -14,11 +14,11 @@ public class MockSession : Session {
   static public let advertisingSessions: Variable<[MockSession]> = Variable([])
 
   static public func digest() {
-      advertisingSessions.next(sessions.filter { $0.isAdvertising })
+    advertisingSessions.value = sessions.filter { $0.isAdvertising }
   }
 
   static public func findForClient(client: I) -> MockSession? {
-    return filter(sessions, { o in return o.iden == client }).first
+    return sessions.filter({ o in return o.iden == client }).first
   }
 
   static public func reset() {
@@ -66,12 +66,12 @@ public class MockSession : Session {
 
   public func nearbyPeers() -> Observable<[(I, [String: String]?)]> {
     return MockSession.advertisingSessions
-           >- filter { _ in self.isBrowsing }
-           >- map { $0.map { ($0.iden, $0.meta) } }
+           .filter { _ in self.isBrowsing }
+           .map { $0.map { ($0.iden, $0.meta) } }
   }
 
   public func incomingConnections() -> Observable<(I, [String: AnyObject]?, (Bool) -> ())> {
-    return connectRequests >- filter { _ in self.isAdvertising }
+    return connectRequests.filter { _ in self.isAdvertising }
   }
 
   public func startBrowsing() {
@@ -91,7 +91,7 @@ public class MockSession : Session {
   }
 
   public func connect(peer: I, context: [String: AnyObject]? = nil, timeout: NSTimeInterval = 12) {
-    let otherm = filter(MockSession.sessions, { return $0.iden == peer }).first
+    let otherm = MockSession.sessions.filter({ return $0.iden == peer }).first
     if let other = otherm {
       // Skip if already connected
       if self._connections.filter({
@@ -99,19 +99,18 @@ public class MockSession : Session {
       }).count > 0 { return }
 
       if other.isAdvertising {
-        sendNext(
-          other.connectRequests,
+        other.connectRequests.on(.Next(
           (self.iden,
-           context,
-           { [weak self] (response: Bool) in
-             if !response { return }
-             if let this = self {
-               this._connections.append(other)
-               other._connections.append(this)
-               sendNext(this.rx_connectedPeer, other.iden)
-               sendNext(other.rx_connectedPeer, this.iden)
-             }
-           }) as (I, [String: AnyObject]?, (Bool) -> ()))
+            context,
+            { [weak self] (response: Bool) in
+              if !response { return }
+              if let this = self {
+                this._connections.append(other)
+                other._connections.append(this)
+                this.rx_connectedPeer.on(.Next(other.iden))
+                other.rx_connectedPeer.on(.Next(this.iden))
+              }
+            }) as (I, [String: AnyObject]?, (Bool) -> ())))
       }
     }
   }
@@ -122,7 +121,7 @@ public class MockSession : Session {
     for session in MockSession.sessions {
       for c in session._connections {
         if c.iden == self.iden {
-          sendNext(session.rx_disconnectedPeer, c.iden)
+          session.rx_disconnectedPeer.on(.Next(c.iden))
         }
       }
       session._connections = session._connections.filter { $0.iden != self.iden }
@@ -151,7 +150,7 @@ public class MockSession : Session {
   //////////////////////////////////////////////////////////////////////////
 
   func isConnected(other: MockSession) -> Bool {
-    return filter(_connections, { $0.iden == other.iden }).first != nil
+    return _connections.filter({ $0.iden == other.iden }).first != nil
   }
 
   public func send
@@ -163,13 +162,13 @@ public class MockSession : Session {
       if let otherSession = MockSession.findForClient(other) {
         // Can't send if not connected
         if !self.isConnected(otherSession) {
-          sendError(observer, UnknownError)
+          observer.on(.Error(RxError.UnknownError))
         } else {
-          sendNext(otherSession.receivedData, (self.iden, data))
-          sendCompleted(observer)
+          otherSession.receivedData.on(.Next((self.iden, data)))
+          observer.on(.Completed)
         }
       } else {
-        sendError(observer, UnknownError)
+        observer.on(.Error(RxError.UnknownError))
       }
 
       return AnonymousDisposable {}
@@ -186,15 +185,15 @@ public class MockSession : Session {
       if let otherSession = MockSession.findForClient(other) {
         // Can't send if not connected
         if !self.isConnected(otherSession) {
-          sendError(observer, UnknownError)
+          observer.on(.Error(RxError.UnknownError))
         } else {
           let c = self.iden
-          sendNext(otherSession.receivedResources, (c, name, .Progress(NSProgress(totalUnitCount: 1))))
-          sendNext(otherSession.receivedResources, (c, name, .Finished(url)))
-          sendCompleted(observer)
+          otherSession.receivedResources.on(.Next(c, name, .Progress(NSProgress(totalUnitCount: 1))))
+          otherSession.receivedResources.on(.Next(c, name, .Finished(url)))
+          observer.on(.Completed)
         }
       } else {
-        sendError(observer, UnknownError)
+        observer.on(.Error(RxError.UnknownError))
       }
 
       return AnonymousDisposable {}

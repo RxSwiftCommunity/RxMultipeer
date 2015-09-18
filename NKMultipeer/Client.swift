@@ -29,11 +29,11 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
 
     // A list of connections is inferred by looking at
     // `connectedPeer` and `disconnectedPeer` from the underlying session.
-    self._connections = returnElements(
-      session.connectedPeer() >- map { (Client(iden: $0), true) },
-      session.disconnectedPeer() >- map { (Client(iden: $0), false) })
-    >- merge
-    >- scan([]) { (connections: [Client<I>], cs) in
+    self._connections = sequenceOf(
+      session.connectedPeer().map { (Client(iden: $0), true) },
+      session.disconnectedPeer().map { (Client(iden: $0), false) })
+    .merge()
+    .scan([]) { (connections: [Client<I>], cs) in
       let client = cs.0
       let state = cs.1
       if state {
@@ -43,8 +43,8 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
         return connections.filter { $0.iden != client.iden }
       }
     }
-    >- startWith([])
-    >- variable
+    .startWith([])
+    .shareReplay(1)
 
     super.init(iden: session.iden)
   }
@@ -55,53 +55,53 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
 
   public func connections(cb: ([Client<I>]) -> ()) {
     connections()
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   public func connectedPeer() -> Observable<Client<I>> {
-    return session.connectedPeer() >- map { Client(iden: $0) }
+    return session.connectedPeer().map { Client(iden: $0) }
   }
 
   public func connectedPeer(cb: (Client<I>) -> ()) {
     connectedPeer()
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   public func disconnectedPeer() -> Observable<Client<I>> {
-    return session.disconnectedPeer() >- map { Client(iden: $0) }
+    return session.disconnectedPeer().map { Client(iden: $0) }
   }
 
   public func disconnectedPeer(cb: (Client<I>) -> ()) {
     disconnectedPeer()
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   // Advertising and connecting
 
   public func incomingConnections() -> Observable<(Client<I>, [String: AnyObject]?, (Bool) -> ())> {
     return session.incomingConnections()
-    >- map { (iden, context, respond) in
+    .map { (iden, context, respond) in
       (Client(iden: iden), context, respond)
     }
   }
 
   public func incomingConnections(cb: ((Client<I>, [String: AnyObject]?, (Bool) -> ())) -> ()) {
     incomingConnections()
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   public func nearbyPeers() -> Observable<[(Client<I>, [String: String]?)]> {
-    return session.nearbyPeers() >- map { $0.map { (Client(iden: $0), $1) } }
+    return session.nearbyPeers().map { $0.map { (Client(iden: $0), $1) } }
   }
 
   public func nearbyPeers(cb: ([(Client<I>, [String: String]?)]) -> ()) {
     nearbyPeers()
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   public func startAdvertising() {
@@ -134,8 +134,8 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
 
   public func connectionErrors(cb: (NSError) -> ()) {
     connectionErrors()
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   // Sending Data
@@ -154,8 +154,8 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
    _ mode: MCSessionSendDataMode = .Reliable,
    onComplete cb: () -> ()) {
     send(other, data, mode)
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   public func send
@@ -172,8 +172,8 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
    _ mode: MCSessionSendDataMode = .Reliable,
    onComplete cb: () -> ()) {
     send(other, string, mode)
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   public func send
@@ -181,11 +181,13 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
    _ json: [String: AnyObject],
    _ mode: MCSessionSendDataMode = .Reliable)
   -> Observable<()> {
-    var err: NSError?
-    let data = NSJSONSerialization.dataWithJSONObject(
-      json, options: NSJSONWritingOptions(), error: &err)
-    if err != nil { return failWith(err!) }
-    return send(other, data!, mode)
+    do {
+      let data = try NSJSONSerialization.dataWithJSONObject(
+        json, options: NSJSONWritingOptions())
+      return send(other, data, mode)
+    } catch let error as NSError {
+      return failWith(error)
+    }
   }
 
   public func send
@@ -194,8 +196,8 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
    _ mode: MCSessionSendDataMode = .Reliable,
    onComplete cb: () -> ()) {
     send(other, json, mode)
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   public func send
@@ -214,76 +216,78 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
    _ mode: MCSessionSendDataMode = .Reliable,
    onComplete cb: () -> ()) {
     send(other, name: name, url: url, mode)
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   // Receiving data
 
   public func receive() -> Observable<(Client<I>, NSData)> {
-    return session.receive() >- map { (Client(iden: $0), $1) }
+    return session.receive().map { (Client(iden: $0), $1) }
   }
 
   public func receive(cb: (Client<I>, NSData) -> ()) {
     receive()
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   public func receive() -> Observable<(Client<I>, [String: AnyObject])> {
     return (receive() as Observable<(Client<I>, NSData)>)
-    >- map { (client: Client<I>, data: NSData) in
-      var err: NSError?
-      let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(
-        data,
-        options: NSJSONReadingOptions(),
-        error: &err)
-      if err != nil { return failWith(err!) }
-      if let j = json as? [String: AnyObject] { return just((client, j)) }
-      return never()
+      .map { (client: Client<I>, data: NSData) -> Observable<(Client<I>, [String: AnyObject])> in
+      do {
+        let json = try NSJSONSerialization.JSONObjectWithData(
+          data, options: NSJSONReadingOptions())
+        if let j = json as? [String: AnyObject] {
+          return just((client, j))
+        }
+        return never()
+      } catch let error {
+        return failWith(error)
+      }
     }
-    >- merge
+    .merge()
   }
 
   public func receive(cb: (Client<I>, [String: AnyObject]) -> ()) {
     receive()
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   public func receive() -> Observable<(Client<I>, String)> {
     return session.receive()
-    >- map { (Client(iden: $0), NSString(data: $1, encoding: NSUTF8StringEncoding)) }
-    >- filter { $1 != nil }
-    >- map { ($0, String($1!)) }
+    .map { (Client(iden: $0), NSString(data: $1, encoding: NSUTF8StringEncoding)) }
+    .filter { $1 != nil }
+    .map { ($0, String($1!)) }
   }
 
   public func receive(cb: (Client<I>, String) -> ()) {
     receive()
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   public func receive() -> Observable<(Client<I>, String, ResourceState)> {
-    return session.receive() >- map { (Client(iden: $0), $1, $2) }
+    return session.receive().map { (Client(iden: $0), $1, $2) }
   }
 
   public func receive(cb: (Client<I>, String, ResourceState) -> ()) {
     receive()
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   public func receive() -> Observable<(Client<I>, String, NSURL)> {
     return session.receive()
-    >- filter { $2.fromFinished() != nil }
-    >- map { (Client(iden: $0), $1, $2.fromFinished()!) }
+    .filter { $2.fromFinished() != nil }
+    .map { (Client(iden: $0), $1, $2.fromFinished()!) }
   }
 
   public func receive(cb: (Client<I>, String, NSURL) -> ()) {
     receive()
-    >- subscribeNext(cb)
-    >- disposeBag.addDisposable
+    .subscribeNext(cb)
+    .addDisposableTo(disposeBag)
   }
 
   deinit {

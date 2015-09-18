@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     super.viewDidLoad()
 
     let name = UIDevice.currentDevice().name
-    println("\(name): Loading")
+    print("\(name): Loading")
 
     let client = CurrentClient(
         session: MultipeerConnectivitySession(
@@ -36,71 +36,72 @@ class ViewController: UIViewController {
                  encryptionPreference: .None))
 
     advertiseButton.rx_tap
-    >- subscribeNext {
-      println("\(name): begin advertising")
+    .subscribeNext {
+      print("\(name): begin advertising")
       client.stopBrowsing()
       client.startAdvertising()
     }
-    >- disposeBag.addDisposable
+    .addDisposableTo(disposeBag)
 
     browseButton.rx_tap
-    >- subscribeNext {
-      println("\(name): begin browsing")
+    .subscribeNext {
+      print("\(name): begin browsing")
       client.stopAdvertising()
       client.startBrowsing()
     }
-    >- disposeBag.addDisposable
+    .addDisposableTo(disposeBag)
 
     disconnectButton.rx_tap
-    >- subscribeNext {
-      println("\(name): disconnecting")
+    .subscribeNext {
+      print("\(name): disconnecting")
       client.disconnect()
     }
+    .addDisposableTo(disposeBag)
 
     client.connections()
-    >- sampleLatest(yoButton.rx_tap)
-    >- map { (cs: [Client<I>]) -> Observable<Client<I>> in from(cs) }
-    >- merge
-    >- map { (c: Client<I>) -> Observable<()> in
-      println("\(name): sending yo to \(c.iden)")
+    .sampleLatest(yoButton.rx_tap)
+    .map { (cs: [Client<I>]) -> Observable<Client<I>> in cs.map { just($0) }.concat() }
+    .merge()
+    .map { (c: Client<I>) -> Observable<()> in
+      print("\(name): sending yo to \(c.iden)")
       return client.send(c, "yo")
     }
-    >- merge
-    >- subscribeNext { _ in }
-    >- disposeBag.addDisposable
+    .merge()
+    .subscribeNext { _ in }
+    .addDisposableTo(disposeBag)
 
     combineLatest(client.connections(),
                   client.nearbyPeers()) { (connections, nearby) in
       return nearby.filter { (p, _) in
-               find(connections.map { $0.iden }, p.iden) == nil
+               connections.map { $0.iden }.indexOf(p.iden) == nil
              }
     }
-    >- subscribeNext {
-      println("\(name): there are \(count($0)) devices nearby")
+    .subscribeNext {
+      print("\(name): there are \($0.count) devices nearby")
       for p in $0 {
-        println("\(name): connecting to \(p.0.iden)")
+        print("\(name): connecting to \(p.0.iden)")
         client.connect(p.0)
       }
     }
-    >- disposeBag.addDisposable
+    .addDisposableTo(disposeBag)
 
     // Just accept everything
     client.incomingConnections()
-    >- subscribeNext { (_, _, respond) in respond(true) }
-    >- disposeBag.addDisposable
+    .subscribeNext { (_, _, respond) in respond(true) }
+    .addDisposableTo(disposeBag)
 
     // Logging
     client.connectedPeer()
-    >- subscribeNext { println("\(name): \($0.iden) successfully connected") }
-    >- disposeBag.addDisposable
+    .subscribeNext { print("\(name): \($0.iden) successfully connected") }
+    .addDisposableTo(disposeBag)
 
     client.disconnectedPeer()
-    >- subscribeNext { println("\(name): \($0.iden) disconnected") }
-    >- disposeBag.addDisposable
+    .subscribeNext { print("\(name): \($0.iden) disconnected") }
+    .addDisposableTo(disposeBag)
 
     client.receive()
-    >- subscribeNext { (c, m: String) in println("\(name): received message '\(m)'") }
-    >- disposeBag.addDisposable
+    .subscribeNext { (c, m: String) in print("\(name): received message '\(m)'") }
+    .addDisposableTo(disposeBag)
   }
 
   override func didReceiveMemoryWarning() {
