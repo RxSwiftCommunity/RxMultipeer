@@ -74,11 +74,11 @@ let client = CurrentClient(session: MultipeerConnectivitySession(
 ```swift
 client.startAdvertising() // Allow other clients to try and connect
 client.incomingConnections()
->- subscribeNext { (c, context: [String: AnyObject]?, respond) in
+.subscribeNext { (c, context: [String: AnyObject]?, respond) in
   // You can put response logic here
   respond(true)
 }
->- disposeBag.addDisposable
+.addDisposableTo(disposeBag)
 
 // OR, Using vanilla callbacks:
 client.incomingConnections() { (c, context, respond) in respond(true)}
@@ -90,14 +90,15 @@ client.incomingConnections() { (c, context, respond) in respond(true)}
 client.startBrowsing()
 client.nearbyPeers()
 // Here we are just flattening the stream
->- map { (clients: [Client<I>]) -> Observable<Client<I>> in from(clients) }
->- merge
->- subscribeNext { (c: Client<I>, meta: [String: String]?) in
+.map { (clients: [Client<I>]) -> Observable<Client<I>> in from(clients) }
+.merge()
+.subscribeNext { (c: Client<I>, meta: [String: String]?) in
   // Can conditionally connect to client here
   client.connect(c, context: ["Name": "John"], timeout: 12)
   // You can listen to newly connected peers using
   // `client.connectedPeer()`
 }
+.addDisposableTo(disposeBag)
 
 // OR, Using vanilla callbacks:
 client.nearbyPeers() { (clients: [(Client<I>, [String: String]?)]) in
@@ -115,14 +116,14 @@ let other: Observable<Client<I>> = ???
 
 // We can store the result of the send action in a variable
 let sendToOther = other
->- map { client.send(other, "Hello!") }
->- switchLatest
->- variable
+.map { client.send(other, "Hello!") }
+.switchLatest()
+.shareReplay(1)
 
 // And declare we want to do something with each send result later on
 sendToOther
->- subscribeCompleted { println("a message was sent") }
->- disposeBag.addDisposable
+.subscribeCompleted { println("a message was sent") }
+.addDisposableTo(disposeBag)
 
 // OR, Using vanilla callbacks:
 let other: Client<I> = ???
@@ -134,10 +135,10 @@ client.send(other, "Hello!") { println("message was sent") }
 
 ```swift
 client.receive()
->- subscribeNext { (o: Client<I>, s: String) in
+.subscribeNext { (o: Client<I>, s: String) in
   println("got message \(s), from client \(o)")
 }
->- disposeBag.addDisposable
+.addDisposableTo(disposeBag)
 
 // OR, Using vanilla callbacks:
 client.receive() { (o: Client<I>, s: String) in
@@ -186,26 +187,16 @@ let otherclient = CurrentClient(session: MockSession(name: "mockedother"))
 // Accept all connections
 otherclient.startAdvertising()
 otherclient.incomingConnections()
->- subscribeNext { (client, context, respond) in respond(true) }
->- disposeBag.addDisposable
+.subscribeNext { (client, context, respond) in respond(true) }
+.addDisposableTo(disposeBag)
 
 // Respond to all messages with 'Roger'
 otherclient.receive()
->- map { (client: Client<MockIden>, string: String) in return otherclient.send(client, "Roger")}
->- concat
->- subscribeNext { _ in println("Response sent") }
->- disposeBag.addDisposable
+.map { (client: Client<MockIden>, string: String) in return otherclient.send(client, "Roger")}
+.concat()
+.subscribeNext { _ in println("Response sent") }
+.addDisposableTo(disposeBag)
 ```
-
-### What is `DisposeBag`?? `>-`??
-
-These are [RxSwift][RxSwift] things. `DisposeBag` is how memory management is handled in `Rx` and `>-` is the pipe
-operator that applies the argument on the left to the function on the right i.e `a >- f === f(a)`.
-
-Please read up on [ReactiveX][rx] for a general overview on reactive.
-
-Every method in `CurrentClient` provides a non-rx alternative that accepts a callback however, so you do not need to use
-Rx* when interfacing with this library.
 
 ## Contributing
 
