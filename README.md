@@ -15,6 +15,16 @@ I strongly encouraged checking out _RxSwift_ if you want to get into reactive pr
 
 ## Installation
 
+### Carthage
+
+Add this to your `Cartfile`
+
+```
+github "nathankot/NKMultipeer" ~> 0.4.0
+```
+
+### Cocoapods
+
 ```
 use_frameworks!
 pod "NKMultipeer"
