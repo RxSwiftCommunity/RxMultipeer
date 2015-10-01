@@ -101,6 +101,14 @@ public class IntegrationSpec : QuickSpec {
             }
           }
 
+          it("fires a next event when sending data") {
+            waitUntil { done in
+              clientone!.send(clienttwo!, "hello")
+              .subscribeNext { _ in done() }
+              .addDisposableTo(disposeBag)
+            }
+          }
+
           it("lets clients send strings to eachother") {
             waitUntil { done in
               clienttwo!.receive()
