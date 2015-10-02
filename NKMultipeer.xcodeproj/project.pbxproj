@@ -301,13 +301,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D88C86011B6F2B1700CF42CF /* Build configuration list for PBXNativeTarget "NKMultipeer" */;
 			buildPhases = (
-				6808B5F742FCA5358815FD78 /* Check Pods Manifest.lock */,
 				D88C85E61B6F2B1700CF42CF /* Sources */,
 				D88C85E71B6F2B1700CF42CF /* Frameworks */,
 				D88C85E81B6F2B1700CF42CF /* Headers */,
 				D88C85E91B6F2B1700CF42CF /* Resources */,
 				D813DA4C1BB1BD2200BEB501 /* Copy Files */,
-				93509656057005B789A267D3 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -471,21 +469,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NKMultipeerTests/Pods-NKMultipeerTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6808B5F742FCA5358815FD78 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
 		6DEDC3D485F9E1EE5DDCE841 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -499,21 +482,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NKMultipeerTests/Pods-NKMultipeerTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		93509656057005B789A267D3 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NKMultipeer/Pods-NKMultipeer-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C28DDBD12F2CE7E7CA1E41EC /* Copy Pods Resources */ = {
