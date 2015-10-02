@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		222E91220AEF41EBC4BED3E6 /* Pods_NKMultipeer_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ED8F9880A0597064F1FF7CA /* Pods_NKMultipeer_Example.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D813DA421BB1BA1000BEB501 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
 		D813DA431BB1BA1000BEB501 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA411BB1BA1000BEB501 /* RxSwift.framework */; };
 		D813DA451BB1BADE00BEB501 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
@@ -32,7 +31,6 @@
 		D88C860F1B6F42F400CF42CF /* Data.txt in Resources */ = {isa = PBXBuildFile; fileRef = D88C860E1B6F42F400CF42CF /* Data.txt */; };
 		D88C86131B6F4F3700CF42CF /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86111B6F4F3700CF42CF /* Session.swift */; };
 		D88C86161B7060E000CF42CF /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86151B7060E000CF42CF /* MockSession.swift */; };
-		E739CA8D273763AB59C74DF4 /* Pods_NKMultipeerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF6587DD80F7BD8B86CE3880 /* Pods_NKMultipeerTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,13 +61,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		193A9C71CB485A0F6BC7FE45 /* Pods-NKMultipeer Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NKMultipeer Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NKMultipeer Example/Pods-NKMultipeer Example.debug.xcconfig"; sourceTree = "<group>"; };
-		33CFC3BFE3DD520C548824EE /* Pods-NKMultipeer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NKMultipeer.release.xcconfig"; path = "Pods/Target Support Files/Pods-NKMultipeer/Pods-NKMultipeer.release.xcconfig"; sourceTree = "<group>"; };
-		4A2D256EC875CE7290084E2E /* Pods-NKMultipeer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NKMultipeer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NKMultipeer/Pods-NKMultipeer.debug.xcconfig"; sourceTree = "<group>"; };
-		5ED8F9880A0597064F1FF7CA /* Pods_NKMultipeer_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NKMultipeer_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		64E789F94401D0C74D6952A0 /* Pods_NKMultipeer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NKMultipeer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AF6587DD80F7BD8B86CE3880 /* Pods_NKMultipeerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NKMultipeerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BE19C33F5EFDF4155500A126 /* Pods-NKMultipeerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NKMultipeerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NKMultipeerTests/Pods-NKMultipeerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D813DA3C1BB1BA0900BEB501 /* RxSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RxSwift.framework.dSYM; path = Carthage/Build/iOS/RxSwift.framework.dSYM; sourceTree = "<group>"; };
 		D813DA3D1BB1BA0900BEB501 /* RxCocoa.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RxCocoa.framework.dSYM; path = Carthage/Build/iOS/RxCocoa.framework.dSYM; sourceTree = "<group>"; };
 		D813DA401BB1BA1000BEB501 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
@@ -95,8 +86,6 @@
 		D88C860E1B6F42F400CF42CF /* Data.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Data.txt; sourceTree = "<group>"; };
 		D88C86111B6F4F3700CF42CF /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		D88C86151B7060E000CF42CF /* MockSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
-		DEC20200CD68EDAFF888DB57 /* Pods-NKMultipeer Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NKMultipeer Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-NKMultipeer Example/Pods-NKMultipeer Example.release.xcconfig"; sourceTree = "<group>"; };
-		E08F9E7D7914DBB591B63A5E /* Pods-NKMultipeerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NKMultipeerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NKMultipeerTests/Pods-NKMultipeerTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +93,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				222E91220AEF41EBC4BED3E6 /* Pods_NKMultipeer_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,7 +115,6 @@
 				D813DA4A1BB1BADE00BEB501 /* Quick.framework in Frameworks */,
 				D813DA451BB1BADE00BEB501 /* RxCocoa.framework in Frameworks */,
 				D813DA461BB1BADE00BEB501 /* RxSwift.framework in Frameworks */,
-				E739CA8D273763AB59C74DF4 /* Pods_NKMultipeerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,24 +131,8 @@
 				D813DA3C1BB1BA0900BEB501 /* RxSwift.framework.dSYM */,
 				D813DA3D1BB1BA0900BEB501 /* RxCocoa.framework.dSYM */,
 				D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */,
-				64E789F94401D0C74D6952A0 /* Pods_NKMultipeer.framework */,
-				5ED8F9880A0597064F1FF7CA /* Pods_NKMultipeer_Example.framework */,
-				AF6587DD80F7BD8B86CE3880 /* Pods_NKMultipeerTests.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		7D0D364653E9B20D238E1DB6 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				4A2D256EC875CE7290084E2E /* Pods-NKMultipeer.debug.xcconfig */,
-				33CFC3BFE3DD520C548824EE /* Pods-NKMultipeer.release.xcconfig */,
-				193A9C71CB485A0F6BC7FE45 /* Pods-NKMultipeer Example.debug.xcconfig */,
-				DEC20200CD68EDAFF888DB57 /* Pods-NKMultipeer Example.release.xcconfig */,
-				BE19C33F5EFDF4155500A126 /* Pods-NKMultipeerTests.debug.xcconfig */,
-				E08F9E7D7914DBB591B63A5E /* Pods-NKMultipeerTests.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		D8236D531B71EA7800EF5DE6 /* NKMultipeer Example */ = {
@@ -193,7 +164,6 @@
 				D8236D531B71EA7800EF5DE6 /* NKMultipeer Example */,
 				D88C85EC1B6F2B1700CF42CF /* Products */,
 				6A362B832317E525259BEBB4 /* Frameworks */,
-				7D0D364653E9B20D238E1DB6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -279,12 +249,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8236D721B71EA7800EF5DE6 /* Build configuration list for PBXNativeTarget "NKMultipeer Example" */;
 			buildPhases = (
-				1C82B56209938DD2454C1D3F /* Check Pods Manifest.lock */,
 				D8236D4E1B71EA7800EF5DE6 /* Sources */,
 				D8236D4F1B71EA7800EF5DE6 /* Frameworks */,
 				D8236D501B71EA7800EF5DE6 /* Resources */,
-				2FE64E85EBF59D2AA27C5688 /* Embed Pods Frameworks */,
-				C28DDBD12F2CE7E7CA1E41EC /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -318,13 +285,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D88C86041B6F2B1700CF42CF /* Build configuration list for PBXNativeTarget "NKMultipeerTests" */;
 			buildPhases = (
-				5B32380A769B91C898BF4FA5 /* Check Pods Manifest.lock */,
 				D88C85F21B6F2B1700CF42CF /* Sources */,
 				D88C85F31B6F2B1700CF42CF /* Frameworks */,
 				D88C85F41B6F2B1700CF42CF /* Resources */,
 				D813DA4B1BB1BBC300BEB501 /* ShellScript */,
-				5E98DAAD2411430346C5A65F /* Embed Pods Frameworks */,
-				6DEDC3D485F9E1EE5DDCE841 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -407,96 +371,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1C82B56209938DD2454C1D3F /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		2FE64E85EBF59D2AA27C5688 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NKMultipeer Example/Pods-NKMultipeer Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5B32380A769B91C898BF4FA5 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		5E98DAAD2411430346C5A65F /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NKMultipeerTests/Pods-NKMultipeerTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6DEDC3D485F9E1EE5DDCE841 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NKMultipeerTests/Pods-NKMultipeerTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C28DDBD12F2CE7E7CA1E41EC /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NKMultipeer Example/Pods-NKMultipeer Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D813DA4B1BB1BBC300BEB501 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -578,7 +452,6 @@
 /* Begin XCBuildConfiguration section */
 		D8236D6E1B71EA7800EF5DE6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 193A9C71CB485A0F6BC7FE45 /* Pods-NKMultipeer Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -594,7 +467,6 @@
 		};
 		D8236D6F1B71EA7800EF5DE6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DEC20200CD68EDAFF888DB57 /* Pods-NKMultipeer Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "NKMultipeer Example/Info.plist";
@@ -696,7 +568,6 @@
 		};
 		D88C86021B6F2B1700CF42CF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A2D256EC875CE7290084E2E /* Pods-NKMultipeer.debug.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -717,7 +588,6 @@
 		};
 		D88C86031B6F2B1700CF42CF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 33CFC3BFE3DD520C548824EE /* Pods-NKMultipeer.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -738,7 +608,6 @@
 		};
 		D88C86051B6F2B1700CF42CF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BE19C33F5EFDF4155500A126 /* Pods-NKMultipeerTests.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -758,7 +627,6 @@
 		};
 		D88C86061B6F2B1700CF42CF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E08F9E7D7914DBB591B63A5E /* Pods-NKMultipeerTests.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
