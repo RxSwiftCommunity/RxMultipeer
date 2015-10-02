@@ -145,6 +145,7 @@ public class MultipeerConnectivitySession : NSObject, Session {
     return create { observer in
       do {
         try self._session.sendData(data, toPeers: [other], withMode: mode)
+        observer.on(.Next(()))
         observer.on(.Completed)
       } catch let error {
         observer.on(.Error(error))
@@ -163,7 +164,10 @@ public class MultipeerConnectivitySession : NSObject, Session {
     return create { observer in
       let progress = self._session.sendResourceAtURL(url, withName: name, toPeer: other) { (err) in
         if let e = err { observer.on(.Error(e)) }
-        else { observer.on(.Completed) }
+        else {
+          observer.on(.Next(()))
+          observer.on(.Completed)
+        }
       }
 
       return AnonymousDisposable {
@@ -191,7 +195,7 @@ extension MultipeerConnectivitySession : MCNearbyServiceAdvertiserDelegate {
     } else {
       json = nil
     }
-                        
+
     rx_incomingConnections.on(.Next(
       peerID,
       json as? [String: AnyObject],

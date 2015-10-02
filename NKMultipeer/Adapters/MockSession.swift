@@ -165,6 +165,7 @@ public class MockSession : Session {
           observer.on(.Error(RxError.UnknownError))
         } else {
           otherSession.receivedData.on(.Next((self.iden, data)))
+          observer.on(.Next(()))
           observer.on(.Completed)
         }
       } else {
@@ -190,6 +191,7 @@ public class MockSession : Session {
           let c = self.iden
           otherSession.receivedResources.on(.Next(c, name, .Progress(NSProgress(totalUnitCount: 1))))
           otherSession.receivedResources.on(.Next(c, name, .Finished(url)))
+          observer.on(.Next(()))
           observer.on(.Completed)
         }
       } else {
