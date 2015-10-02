@@ -1,5 +1,5 @@
-import MultipeerConnectivity
 import Foundation
+import MultipeerConnectivity
 import RxSwift
 
 // It will work with any underlying object as long as they conform to the

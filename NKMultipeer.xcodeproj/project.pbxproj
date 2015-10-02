@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D80EC2F41BBF372B006BF124 /* NKMultipeerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80EC2F31BBF372B006BF124 /* NKMultipeerError.swift */; settings = {ASSET_TAGS = (); }; };
 		D813DA421BB1BA1000BEB501 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
 		D813DA431BB1BA1000BEB501 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA411BB1BA1000BEB501 /* RxSwift.framework */; };
 		D813DA451BB1BADE00BEB501 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
@@ -61,6 +62,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D80EC2F31BBF372B006BF124 /* NKMultipeerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NKMultipeerError.swift; sourceTree = "<group>"; };
 		D813DA3C1BB1BA0900BEB501 /* RxSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RxSwift.framework.dSYM; path = Carthage/Build/iOS/RxSwift.framework.dSYM; sourceTree = "<group>"; };
 		D813DA3D1BB1BA0900BEB501 /* RxCocoa.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RxCocoa.framework.dSYM; path = Carthage/Build/iOS/RxCocoa.framework.dSYM; sourceTree = "<group>"; };
 		D813DA401BB1BA1000BEB501 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 		D88C85ED1B6F2B1700CF42CF /* NKMultipeer */ = {
 			isa = PBXGroup;
 			children = (
+				D80EC2F31BBF372B006BF124 /* NKMultipeerError.swift */,
 				D8236D481B71A9EB00EF5DE6 /* ResourceState.swift */,
 				D88C86141B7060E000CF42CF /* Adapters */,
 				D88C86111B6F4F3700CF42CF /* Session.swift */,
@@ -407,6 +410,7 @@
 				D88C860C1B6F308600CF42CF /* Client.swift in Sources */,
 				D8236D4D1B71DE4400EF5DE6 /* MultipeerConnectivitySession.swift in Sources */,
 				D8236D491B71A9EB00EF5DE6 /* ResourceState.swift in Sources */,
+				D80EC2F41BBF372B006BF124 /* NKMultipeerError.swift in Sources */,
 				D88C86161B7060E000CF42CF /* MockSession.swift in Sources */,
 				D88C86131B6F4F3700CF42CF /* Session.swift in Sources */,
 			);
