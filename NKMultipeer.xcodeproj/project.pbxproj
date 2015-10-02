@@ -32,7 +32,6 @@
 		D88C860F1B6F42F400CF42CF /* Data.txt in Resources */ = {isa = PBXBuildFile; fileRef = D88C860E1B6F42F400CF42CF /* Data.txt */; };
 		D88C86131B6F4F3700CF42CF /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86111B6F4F3700CF42CF /* Session.swift */; };
 		D88C86161B7060E000CF42CF /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86151B7060E000CF42CF /* MockSession.swift */; };
-		E5B99614DB7018277633D2F5 /* Pods_NKMultipeer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64E789F94401D0C74D6952A0 /* Pods_NKMultipeer.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		E739CA8D273763AB59C74DF4 /* Pods_NKMultipeerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF6587DD80F7BD8B86CE3880 /* Pods_NKMultipeerTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -116,7 +115,6 @@
 				D88C86081B6F2D9000CF42CF /* MultipeerConnectivity.framework in Frameworks */,
 				D813DA421BB1BA1000BEB501 /* RxCocoa.framework in Frameworks */,
 				D813DA431BB1BA1000BEB501 /* RxSwift.framework in Frameworks */,
-				E5B99614DB7018277633D2F5 /* Pods_NKMultipeer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
