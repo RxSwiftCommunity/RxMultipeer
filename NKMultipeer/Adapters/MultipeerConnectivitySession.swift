@@ -1,5 +1,6 @@
 import Foundation
 import RxSwift
+import RxCocoa
 import MultipeerConnectivity
 
 public class MultipeerConnectivitySession : NSObject, Session {
@@ -160,23 +161,27 @@ public class MultipeerConnectivitySession : NSObject, Session {
   public func send(other: MCPeerID,
                    name: String,
                    url: NSURL,
-                   _ mode: MCSessionSendDataMode) -> Observable<()> {
+                   _ mode: MCSessionSendDataMode) -> Observable<NSProgress> {
     return create { observer in
       let progress = self._session.sendResourceAtURL(url, withName: name, toPeer: other) { (err) in
         if let e = err { observer.on(.Error(e)) }
         else {
-          observer.on(.Next(()))
           observer.on(.Completed)
         }
       }
 
-      return AnonymousDisposable {
-        if let cancellable = progress?.cancellable {
-          if cancellable == true {
-            progress?.cancel()
-          }
-        }
-      }
+      let progressDisposable = progress?.rx_observe("fractionCompleted", retainSelf: false)
+        .subscribeNext { (_: Double?) in observer.on(.Next(progress!)) }
+
+      return CompositeDisposable(
+          progressDisposable ?? AnonymousDisposable { },
+          AnonymousDisposable {
+            if let cancellable = progress?.cancellable {
+              if cancellable == true {
+                progress?.cancel()
+              }
+            }
+          })
     }
   }
 

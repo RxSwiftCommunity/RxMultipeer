@@ -181,7 +181,7 @@ public class MockSession : Session {
    name: String,
    url: NSURL,
    _ mode: MCSessionSendDataMode)
-  -> Observable<()> {
+  -> Observable<(NSProgress)> {
     return create { observer in
       if let otherSession = MockSession.findForClient(other) {
         // Can't send if not connected
@@ -191,7 +191,9 @@ public class MockSession : Session {
           let c = self.iden
           otherSession.receivedResources.on(.Next(c, name, .Progress(NSProgress(totalUnitCount: 1))))
           otherSession.receivedResources.on(.Next(c, name, .Finished(url)))
-          observer.on(.Next(()))
+          let completed = NSProgress(totalUnitCount: 1)
+          completed.completedUnitCount = 1
+          observer.on(.Next(completed))
           observer.on(.Completed)
         }
       } else {

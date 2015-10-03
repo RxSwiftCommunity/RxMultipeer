@@ -46,6 +46,6 @@ public protocol Session {
    name: String,
    url: NSURL,
    _ mode: MCSessionSendDataMode)
-  -> Observable<()>
+  -> Observable<NSProgress>
 
 }

@@ -205,7 +205,7 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
    name: String,
    url: NSURL,
    _ mode: MCSessionSendDataMode = .Reliable)
-  -> Observable<()> {
+  -> Observable<NSProgress> {
     return session.send(other.iden, name: name, url: url, mode)
   }
 
@@ -214,9 +214,11 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
    name: String,
    url: NSURL,
    _ mode: MCSessionSendDataMode = .Reliable,
+   onProgress pcb: (NSProgress) -> () = { _ in },
    onComplete cb: () -> ()) {
     send(other, name: name, url: url, mode)
-    .subscribeNext(cb)
+    .doOn(next: pcb)
+    .subscribeCompleted(cb)
     .addDisposableTo(disposeBag)
   }
 
