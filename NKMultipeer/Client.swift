@@ -19,38 +19,17 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
   // All state should be stored in the session
   public let session: S
 
-  let _connections: Observable<[Client<I>]>
-
   // This is only used to retain things for callback variants
   var disposeBag = DisposeBag()
 
   public init(session: S) {
     self.session = session
-
-    // A list of connections is inferred by looking at
-    // `connectedPeer` and `disconnectedPeer` from the underlying session.
-    self._connections = sequenceOf(
-      session.connectedPeer().map { (Client(iden: $0), true) },
-      session.disconnectedPeer().map { (Client(iden: $0), false) })
-    .merge()
-    .scan([]) { (connections: [Client<I>], cs) in
-      let client = cs.0
-      let state = cs.1
-      if state {
-        for c in connections { if c.iden == client.iden { return connections } }
-        return connections + [client]
-      } else {
-        return connections.filter { $0.iden != client.iden }
-      }
-    }
-    .startWith([])
-    .shareReplay(1)
-
     super.init(iden: session.iden)
   }
 
   public func connections() -> Observable<[Client<I>]> {
-    return _connections
+    return session.connections()
+      .map { $0.map { Client(iden: $0) } }
   }
 
   public func connections(cb: ([Client<I>]) -> ()) {

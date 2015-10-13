@@ -40,7 +40,9 @@ public class MockSession : Session {
   // Connection concerns
   //////////////////////////////////////////////////////////////////////////
 
-  var _connections: [MockSession] = []
+  var _connections: [MockSession] = [] {
+    didSet { rx_connections.value = _connections.map { $0.iden } }
+  }
 
   var isAdvertising = false {
     didSet { MockSession.digest() }
@@ -62,6 +64,12 @@ public class MockSession : Session {
 
   public func disconnectedPeer() -> Observable<I> {
     return rx_disconnectedPeer
+  }
+
+  private let rx_connections = Variable<[I]>([])
+
+  public func connections() -> Observable<[I]> {
+    return rx_connections.asObservable()
   }
 
   public func nearbyPeers() -> Observable<[(I, [String: String]?)]> {
@@ -119,12 +127,11 @@ public class MockSession : Session {
     self._connections = []
     MockSession.sessions = MockSession.sessions.filter { $0.iden != self.iden }
     for session in MockSession.sessions {
-      for c in session._connections {
-        if c.iden == self.iden {
-          session.rx_disconnectedPeer.on(.Next(c.iden))
-        }
-      }
+      let old = session._connections
       session._connections = session._connections.filter { $0.iden != self.iden }
+      if old.count > session._connections.count {
+        session.rx_disconnectedPeer.on(.Next(self.iden))
+      }
     }
   }
 

@@ -79,6 +79,12 @@ public class MultipeerConnectivitySession : NSObject, Session {
     didSet { rx_nearbyPeers.value = _nearbyPeers }
   }
 
+  let rx_connections = Variable<[MCPeerID]>([])
+
+  public func connections() -> Observable<[MCPeerID]> {
+    return rx_connections.asObservable()
+  }
+
   let rx_nearbyPeers: Variable<[(MCPeerID, [String: String]?)]> = Variable([])
 
   public func nearbyPeers() -> Observable<[(MCPeerID, [String: String]?)]> {
@@ -250,6 +256,7 @@ extension MultipeerConnectivitySession : MCSessionDelegate {
   public func session(session: MCSession,
                       peer peerID: MCPeerID,
                       didChangeState state: MCSessionState) {
+    rx_connections.value = session.connectedPeers
     switch state {
     case .Connected: rx_connectedPeer.on(.Next(peerID))
     // Called for failed connections as well, but we'll allow for that.
