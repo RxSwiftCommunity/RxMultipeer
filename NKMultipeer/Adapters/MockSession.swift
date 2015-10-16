@@ -4,6 +4,7 @@ import MultipeerConnectivity
 
 public class MockIden : Equatable {
 
+  public let uid = NSProcessInfo.processInfo().globallyUniqueString
   public let string: String
   public var displayName: String { return string }
 
@@ -18,7 +19,7 @@ public class MockIden : Equatable {
 }
 
 public func ==(left: MockIden, right: MockIden) -> Bool {
-  return left.string == right.string
+  return left.uid == right.uid
 }
 
 public class MockSession : Session {
