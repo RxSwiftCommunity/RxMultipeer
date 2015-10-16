@@ -25,6 +25,7 @@
 		D8236D5C1B71EA7800EF5DE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5A1B71EA7800EF5DE6 /* Main.storyboard */; };
 		D8236D5E1B71EA7800EF5DE6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5D1B71EA7800EF5DE6 /* Images.xcassets */; };
 		D8236D611B71EA7800EF5DE6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5F1B71EA7800EF5DE6 /* LaunchScreen.xib */; };
+		D8327BD41BD08FE9009BC6FB /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8327BD31BD08FE9009BC6FB /* Weak.swift */; settings = {ASSET_TAGS = (); }; };
 		D88C85F71B6F2B1700CF42CF /* NKMultipeer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C85EB1B6F2B1700CF42CF /* NKMultipeer.framework */; };
 		D88C86081B6F2D9000CF42CF /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */; };
 		D88C860A1B6F307700CF42CF /* IntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86091B6F307700CF42CF /* IntegrationSpec.swift */; };
@@ -78,6 +79,7 @@
 		D8236D5B1B71EA7800EF5DE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D8236D5D1B71EA7800EF5DE6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D8236D601B71EA7800EF5DE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		D8327BD31BD08FE9009BC6FB /* Weak.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weak.swift; sourceTree = "<group>"; };
 		D88C85EB1B6F2B1700CF42CF /* NKMultipeer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NKMultipeer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D88C85EF1B6F2B1700CF42CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D88C85F61B6F2B1700CF42CF /* NKMultipeerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NKMultipeerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -182,6 +184,7 @@
 		D88C85ED1B6F2B1700CF42CF /* NKMultipeer */ = {
 			isa = PBXGroup;
 			children = (
+				D8327BD31BD08FE9009BC6FB /* Weak.swift */,
 				D80EC2F31BBF372B006BF124 /* NKMultipeerError.swift */,
 				D8236D481B71A9EB00EF5DE6 /* ResourceState.swift */,
 				D88C86141B7060E000CF42CF /* Adapters */,
@@ -413,6 +416,7 @@
 				D80EC2F41BBF372B006BF124 /* NKMultipeerError.swift in Sources */,
 				D88C86161B7060E000CF42CF /* MockSession.swift in Sources */,
 				D88C86131B6F4F3700CF42CF /* Session.swift in Sources */,
+				D8327BD41BD08FE9009BC6FB /* Weak.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

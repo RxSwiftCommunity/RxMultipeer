@@ -2,14 +2,24 @@ import Foundation
 import RxSwift
 import MultipeerConnectivity
 
-// Helper class to let us create a list of weak objects
-class Weak<T: AnyObject> {
-  weak var value : T?
-  init (_ value: T) {
-    self.value = value
+public class MockIden : Equatable {
+
+  public let string: String
+  public var displayName: String { return string }
+
+  public init(_ string: String) {
+    self.string = string
   }
+
+  convenience public init(displayName: String) {
+    self.init(displayName)
+  }
+
 }
 
+public func ==(left: MockIden, right: MockIden) -> Bool {
+  return left.string == right.string
+}
 
 public class MockSession : Session {
 
@@ -34,6 +44,9 @@ public class MockSession : Session {
     self.sessions = []
   }
 
+  // Structure and initialization
+  //////////////////////////////////////////////////////////////////////////
+
   let _iden: I
   public var iden: I { return _iden }
 
@@ -48,7 +61,7 @@ public class MockSession : Session {
 
   // Connection concerns
   //////////////////////////////////////////////////////////////////////////
-  
+
   var _connections: [Weak<MockSession>] = [] {
     didSet {
       rx_connections.value = _connections
@@ -222,26 +235,4 @@ public class MockSession : Session {
     }
   }
 
-}
-
-public class MockIden : Equatable {
-
-  public let string: String
-
-  public var displayName: String {
-    return string
-  }
-
-  public init(_ string: String) {
-    self.string = string
-  }
-
-  convenience public init(displayName: String) {
-    self.init(displayName)
-  }
-
-}
-
-public func ==(left: MockIden, right: MockIden) -> Bool {
-  return left.string == right.string
 }
