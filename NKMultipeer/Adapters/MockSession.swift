@@ -2,6 +2,15 @@ import Foundation
 import RxSwift
 import MultipeerConnectivity
 
+// Helper class to let us create a list of weak objects
+class Weak<T: AnyObject> {
+  weak var value : T?
+  init (_ value: T) {
+    self.value = value
+  }
+}
+
+
 public class MockSession : Session {
 
   public typealias I = MockIden
@@ -39,9 +48,13 @@ public class MockSession : Session {
 
   // Connection concerns
   //////////////////////////////////////////////////////////////////////////
-
-  var _connections: [MockSession] = [] {
-    didSet { rx_connections.value = _connections.map { $0.iden } }
+  
+  var _connections: [Weak<MockSession>] = [] {
+    didSet {
+      rx_connections.value = _connections
+        .filter { $0.value != nil }
+        .map { $0.value!.iden }
+    }
   }
 
   var isAdvertising = false {
@@ -102,9 +115,7 @@ public class MockSession : Session {
     let otherm = MockSession.sessions.filter({ return $0.iden == peer }).first
     if let other = otherm {
       // Skip if already connected
-      if self._connections.filter({
-        $0.iden == other.iden
-      }).count > 0 { return }
+      if self._connections.filter({ $0.value?.iden == other.iden }).count > 0 { return }
 
       if other.isAdvertising {
         other.connectRequests.on(.Next(
@@ -113,8 +124,8 @@ public class MockSession : Session {
             { [weak self] (response: Bool) in
               if !response { return }
               if let this = self {
-                this._connections.append(other)
-                other._connections.append(this)
+                this._connections.append(Weak(other))
+                other._connections.append(Weak(this))
                 this.rx_connectedPeer.on(.Next(other.iden))
                 other.rx_connectedPeer.on(.Next(this.iden))
               }
@@ -128,7 +139,7 @@ public class MockSession : Session {
     MockSession.sessions = MockSession.sessions.filter { $0.iden != self.iden }
     for session in MockSession.sessions {
       let old = session._connections
-      session._connections = session._connections.filter { $0.iden != self.iden }
+      session._connections = session._connections.filter { $0.value?.iden != self.iden }
       if old.count > session._connections.count {
         session.rx_disconnectedPeer.on(.Next(self.iden))
       }
@@ -157,7 +168,7 @@ public class MockSession : Session {
   //////////////////////////////////////////////////////////////////////////
 
   func isConnected(other: MockSession) -> Bool {
-    return _connections.filter({ $0.iden == other.iden }).first != nil
+    return _connections.filter({ $0.value?.iden == other.iden }).first != nil
   }
 
   public func send
