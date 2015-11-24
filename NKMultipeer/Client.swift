@@ -196,7 +196,7 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
    onProgress pcb: (NSProgress) -> () = { _ in },
    onComplete cb: () -> ()) {
     send(other, name: name, url: url, mode)
-    .doOn(next: pcb)
+    .doOn(onNext: pcb)
     .subscribeCompleted(cb)
     .addDisposableTo(disposeBag)
   }
