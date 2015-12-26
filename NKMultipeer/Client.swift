@@ -2,16 +2,20 @@ import Foundation
 import MultipeerConnectivity
 import RxSwift
 
+public protocol ClientType {
+  typealias IdenType: Equatable
+  var iden: IdenType { get }
+}
+
 // It will work with any underlying object as long as they conform to the
 // `Session` protocol.
 public class Client<I: Equatable> {
+  public typealias IdenType = I
+  public let iden: IdenType
 
-  public let iden: I
-
-  public init(iden: I) {
+  public init(iden: IdenType) {
     self.iden = iden
   }
-
 }
 
 public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> {
