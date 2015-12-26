@@ -176,7 +176,7 @@ public class MultipeerConnectivitySession : NSObject, Session {
         }
       }
 
-      let progressDisposable = progress?.rx_observe("fractionCompleted", retainSelf: false)
+      let progressDisposable = progress?.rx_observe(Double.self, "fractionCompleted", retainSelf: false)
         .subscribeNext { (_: Double?) in observer.on(.Next(progress!)) }
 
       return CompositeDisposable(
