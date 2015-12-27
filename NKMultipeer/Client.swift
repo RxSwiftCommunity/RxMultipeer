@@ -9,7 +9,7 @@ public protocol ClientType {
 
 // It will work with any underlying object as long as they conform to the
 // `Session` protocol.
-public class Client<I: Equatable> {
+public class Client<I: Equatable> : ClientType {
   public typealias IdenType = I
   public let iden: IdenType
 
