@@ -18,4 +18,5 @@ Pod::Spec.new do |s|
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'MultipeerConnectivity'
   s.dependency 'RxSwift', '~> 2.0.0-beta.4'
+  s.dependency 'RxCocoa', '~> 2.0.0-beta.4'
 end
