@@ -58,7 +58,7 @@ public class IntegrationSpec : QuickSpec {
 
         it("alters connections when clients connect") {
           waitUntil { done in
-            combineLatest(
+            Observable.combineLatest(
               clientone.connections(),
               clienttwo.connections()) { $0.count + $1.count }
             .subscribeNext { if $0 == 2 { done() } }
@@ -83,7 +83,7 @@ public class IntegrationSpec : QuickSpec {
 
           it("allows client two to disconnect") {
             waitUntil { done in
-              combineLatest(
+              Observable.combineLatest(
                 clientone.disconnectedPeer(),
                 clientone.connections()) { ($0, $1) }
               .take(1)

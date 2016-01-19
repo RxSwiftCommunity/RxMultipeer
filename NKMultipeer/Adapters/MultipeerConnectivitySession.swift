@@ -149,7 +149,7 @@ public class MultipeerConnectivitySession : NSObject, Session {
   public func send(other: MCPeerID,
                    _ data: NSData,
                    _ mode: MCSessionSendDataMode) -> Observable<()> {
-    return create { observer in
+    return Observable.create { observer in
       do {
         try self._session.sendData(data, toPeers: [other], withMode: mode)
         observer.on(.Next(()))
@@ -168,7 +168,7 @@ public class MultipeerConnectivitySession : NSObject, Session {
                    name: String,
                    url: NSURL,
                    _ mode: MCSessionSendDataMode) -> Observable<NSProgress> {
-    return create { observer in
+    return Observable.create { observer in
       let progress = self._session.sendResourceAtURL(url, withName: name, toPeer: other) { (err) in
         if let e = err { observer.on(.Error(e)) }
         else {

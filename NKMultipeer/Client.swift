@@ -169,7 +169,7 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
         json, options: NSJSONWritingOptions())
       return send(other, data, mode)
     } catch let error as NSError {
-      return failWith(error)
+      return Observable.error(error)
     }
   }
 
@@ -224,11 +224,11 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
         let json = try NSJSONSerialization.JSONObjectWithData(
           data, options: NSJSONReadingOptions())
         if let j = json as? [String: AnyObject] {
-          return just((client, j))
+          return Observable.just((client, j))
         }
-        return never()
+        return Observable.never()
       } catch let error {
-        return failWith(error)
+        return Observable.error(error)
       }
     }
     .merge()

@@ -91,8 +91,9 @@ public class MockSession : Session {
 
   public func nearbyPeers() -> Observable<[(I, [String: String]?)]> {
     return MockSession.advertisingSessions
-           .filter { _ in self.isBrowsing }
-           .map { $0.map { ($0.iden, $0.meta) } }
+      .asObservable()
+      .filter { _ in self.isBrowsing }
+      .map { $0.map { ($0.iden, $0.meta) } }
   }
 
   public func incomingConnections() -> Observable<(I, [String: AnyObject]?, (Bool) -> ())> {
@@ -180,7 +181,7 @@ public class MockSession : Session {
    _ data: NSData,
    _ mode: MCSessionSendDataMode)
   -> Observable<()> {
-    return create { [unowned self] observer in
+    return Observable.create { [unowned self] observer in
       if let otherSession = MockSession.findForClient(other) {
         // Can't send if not connected
         if !self.isConnected(otherSession) {
@@ -204,7 +205,7 @@ public class MockSession : Session {
    url: NSURL,
    _ mode: MCSessionSendDataMode)
   -> Observable<(NSProgress)> {
-    return create { [unowned self] observer in
+    return Observable.create { [unowned self] observer in
       if let otherSession = MockSession.findForClient(other) {
         // Can't send if not connected
         if !self.isConnected(otherSession) {
