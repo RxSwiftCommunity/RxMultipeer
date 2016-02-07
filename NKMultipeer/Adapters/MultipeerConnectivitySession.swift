@@ -75,10 +75,6 @@ public class MultipeerConnectivitySession : NSObject, Session {
     advertiser.stopAdvertisingPeer()
   }
 
-  var _nearbyPeers: [(MCPeerID, [String: String]?)] = [] {
-    didSet { rx_nearbyPeers.value = _nearbyPeers }
-  }
-
   let rx_connections = Variable<[MCPeerID]>([])
 
   public func connections() -> Observable<[MCPeerID]> {
@@ -228,18 +224,18 @@ extension MultipeerConnectivitySession : MCNearbyServiceBrowserDelegate {
                       withDiscoveryInfo info: [String: String]?) {
     // Get a unique list of peers
     var result: [(MCPeerID, [String: String]?)] = []
-    for o in (self._nearbyPeers + [(peerId, info)]) {
+    for o in (self.rx_nearbyPeers.value + [(peerId, info)]) {
       if (result.map { $0.0 }).indexOf(o.0) == nil {
         result = result + [o]
       }
     }
 
-    self._nearbyPeers = result
+    self.rx_nearbyPeers.value = result
   }
 
   public func browser(browser: MCNearbyServiceBrowser,
                       lostPeer peerId: MCPeerID) {
-    self._nearbyPeers = self._nearbyPeers.filter { (id, _) in
+    self.rx_nearbyPeers.value = self.rx_nearbyPeers.value.filter { (id, _) in
       id != peerId
     }
   }
@@ -297,6 +293,7 @@ extension MultipeerConnectivitySession : MCSessionDelegate {
                       fromPeer peerID: MCPeerID) {
     // No stream support yet - what's the best way to do streams
     // in Rx? Wrap them in Observables? hmmm
+
   }
 
 }
