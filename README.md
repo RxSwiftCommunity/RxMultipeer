@@ -10,9 +10,6 @@ your own adapters for different protocols.
 Please note that NKMultipeer makes heavy use of [RxSwift][RxSwift] which you should read up on if unfamiliar with Rx\*
 libraries. The mantra for this library: **everything is a stream**.
 
-_Using RxSwift is ultimately **optional**_ because the interface provides non-rx alternatives for every single method, however
-I strongly encouraged checking out _RxSwift_ if you want to get into reactive programming.
-
 ## Installation
 
 ### Carthage
@@ -79,9 +76,6 @@ client.incomingConnections()
   respond(true)
 }
 .addDisposableTo(disposeBag)
-
-// OR, Using vanilla callbacks:
-client.incomingConnections() { (c, context, respond) in respond(true)}
 ```
 
 ##### Browse for and connect to peers:
@@ -99,13 +93,6 @@ client.nearbyPeers()
   // `client.connectedPeer()`
 }
 .addDisposableTo(disposeBag)
-
-// OR, Using vanilla callbacks:
-client.nearbyPeers() { (clients: [(Client<I>, [String: String]?)]) in
-  for c in clients {
-    client.connect(c, context: ["Name": "John"], timeout: 12)
-  }
-}
 ```
 
 ##### Sending messages:
@@ -124,10 +111,6 @@ let sendToOther = other
 sendToOther
 .subscribeCompleted { println("a message was sent") }
 .addDisposableTo(disposeBag)
-
-// OR, Using vanilla callbacks:
-let other: Client<I> = ???
-client.send(other, "Hello!") { println("message was sent") }
 ```
 
 ##### Receiving messages:
@@ -139,11 +122,6 @@ client.receive()
   println("got message \(s), from client \(o)")
 }
 .addDisposableTo(disposeBag)
-
-// OR, Using vanilla callbacks:
-client.receive() { (o: Client<I>, s: String) in
-  println("got message \(s), from client \(o)")
-}
 ```
 
 ##### Support for sending/receiving
