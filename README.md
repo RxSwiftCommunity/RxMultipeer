@@ -208,7 +208,7 @@ func receive() -> Observable<(Client, String, ResourceState)>
 
 ```swift
 func send(other: Client, streamName: String, runLoop: NSRunLoop = NSRunLoop.mainRunLoop()) -> Observable<([UInt8]) -> Void>
-func receive() -> Observable<(Client, String, NSURL)>
+func receive(other: Client, streamName: String, runLoop: NSRunLoop = NSRunLoop.mainRunLoop(), maxLength: Int = 512) -> Observable<[UInt8]>
 ```
 
 ## Testing
