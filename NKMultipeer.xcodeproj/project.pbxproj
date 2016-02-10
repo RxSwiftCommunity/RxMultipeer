@@ -28,11 +28,12 @@
 		D82568571C69498C005ADB0F /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
 		D82568581C69498C005ADB0F /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA411BB1BA1000BEB501 /* RxSwift.framework */; };
 		D8327BD41BD08FE9009BC6FB /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8327BD31BD08FE9009BC6FB /* Weak.swift */; };
+		D86675A21C6B3F1D005A9A72 /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86675A01C6B3E10005A9A72 /* RxBlocking.framework */; };
+		D86675A51C6B40FD005A9A72 /* Data.txt in Resources */ = {isa = PBXBuildFile; fileRef = D86675A41C6B40FD005A9A72 /* Data.txt */; };
 		D88C85F71B6F2B1700CF42CF /* NKMultipeer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C85EB1B6F2B1700CF42CF /* NKMultipeer.framework */; };
 		D88C86081B6F2D9000CF42CF /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */; };
 		D88C860A1B6F307700CF42CF /* IntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86091B6F307700CF42CF /* IntegrationSpec.swift */; };
 		D88C860C1B6F308600CF42CF /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C860B1B6F308600CF42CF /* Client.swift */; };
-		D88C860F1B6F42F400CF42CF /* Data.txt in Resources */ = {isa = PBXBuildFile; fileRef = D88C860E1B6F42F400CF42CF /* Data.txt */; };
 		D88C86131B6F4F3700CF42CF /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86111B6F4F3700CF42CF /* Session.swift */; };
 		D88C86161B7060E000CF42CF /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86151B7060E000CF42CF /* MockSession.swift */; };
 /* End PBXBuildFile section */
@@ -89,6 +90,8 @@
 		D8236D5D1B71EA7800EF5DE6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D8236D601B71EA7800EF5DE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		D8327BD31BD08FE9009BC6FB /* Weak.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weak.swift; sourceTree = "<group>"; };
+		D86675A01C6B3E10005A9A72 /* RxBlocking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBlocking.framework; path = Carthage/Build/iOS/RxBlocking.framework; sourceTree = "<group>"; };
+		D86675A41C6B40FD005A9A72 /* Data.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Data.txt; sourceTree = "<group>"; };
 		D88C85EB1B6F2B1700CF42CF /* NKMultipeer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NKMultipeer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D88C85EF1B6F2B1700CF42CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D88C85F61B6F2B1700CF42CF /* NKMultipeerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NKMultipeerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,7 +99,6 @@
 		D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
 		D88C86091B6F307700CF42CF /* IntegrationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegrationSpec.swift; sourceTree = "<group>"; };
 		D88C860B1B6F308600CF42CF /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
-		D88C860E1B6F42F400CF42CF /* Data.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Data.txt; sourceTree = "<group>"; };
 		D88C86111B6F4F3700CF42CF /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		D88C86151B7060E000CF42CF /* MockSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -129,6 +131,7 @@
 				D813DA491BB1BADE00BEB501 /* Nimble.framework in Frameworks */,
 				D813DA4A1BB1BADE00BEB501 /* Quick.framework in Frameworks */,
 				D813DA451BB1BADE00BEB501 /* RxCocoa.framework in Frameworks */,
+				D86675A21C6B3F1D005A9A72 /* RxBlocking.framework in Frameworks */,
 				D813DA461BB1BADE00BEB501 /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,6 +142,7 @@
 		6A362B832317E525259BEBB4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D86675A01C6B3E10005A9A72 /* RxBlocking.framework */,
 				D813DA471BB1BADE00BEB501 /* Nimble.framework */,
 				D813DA481BB1BADE00BEB501 /* Quick.framework */,
 				D813DA401BB1BA1000BEB501 /* RxCocoa.framework */,
@@ -153,12 +157,12 @@
 		D8236D531B71EA7800EF5DE6 /* NKMultipeer Example */ = {
 			isa = PBXGroup;
 			children = (
+				D8236D541B71EA7800EF5DE6 /* Supporting Files */,
 				D8236D561B71EA7800EF5DE6 /* AppDelegate.swift */,
-				D8236D581B71EA7800EF5DE6 /* ViewController.swift */,
-				D8236D5A1B71EA7800EF5DE6 /* Main.storyboard */,
 				D8236D5D1B71EA7800EF5DE6 /* Images.xcassets */,
 				D8236D5F1B71EA7800EF5DE6 /* LaunchScreen.xib */,
-				D8236D541B71EA7800EF5DE6 /* Supporting Files */,
+				D8236D5A1B71EA7800EF5DE6 /* Main.storyboard */,
+				D8236D581B71EA7800EF5DE6 /* ViewController.swift */,
 			);
 			path = "NKMultipeer Example";
 			sourceTree = "<group>";
@@ -168,17 +172,25 @@
 			children = (
 				D8236D551B71EA7800EF5DE6 /* Info.plist */,
 			);
-			name = "Supporting Files";
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D86675A31C6B40FD005A9A72 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				D86675A41C6B40FD005A9A72 /* Data.txt */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 		D88C85E11B6F2B1700CF42CF = {
 			isa = PBXGroup;
 			children = (
-				D88C85ED1B6F2B1700CF42CF /* NKMultipeer */,
-				D88C85FA1B6F2B1700CF42CF /* NKMultipeerTests */,
-				D8236D531B71EA7800EF5DE6 /* NKMultipeer Example */,
-				D88C85EC1B6F2B1700CF42CF /* Products */,
 				6A362B832317E525259BEBB4 /* Frameworks */,
+				D88C85ED1B6F2B1700CF42CF /* NKMultipeer */,
+				D8236D531B71EA7800EF5DE6 /* NKMultipeer Example */,
+				D88C85FA1B6F2B1700CF42CF /* NKMultipeerTests */,
+				D88C85EC1B6F2B1700CF42CF /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -195,13 +207,13 @@
 		D88C85ED1B6F2B1700CF42CF /* NKMultipeer */ = {
 			isa = PBXGroup;
 			children = (
-				D8327BD31BD08FE9009BC6FB /* Weak.swift */,
+				D88C86141B7060E000CF42CF /* Adapters */,
+				D88C85EE1B6F2B1700CF42CF /* Supporting Files */,
+				D88C860B1B6F308600CF42CF /* Client.swift */,
 				D80EC2F31BBF372B006BF124 /* NKMultipeerError.swift */,
 				D8236D481B71A9EB00EF5DE6 /* ResourceState.swift */,
-				D88C86141B7060E000CF42CF /* Adapters */,
 				D88C86111B6F4F3700CF42CF /* Session.swift */,
-				D88C860B1B6F308600CF42CF /* Client.swift */,
-				D88C85EE1B6F2B1700CF42CF /* Supporting Files */,
+				D8327BD31BD08FE9009BC6FB /* Weak.swift */,
 			);
 			path = NKMultipeer;
 			sourceTree = "<group>";
@@ -211,15 +223,15 @@
 			children = (
 				D88C85EF1B6F2B1700CF42CF /* Info.plist */,
 			);
-			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		D88C85FA1B6F2B1700CF42CF /* NKMultipeerTests */ = {
 			isa = PBXGroup;
 			children = (
-				D88C860D1B6F42F400CF42CF /* Fixtures */,
-				D88C86091B6F307700CF42CF /* IntegrationSpec.swift */,
+				D86675A31C6B40FD005A9A72 /* Fixtures */,
 				D88C85FB1B6F2B1700CF42CF /* Supporting Files */,
+				D88C86091B6F307700CF42CF /* IntegrationSpec.swift */,
 			);
 			path = NKMultipeerTests;
 			sourceTree = "<group>";
@@ -229,22 +241,14 @@
 			children = (
 				D88C85FC1B6F2B1700CF42CF /* Info.plist */,
 			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		D88C860D1B6F42F400CF42CF /* Fixtures */ = {
-			isa = PBXGroup;
-			children = (
-				D88C860E1B6F42F400CF42CF /* Data.txt */,
-			);
-			path = Fixtures;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		D88C86141B7060E000CF42CF /* Adapters */ = {
 			isa = PBXGroup;
 			children = (
-				D8236D4C1B71DE4400EF5DE6 /* MultipeerConnectivitySession.swift */,
 				D88C86151B7060E000CF42CF /* MockSession.swift */,
+				D8236D4C1B71DE4400EF5DE6 /* MultipeerConnectivitySession.swift */,
 			);
 			path = Adapters;
 			sourceTree = "<group>";
@@ -307,7 +311,7 @@
 				D88C85F21B6F2B1700CF42CF /* Sources */,
 				D88C85F31B6F2B1700CF42CF /* Frameworks */,
 				D88C85F41B6F2B1700CF42CF /* Resources */,
-				D813DA4B1BB1BBC300BEB501 /* ShellScript */,
+				D813DA4B1BB1BBC300BEB501 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -383,14 +387,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D88C860F1B6F42F400CF42CF /* Data.txt in Resources */,
+				D86675A51C6B40FD005A9A72 /* Data.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		D813DA4B1BB1BBC300BEB501 /* ShellScript */ = {
+		D813DA4B1BB1BBC300BEB501 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -400,7 +404,9 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Nimble.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxBlocking.framework",
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,6 +486,7 @@
 				D8236D5B1B71EA7800EF5DE6 /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 		D8236D5F1B71EA7800EF5DE6 /* LaunchScreen.xib */ = {
@@ -488,6 +495,7 @@
 				D8236D601B71EA7800EF5DE6 /* Base */,
 			);
 			name = LaunchScreen.xib;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -505,7 +513,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "NKMultipeer Example/Info.plist";
+				INFOPLIST_FILE = "NKMultipeer Example/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -520,7 +528,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = "NKMultipeer Example/Info.plist";
+				INFOPLIST_FILE = "NKMultipeer Example/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -628,7 +636,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = NKMultipeer/Info.plist;
+				INFOPLIST_FILE = "NKMultipeer/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";
@@ -648,7 +656,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = NKMultipeer/Info.plist;
+				INFOPLIST_FILE = "NKMultipeer/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";
@@ -669,7 +677,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = NKMultipeerTests/Info.plist;
+				INFOPLIST_FILE = "NKMultipeerTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -684,7 +692,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = NKMultipeerTests/Info.plist;
+				INFOPLIST_FILE = "NKMultipeerTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
