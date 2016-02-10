@@ -126,6 +126,14 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
     return session.send(other.iden, name: name, url: url, mode)
   }
 
+  public func send(other: Client<I>,
+                   streamName: String,
+                   runLoop: NSRunLoop = NSRunLoop.mainRunLoop())
+                   -> Observable<([UInt8]) -> Void> {
+    return session.send(other.iden,
+                        streamName: streamName,
+                        runLoop: runLoop)
+  }
 
   // Receiving data
 
@@ -167,6 +175,16 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
     .map { (Client(iden: $0), $1, $2.fromFinished()!) }
   }
 
+  public func receive(other: Client<I>,
+                      streamName: String,
+                      runLoop: NSRunLoop = NSRunLoop.mainRunLoop(),
+                      maxLength: Int = 512)
+                      -> Observable<[UInt8]> {
+    return session.receive(other.iden,
+                           streamName: streamName,
+                           runLoop: runLoop,
+                           maxLength: maxLength)
+  }
 
   deinit {
     self.disconnect()

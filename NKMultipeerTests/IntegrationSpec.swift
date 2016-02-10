@@ -156,6 +156,47 @@ public class IntegrationSpec : QuickSpec {
             }
           }
 
+          it("lets clients send streams of bytes to each other") {
+            waitUntil { done in
+              clienttwo.receive(clientone, streamName: "hello")
+                .take(1)
+                .subscribeNext { data in
+                  expect(data).to(equal([0b00110011, 0b11111111]))
+                  done()
+                }
+                .addDisposableTo(disposeBag)
+
+              let data: Observable<[UInt8]> = Observable.of(
+                [0b00110011, 0b11111111],
+                [0b00000000, 0b00000001])
+
+              Observable.zip(clientone.send(clienttwo, streamName: "hello"), data) { $0 }
+                .subscribeNext { (fetcher, data) in fetcher(data) }
+                .addDisposableTo(disposeBag)
+            }
+          }
+
+          it("limits stream reads to the `maxLength` passed in") {
+            waitUntil { done in
+              clienttwo.receive(clientone, streamName: "hello")
+                .take(2)
+                .reduce([], accumulator: { $0 + [$1] })
+                .subscribeNext { data in
+                  expect(data[0].count).to(equal(512))
+                  expect(data[1].count).to(equal(4))
+                  done()
+                }
+                .addDisposableTo(disposeBag)
+
+              let data = Observable.just([UInt8](count: 516, repeatedValue: 0x4D))
+
+              Observable.zip(clientone.send(clienttwo, streamName: "hello"), data) { $0 }
+                .subscribeNext { (fetcher, data) in fetcher(data) }
+                .addDisposableTo(disposeBag)
+            }
+
+          }
+
         }
 
       }

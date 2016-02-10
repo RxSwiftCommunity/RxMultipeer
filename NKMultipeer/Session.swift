@@ -32,21 +32,13 @@ public protocol Session {
 
   func receive() -> Observable<(I, NSData)>
   func receive() -> Observable<(I, String, ResourceState)>
+  func receive(other: I, streamName: String, runLoop: NSRunLoop, maxLength: Int) -> Observable<[UInt8]>
 
   // Data delivery concerns
   //////////////////////////////////////////////////////////////////////////
 
-  func send
-  (other: I,
-   _ data: NSData,
-   _ mode: MCSessionSendDataMode)
-  -> Observable<()>
-
-  func send
-  (other: I,
-   name: String,
-   url: NSURL,
-   _ mode: MCSessionSendDataMode)
-  -> Observable<NSProgress>
+  func send(other: I, _ data: NSData, _ mode: MCSessionSendDataMode) -> Observable<()>
+  func send(other: I, name: String, url: NSURL, _ mode: MCSessionSendDataMode) -> Observable<NSProgress>
+  func send(other: I, streamName: String, runLoop: NSRunLoop) -> Observable<([UInt8]) -> Void>
 
 }

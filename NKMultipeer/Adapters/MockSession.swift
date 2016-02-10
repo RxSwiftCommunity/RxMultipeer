@@ -160,6 +160,7 @@ public class MockSession : Session {
 
   let rx_receivedData = PublishSubject<(I, NSData)>()
   let rx_receivedResources = PublishSubject<(I, String, ResourceState)>()
+  let rx_receivedStreamData = PublishSubject<(I, String, [UInt8])>()
 
   public func receive() -> Observable<(I, NSData)> {
     return rx_receivedData
@@ -167,6 +168,23 @@ public class MockSession : Session {
 
   public func receive() -> Observable<(I, String, ResourceState)> {
     return rx_receivedResources
+  }
+
+  public func receive(other: I,
+                      streamName: String,
+                      runLoop _: NSRunLoop = NSRunLoop.mainRunLoop(),
+                      maxLength: Int = 512)
+                      -> Observable<[UInt8]> {
+    return rx_receivedStreamData
+      .filter { (c, n, d) in c == other && n == streamName }
+      .map { $2 }
+      // need to convert to max `maxLength` sizes
+      .map({ data in
+             0.stride(to: data.count, by: maxLength)
+               .map({ Array(data[$0..<$0.advancedBy(maxLength, limit: data.count)]) })
+               .toObservable()
+           })
+           .concat()
   }
 
   // Data delivery concerns
@@ -224,6 +242,39 @@ public class MockSession : Session {
       }
 
       return AnonymousDisposable {}
+    }
+  }
+
+  public func send
+  (other: I,
+   streamName name: String,
+   runLoop: NSRunLoop = NSRunLoop.mainRunLoop())
+   -> Observable<([UInt8]) -> Void> {
+
+    return Observable.create { [unowned self] observer in
+
+      var handler: ([UInt8]) -> Void = { _ in }
+
+      if let otherSession = MockSession.findForClient(other) {
+        handler = { d in
+          otherSession.rx_receivedStreamData.on(.Next(self.iden, name, d))
+          observer.on(.Next(handler))
+        }
+
+        if self.isConnected(otherSession) {
+          observer.on(.Next(handler))
+        } else {
+          observer.on(.Error(NKMultipeerError.ConnectionError))
+        }
+      } else {
+        observer.on(.Error(NKMultipeerError.ConnectionError))
+      }
+
+      return AnonymousDisposable {
+        print("DISPOSING")
+        handler = { _ in }
+      }
+
     }
   }
 
