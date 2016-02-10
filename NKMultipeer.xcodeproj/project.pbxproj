@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D80EC2F41BBF372B006BF124 /* NKMultipeerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80EC2F31BBF372B006BF124 /* NKMultipeerError.swift */; settings = {ASSET_TAGS = (); }; };
+		D80EC2F41BBF372B006BF124 /* NKMultipeerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80EC2F31BBF372B006BF124 /* NKMultipeerError.swift */; };
 		D813DA421BB1BA1000BEB501 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
 		D813DA431BB1BA1000BEB501 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA411BB1BA1000BEB501 /* RxSwift.framework */; };
 		D813DA451BB1BADE00BEB501 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
@@ -25,7 +25,9 @@
 		D8236D5C1B71EA7800EF5DE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5A1B71EA7800EF5DE6 /* Main.storyboard */; };
 		D8236D5E1B71EA7800EF5DE6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5D1B71EA7800EF5DE6 /* Images.xcassets */; };
 		D8236D611B71EA7800EF5DE6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5F1B71EA7800EF5DE6 /* LaunchScreen.xib */; };
-		D8327BD41BD08FE9009BC6FB /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8327BD31BD08FE9009BC6FB /* Weak.swift */; settings = {ASSET_TAGS = (); }; };
+		D82568571C69498C005ADB0F /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
+		D82568581C69498C005ADB0F /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA411BB1BA1000BEB501 /* RxSwift.framework */; };
+		D8327BD41BD08FE9009BC6FB /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8327BD31BD08FE9009BC6FB /* Weak.swift */; };
 		D88C85F71B6F2B1700CF42CF /* NKMultipeer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C85EB1B6F2B1700CF42CF /* NKMultipeer.framework */; };
 		D88C86081B6F2D9000CF42CF /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */; };
 		D88C860A1B6F307700CF42CF /* IntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86091B6F307700CF42CF /* IntegrationSpec.swift */; };
@@ -36,6 +38,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		D825685B1C69506C005ADB0F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D88C85E21B6F2B1700CF42CF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D88C85EA1B6F2B1700CF42CF;
+			remoteInfo = NKMultipeer;
+		};
 		D88C85F81B6F2B1700CF42CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D88C85E21B6F2B1700CF42CF /* Project object */;
@@ -97,6 +106,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D82568571C69498C005ADB0F /* RxCocoa.framework in Frameworks */,
+				D82568581C69498C005ADB0F /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,10 +269,12 @@
 				D8236D4E1B71EA7800EF5DE6 /* Sources */,
 				D8236D4F1B71EA7800EF5DE6 /* Frameworks */,
 				D8236D501B71EA7800EF5DE6 /* Resources */,
+				D825685A1C6949DA005ADB0F /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D825685C1C69506C005ADB0F /* PBXTargetDependency */,
 			);
 			name = "NKMultipeer Example";
 			productName = "NKMultipeer Example";
@@ -394,6 +407,23 @@
 			shellPath = "/usr/local/bin/carthage copy-frameworks";
 			shellScript = "";
 		};
+		D825685A1C6949DA005ADB0F /* Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
+				"$(BUILT_PRODUCTS_DIR)/NKMultipeer.framework",
+			);
+			name = "Copy Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -431,6 +461,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D825685C1C69506C005ADB0F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D88C85EA1B6F2B1700CF42CF /* NKMultipeer */;
+			targetProxy = D825685B1C69506C005ADB0F /* PBXContainerItemProxy */;
+		};
 		D88C85F91B6F2B1700CF42CF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D88C85EA1B6F2B1700CF42CF /* NKMultipeer */;
@@ -462,6 +497,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -477,6 +516,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "NKMultipeer Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";

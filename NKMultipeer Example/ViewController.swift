@@ -19,6 +19,7 @@ class ViewController: UIViewController {
   @IBOutlet weak var advertiseButton: UIButton!
   @IBOutlet weak var browseButton: UIButton!
   @IBOutlet weak var yoButton: UIButton!
+  @IBOutlet weak var outputButton: UIButton!
   @IBOutlet weak var disconnectButton: UIButton!
 
   var disposeBag = DisposeBag()
@@ -34,6 +35,8 @@ class ViewController: UIViewController {
                  displayName: name,
                  serviceType: "multipeerex",
                  encryptionPreference: .None))
+
+    let other = client.connectedPeer().shareReplay(1)
 
     advertiseButton.rx_tap
     .subscribeNext {
@@ -58,9 +61,9 @@ class ViewController: UIViewController {
     }
     .addDisposableTo(disposeBag)
 
-    client.connections()
-    .sampleLatest(yoButton.rx_tap)
-    .map { (cs: [Client<I>]) -> Observable<Client<I>> in cs.map { just($0) }.concat() }
+    yoButton.rx_tap
+    .withLatestFrom(client.connections())
+    .map { (cs: [Client<I>]) -> Observable<Client<I>> in cs.map { Observable.just($0) }.concat() }
     .merge()
     .map { (c: Client<I>) -> Observable<()> in
       print("\(name): sending yo to \(c.iden)")
@@ -70,7 +73,7 @@ class ViewController: UIViewController {
     .subscribeNext { _ in }
     .addDisposableTo(disposeBag)
 
-    combineLatest(client.connections(),
+    Observable.combineLatest(client.connections(),
                   client.nearbyPeers()) { (connections, nearby) in
       return nearby.filter { (p, _) in
                connections.map { $0.iden }.indexOf(p.iden) == nil
@@ -91,7 +94,7 @@ class ViewController: UIViewController {
     .addDisposableTo(disposeBag)
 
     // Logging
-    client.connectedPeer()
+    other
     .subscribeNext { print("\(name): \($0.iden) successfully connected") }
     .addDisposableTo(disposeBag)
 
@@ -102,6 +105,26 @@ class ViewController: UIViewController {
     client.receive()
     .subscribeNext { (c, m: String) in print("\(name): received message '\(m)'") }
     .addDisposableTo(disposeBag)
+
+    let stream = other
+      .map { client.send($0, streamName: "hellothere") }
+      .debug()
+      .switchLatest()
+      .shareReplay(1)
+
+    outputButton.rx_tap
+      .doOn(onNext: { _ in print("Attempting to send stream output") })
+      .withLatestFrom(stream)
+      .subscribeNext { fetcher in fetcher([0x00, 0x89]) }
+      .addDisposableTo(disposeBag)
+
+    other.map { client.receive($0, streamName: "hellothere") }
+      .switchLatest()
+      .debug()
+      .subscribeNext { (d: [UInt8]) in
+        print("Received stream data: \(d)")
+      }
+      .addDisposableTo(disposeBag)
   }
 
   override func didReceiveMemoryWarning() {
