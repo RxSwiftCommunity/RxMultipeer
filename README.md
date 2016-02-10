@@ -176,10 +176,40 @@ let client = CurrentClient(session: MultipeerConnectivitySession(
 
 ## Supported transfer resource types
 
-* `String`: Yes, it's serialized into `NSData` internally
-* `NSData`: Yes
-* `NSURL`: Yes
-* `NSStream`: Yes
+#### String
+
+```swift
+func send(other: Client, _ string: String, _ mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
+func receive() -> Observable<(Client, String)>
+```
+
+#### NSData
+
+```swift
+func send(other: Client, _ data: NSData, _ mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
+func receive() -> Observable<(Client, NSData)>
+```
+
+#### JSON
+
+```swift
+func send(other: Client, _ json: [String: AnyObject], _ mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
+func receive() -> Observable<(Client, [String: AnyObject])>
+```
+
+#### NSURL
+
+```swift
+func send(other: Client, name: String, url: NSURL, _ mode: MCSessionSendDataMode = .Reliable) -> Observable<NSProgress>
+func receive() -> Observable<(Client, String, ResourceState)>
+```
+
+#### NSStream
+
+```swift
+func send(other: Client, streamName: String, runLoop: NSRunLoop = NSRunLoop.mainRunLoop()) -> Observable<([UInt8]) -> Void>
+func receive() -> Observable<(Client, String, NSURL)>
+```
 
 ## Testing
 
