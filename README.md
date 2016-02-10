@@ -1,4 +1,4 @@
-# A testable abstraction over multipeer connectivity
+# A testable, Rx* wrapper around MultipeerConnectivity
 
 Using the adapter pattern, we can test multipeer code with heavy mocking. In effect, we are trying to isolate all the
 untestable bits of `MultipeerConnectivity` into one library.
@@ -17,7 +17,7 @@ libraries. The mantra for this library: **everything is a stream**.
 Add this to your `Cartfile`
 
 ```
-github "nathankot/NKMultipeer" ~> 0.4.0
+github "nathankot/NKMultipeer" ~> 1.0.0
 ```
 
 ### Cocoapods
@@ -129,7 +129,7 @@ client.receive()
 * `String`: Yes, it's serialized into `NSData` internally
 * `NSData`: Yes
 * `NSURL`: Yes
-* `NSOutputStream` / `NSInputStream`: Not yet
+* `NSStream`: Yes
 
 ### Testing
 
