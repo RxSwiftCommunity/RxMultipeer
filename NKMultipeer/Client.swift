@@ -36,30 +36,12 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
       .map { $0.map { Client(iden: $0) } }
   }
 
-  public func connections(cb: ([Client<I>]) -> ()) {
-    connections()
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
-  }
-
   public func connectedPeer() -> Observable<Client<I>> {
     return session.connectedPeer().map { Client(iden: $0) }
   }
 
-  public func connectedPeer(cb: (Client<I>) -> ()) {
-    connectedPeer()
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
-  }
-
   public func disconnectedPeer() -> Observable<Client<I>> {
     return session.disconnectedPeer().map { Client(iden: $0) }
-  }
-
-  public func disconnectedPeer(cb: (Client<I>) -> ()) {
-    disconnectedPeer()
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
   }
 
   // Advertising and connecting
@@ -71,20 +53,8 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
     }
   }
 
-  public func incomingConnections(cb: ((Client<I>, [String: AnyObject]?, (Bool) -> ())) -> ()) {
-    incomingConnections()
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
-  }
-
   public func nearbyPeers() -> Observable<[(Client<I>, [String: String]?)]> {
     return session.nearbyPeers().map { $0.map { (Client(iden: $0), $1) } }
-  }
-
-  public func nearbyPeers(cb: ([(Client<I>, [String: String]?)]) -> ()) {
-    nearbyPeers()
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
   }
 
   public func startAdvertising() {
@@ -115,12 +85,6 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
     return session.connectionErrors()
   }
 
-  public func connectionErrors(cb: (NSError) -> ()) {
-    connectionErrors()
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
-  }
-
   // Sending Data
 
   public func send
@@ -133,30 +97,10 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
 
   public func send
   (other: Client<I>,
-   _ data: NSData,
-   _ mode: MCSessionSendDataMode = .Reliable,
-   onComplete cb: () -> ()) {
-    send(other, data, mode)
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
-  }
-
-  public func send
-  (other: Client<I>,
    _ string: String,
    _ mode: MCSessionSendDataMode = .Reliable)
   -> Observable<()> {
     return send(other, string.dataUsingEncoding(NSUTF8StringEncoding)!, mode)
-  }
-
-  public func send
-  (other: Client<I>,
-   _ string: String,
-   _ mode: MCSessionSendDataMode = .Reliable,
-   onComplete cb: () -> ()) {
-    send(other, string, mode)
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
   }
 
   public func send
@@ -175,16 +119,6 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
 
   public func send
   (other: Client<I>,
-   _ json: [String: AnyObject],
-   _ mode: MCSessionSendDataMode = .Reliable,
-   onComplete cb: () -> ()) {
-    send(other, json, mode)
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
-  }
-
-  public func send
-  (other: Client<I>,
    name: String,
    url: NSURL,
    _ mode: MCSessionSendDataMode = .Reliable)
@@ -192,29 +126,11 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
     return session.send(other.iden, name: name, url: url, mode)
   }
 
-  public func send
-  (other: Client<I>,
-   name: String,
-   url: NSURL,
-   _ mode: MCSessionSendDataMode = .Reliable,
-   onProgress pcb: (NSProgress) -> () = { _ in },
-   onComplete cb: () -> ()) {
-    send(other, name: name, url: url, mode)
-    .doOn(onNext: pcb)
-    .subscribeCompleted(cb)
-    .addDisposableTo(disposeBag)
-  }
 
   // Receiving data
 
   public func receive() -> Observable<(Client<I>, NSData)> {
     return session.receive().map { (Client(iden: $0), $1) }
-  }
-
-  public func receive(cb: (Client<I>, NSData) -> ()) {
-    receive()
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
   }
 
   public func receive() -> Observable<(Client<I>, [String: AnyObject])> {
@@ -234,12 +150,6 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
     .merge()
   }
 
-  public func receive(cb: (Client<I>, [String: AnyObject]) -> ()) {
-    receive()
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
-  }
-
   public func receive() -> Observable<(Client<I>, String)> {
     return session.receive()
     .map { (Client(iden: $0), NSString(data: $1, encoding: NSUTF8StringEncoding)) }
@@ -247,20 +157,8 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
     .map { ($0, String($1!)) }
   }
 
-  public func receive(cb: (Client<I>, String) -> ()) {
-    receive()
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
-  }
-
   public func receive() -> Observable<(Client<I>, String, ResourceState)> {
     return session.receive().map { (Client(iden: $0), $1, $2) }
-  }
-
-  public func receive(cb: (Client<I>, String, ResourceState) -> ()) {
-    receive()
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
   }
 
   public func receive() -> Observable<(Client<I>, String, NSURL)> {
@@ -269,11 +167,6 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
     .map { (Client(iden: $0), $1, $2.fromFinished()!) }
   }
 
-  public func receive(cb: (Client<I>, String, NSURL) -> ()) {
-    receive()
-    .subscribeNext(cb)
-    .addDisposableTo(disposeBag)
-  }
 
   deinit {
     self.disconnect()
