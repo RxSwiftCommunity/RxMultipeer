@@ -2,11 +2,15 @@ import Foundation
 import RxSwift
 import MultipeerConnectivity
 
-public class MockIden : Equatable {
+public class MockIden : Hashable {
 
   public let uid = NSProcessInfo.processInfo().globallyUniqueString
   public let string: String
   public var displayName: String { return string }
+
+  public var hashValue: Int {
+    return uid.hashValue
+  }
 
   public init(_ string: String) {
     self.string = string
@@ -64,8 +68,6 @@ public class MockSession : Session {
   //////////////////////////////////////////////////////////////////////////
 
   let rx_connections = Variable<[Weak<MockSession>]>([])
-  let rx_connectedPeer = PublishSubject<I>()
-  let rx_disconnectedPeer = PublishSubject<I>()
   let rx_connectRequests = PublishSubject<(I, [String: AnyObject]?, (Bool) -> ())>()
 
   var isAdvertising = false {
@@ -74,14 +76,6 @@ public class MockSession : Session {
 
   var isBrowsing = false {
     didSet { MockSession.digest() }
-  }
-
-  public func connectedPeer() -> Observable<I> {
-    return rx_connectedPeer
-  }
-
-  public func disconnectedPeer() -> Observable<I> {
-    return rx_disconnectedPeer
   }
 
   public func connections() -> Observable<[I]> {
@@ -132,8 +126,6 @@ public class MockSession : Session {
               if !response { return }
               self.rx_connections.value = self.rx_connections.value + [Weak(other)]
               other.rx_connections.value = other.rx_connections.value + [Weak(self)]
-              self.rx_connectedPeer.on(.Next(other.iden))
-              other.rx_connectedPeer.on(.Next(self.iden))
             }) as (I, [String: AnyObject]?, (Bool) -> ())))
       }
     }
@@ -143,10 +135,8 @@ public class MockSession : Session {
     self.rx_connections.value = []
     MockSession.sessions = MockSession.sessions.filter { $0.iden != self.iden }
     for session in MockSession.sessions {
-      let old = session.rx_connections.value
-      session.rx_connections.value = session.rx_connections.value.filter { $0.value?.iden != self.iden }
-      if old.count > session.rx_connections.value.count {
-        session.rx_disconnectedPeer.on(.Next(self.iden))
+      session.rx_connections.value = session.rx_connections.value.filter {
+        $0.value?.iden != self.iden
       }
     }
   }
@@ -271,7 +261,6 @@ public class MockSession : Session {
       }
 
       return AnonymousDisposable {
-        print("DISPOSING")
         handler = { _ in }
       }
 

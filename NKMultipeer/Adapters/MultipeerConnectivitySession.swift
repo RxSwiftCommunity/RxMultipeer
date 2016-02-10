@@ -15,8 +15,6 @@ public class MultipeerConnectivitySession : NSObject, Session {
   private let advertiser: MCNearbyServiceAdvertiser
   private let browser: MCNearbyServiceBrowser
 
-  private let _connectedPeer: PublishSubject<MCPeerID> = PublishSubject()
-  private let _disconnectedPeer: PublishSubject<MCPeerID> = PublishSubject()
   private let _incomingConnections: PublishSubject<(MCPeerID, [String: AnyObject]?, (Bool, MCSession) -> Void)> = PublishSubject()
   private let _connections = Variable<[MCPeerID]>([])
   private let _nearbyPeers: Variable<[(MCPeerID, [String: String]?)]> = Variable([])
@@ -53,14 +51,6 @@ public class MultipeerConnectivitySession : NSObject, Session {
     self.session.delegate = self
     self.advertiser.delegate = self
     self.browser.delegate = self
-  }
-
-  public func connectedPeer() -> Observable<MCPeerID> {
-    return _connectedPeer
-  }
-
-  public func disconnectedPeer() -> Observable<MCPeerID> {
-    return _disconnectedPeer
   }
 
   public func incomingConnections() -> Observable<(MCPeerID, [String: AnyObject]?, (Bool) -> ())> {
@@ -349,12 +339,6 @@ extension MultipeerConnectivitySession : MCSessionDelegate {
                       peer peerID: MCPeerID,
                       didChangeState state: MCSessionState) {
     _connections.value = session.connectedPeers
-    switch state {
-    case .Connected: _connectedPeer.on(.Next(peerID))
-    // Called for failed connections as well, but we'll allow for that.
-    case .NotConnected: _disconnectedPeer.on(.Next(peerID))
-    default: break
-    }
   }
 
   public func session(session: MCSession,

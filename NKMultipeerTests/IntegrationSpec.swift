@@ -68,6 +68,38 @@ public class IntegrationSpec : QuickSpec {
           }
         }
 
+        it("notifies connections") {
+          waitUntil { done in
+            Observable.zip(clientone.connectedPeer(), clienttwo.connectedPeer()) { $0 }
+              .take(1)
+              .subscribeNext { (two, one) in
+                expect(two.iden).to(equal(clienttwo.iden))
+                expect(one.iden).to(equal(clientone.iden))
+                done()
+              }
+              .addDisposableTo(disposeBag)
+
+            clientone.connect(clienttwo)
+          }
+        }
+
+        it("notifies disconnections") {
+          waitUntil { done in
+            clientone.connect(clienttwo)
+            Observable.zip(clientone.disconnectedPeer(), clienttwo.disconnectedPeer()) { $0 }
+              .take(1)
+              .subscribeNext { (two, one) in
+                expect(two.iden).to(equal(clienttwo.iden))
+                expect(one.iden).to(equal(clientone.iden))
+                done()
+              }
+              .addDisposableTo(disposeBag)
+
+            clientone.disconnect()
+          }
+        }
+
+
         describe("clients are connected") {
 
           beforeEach {
@@ -83,15 +115,13 @@ public class IntegrationSpec : QuickSpec {
 
           it("allows client two to disconnect") {
             waitUntil { done in
-              Observable.combineLatest(
-                clientone.disconnectedPeer(),
-                clientone.connections()) { ($0, $1) }
-              .take(1)
-              .subscribeNext { (_, connections) in
-                expect(connections.count).to(equal(0))
-                done()
-              }
-              .addDisposableTo(disposeBag)
+              clientone.connections()
+                .skip(1).take(1)
+                .subscribeNext { (connections) in
+                  expect(connections.count).to(equal(0))
+                  done()
+                }
+                .addDisposableTo(disposeBag)
 
               clienttwo.disconnect()
             }

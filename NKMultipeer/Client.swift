@@ -3,13 +3,13 @@ import MultipeerConnectivity
 import RxSwift
 
 public protocol ClientType {
-  typealias IdenType: Equatable
+  typealias IdenType: Hashable
   var iden: IdenType { get }
 }
 
 // It will work with any underlying object as long as they conform to the
 // `Session` protocol.
-public class Client<I: Equatable> : ClientType {
+public class Client<I where I: Hashable> : ClientType {
   public typealias IdenType = I
   public let iden: IdenType
 
@@ -18,7 +18,7 @@ public class Client<I: Equatable> : ClientType {
   }
 }
 
-public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> {
+public class CurrentClient<I: Hashable, S: Session where S.I == I> : Client<I> {
 
   // All state should be stored in the session
   public let session: S
@@ -37,11 +37,19 @@ public class CurrentClient<I: Equatable, S: Session where S.I == I> : Client<I> 
   }
 
   public func connectedPeer() -> Observable<Client<I>> {
-    return session.connectedPeer().map { Client(iden: $0) }
+    return session.connections()
+      .scan(([], [])) { (previousSet: ([I], [I]), current: [I]) in (previousSet.1, current) }
+      .map { (previous, current) in Array(Set(current).subtract(previous)) }
+      .map { $0.map(Client<I>.init).toObservable() }
+      .concat()
   }
 
   public func disconnectedPeer() -> Observable<Client<I>> {
-    return session.disconnectedPeer().map { Client(iden: $0) }
+    return session.connections()
+      .scan(([], [])) { (previousSet: ([I], [I]), current: [I]) in (previousSet.1, current) }
+      .map { (previous, current) in Array(Set(previous).subtract(current)) }
+      .map { $0.map(Client<I>.init).toObservable() }
+      .concat()
   }
 
   // Advertising and connecting

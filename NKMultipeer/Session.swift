@@ -14,8 +14,6 @@ public protocol Session {
   // Connection concerns
   //////////////////////////////////////////////////////////////////////////
 
-  func connectedPeer() -> Observable<I>
-  func disconnectedPeer() -> Observable<I>
   func incomingConnections() -> Observable<(I, [String: AnyObject]?, (Bool) -> ())>
   func connections() -> Observable<[I]>
   func nearbyPeers() -> Observable<[(I, [String: String]?)]>
