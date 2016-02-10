@@ -12,7 +12,7 @@ libraries. The mantra for this library: **everything is a stream**.
 
 ## Installation
 
-### Carthage
+#### Carthage
 
 Add this to your `Cartfile`
 
@@ -20,7 +20,7 @@ Add this to your `Cartfile`
 github "nathankot/NKMultipeer" ~> 1.0.0
 ```
 
-### Cocoapods
+#### Cocoapods
 
 ```
 use_frameworks!
@@ -31,24 +31,132 @@ pod "NKMultipeer"
 
 _For a working example check out the `NKMultipeer Example` folder._
 
-### Usage
+#### Advertise and accept nearby peers
 
-Examples here are _overly type annotated_ in order to give a clear idea of what's going on. For most cases, you can omit
-types found in blocks or even arguments altogether for more concise-looking code.
+```swift
+import RxSwift
+import RxCocoa
+import NKMultipeer
 
-##### Imports:
+let acceptButton: UIButton
+let client: CurrentClient<MCPeerID>
+
+client.startAdvertising()
+let connectionRequests = client.incomingConnections().shareReplay(1)
+
+acceptButton.rx_tap
+  .withLatestFrom(connectionRequests)
+  .subscribeNext { (peer, context, respond) in respond(true) }
+  .addDisposableTo(disposeBag)
+```
+
+#### Browse for and connect to peers
+
+```swift
+import RxSwift
+import NKMultipeer
+
+let client: CurrentClient<MCPeerID>
+
+client.startBrowsing()
+
+let nearbyPeers = client.nearbyPeers().shareReplay(1)
+
+// Attempt to connect to all peers
+nearbyPeers
+  .map { (peers: [Client<MCPeerID>]) in
+    peers.map { client.connect($0, context: ["Hello": "there"], timeout: 12) }.zip()
+  }
+  .subscribe()
+  .addDisposableTo(disposeBag)
+```
+
+#### Sending and receiving strings
+
+Sending them:
+
+```swift
+import RxSwift
+import RxCocoa
+import NKMultipeer
+
+let client: CurrentClient<MCPeerID>
+let peer: Observable<Client<MCPeerID>>
+let sendButton: UIButton
+
+sendButton.rx_tap
+  .withLatestFrom(peer)
+  .map { client.send(peer, "Hello!") }
+  .switchLatest()
+  .subscribeNext { _ in print("Message sent") }
+  .addDisposableTo(disposeBag)
+```
+
+And receiving them:
+
+```swift
+import RxSwift
+import NKMultipeer
+
+let client: CurrentClient<MCPeerID>
+
+client.receive()
+.subscribeNext { (peer: Client<MCPeerID>, message: String) in
+  print("got message \(message), from peer \(peer)")
+}
+.addDisposableTo(disposeBag)
+```
+
+#### Establishing a data stream
+
+RxSwift makes sending streaming data to a persistent connection with another
+peer very intuitive.
+
+The sender:
+
+```swift
+import RxSwift
+import NKMultipeer
+
+let client: CurrentClient<MCPeerID>
+let peer: Observable<Client<MCPeerID>>
+let queuedMessages: Observable<[UInt8]>
+
+let pipe = peer.map { client.send(peer, streamName: "data.stream") }
+pipe.withLatestFrom(queuedMessages) { $0 }
+  .subscribeNext { (sender, message) in sender(message) }
+  .addDisposableTo(disposeBag)
+```
+
+The receiver:
+
+```swift
+import RxSwift
+import NKMultipeer
+
+let client: CurrentClient<MCPeerID>
+let peer: Observable<Client<MCPeerID>>
+
+let incomingData = client.receive(peer, streamName: "data.stream").shareReplay(1)
+incomingData.subscribeNext { (data) in print(data) }
+  .addDisposableTo(disposeBag)
+```
+
+## Usage
+
+#### Imports
 
 ```swift
 import RxSwift
 import NKMultipeer
 ```
 
-#### Make a new build configuration for testing:
+#### Make a new build configuration for testing
 
 Your project comes with `Debug` and `Release` build configurations by default, we need to make a new one called
 `Testing`. [Please check here for step-by-step instructions][buildconfig].
 
-##### Setting up the client:
+#### Setting up the client
 
 ```swift
 // See the link above,
@@ -66,72 +174,14 @@ let client = CurrentClient(session: MultipeerConnectivitySession(
 #endif
 ```
 
-##### Advertise and accept nearby peers:
-
-```swift
-client.startAdvertising() // Allow other clients to try and connect
-client.incomingConnections()
-.subscribeNext { (c, context: [String: AnyObject]?, respond) in
-  // You can put response logic here
-  respond(true)
-}
-.addDisposableTo(disposeBag)
-```
-
-##### Browse for and connect to peers:
-
-```swift
-client.startBrowsing()
-client.nearbyPeers()
-// Here we are just flattening the stream
-.map { (clients: [Client<I>]) -> Observable<Client<I>> in from(clients) }
-.merge()
-.subscribeNext { (c: Client<I>, meta: [String: String]?) in
-  // Can conditionally connect to client here
-  client.connect(c, context: ["Name": "John"], timeout: 12)
-  // You can listen to newly connected peers using
-  // `client.connectedPeer()`
-}
-.addDisposableTo(disposeBag)
-```
-
-##### Sending messages:
-
-```swift
-// Assume we have an observable for a peer we're interested in
-let other: Observable<Client<I>> = ???
-
-// We can store the result of the send action in a variable
-let sendToOther = other
-.map { client.send(other, "Hello!") }
-.switchLatest()
-.shareReplay(1)
-
-// And declare we want to do something with each send result later on
-sendToOther
-.subscribeCompleted { println("a message was sent") }
-.addDisposableTo(disposeBag)
-```
-
-##### Receiving messages:
-
-
-```swift
-client.receive()
-.subscribeNext { (o: Client<I>, s: String) in
-  println("got message \(s), from client \(o)")
-}
-.addDisposableTo(disposeBag)
-```
-
-##### Support for sending/receiving
+## Supported transfer resource types
 
 * `String`: Yes, it's serialized into `NSData` internally
 * `NSData`: Yes
 * `NSURL`: Yes
 * `NSStream`: Yes
 
-### Testing
+## Testing
 
 When testing, use preprocesser macros to ensure that your code uses a `MockSession` instance instead of
 `MultipeerConnectivitySession` one. In order to achieve this you need to use preprocessor flags and swap out anywhere
@@ -170,9 +220,9 @@ otherclient.incomingConnections()
 
 // Respond to all messages with 'Roger'
 otherclient.receive()
-.map { (client: Client<MockIden>, string: String) in return otherclient.send(client, "Roger")}
+.map { (client: Client<MockIden>, string: String) in return otherclient.send(client, "Roger") }
 .concat()
-.subscribeNext { _ in println("Response sent") }
+.subscribeNext { _ in print("Response sent") }
 .addDisposableTo(disposeBag)
 ```
 
