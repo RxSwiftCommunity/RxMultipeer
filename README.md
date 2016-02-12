@@ -20,7 +20,7 @@ Add this to your `Cartfile`
 github "nathankot/NKMultipeer" ~> 1.0.0
 ```
 
-#### Cocoapods
+#### CocoaPods
 
 ```
 use_frameworks!
