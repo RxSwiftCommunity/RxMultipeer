@@ -118,6 +118,17 @@ public class MultipeerConnectivitySession : NSObject, Session {
 
   public func receive() -> Observable<(MCPeerID, String, ResourceState)> {
     return _receivedResource
+      .map { (p, n, s) -> Observable<(MCPeerID, String, ResourceState)> in
+        switch s {
+        case .Progress(let progress):
+          return progress
+            .rx_observe(Double.self, "fractionCompleted", retainSelf: false)
+            .map { _ in (p, n, s) }
+        default:
+          return Observable.just((p, n, s))
+        }
+      }
+      .merge()
   }
 
   public func receive(
