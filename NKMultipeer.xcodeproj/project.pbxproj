@@ -27,6 +27,7 @@
 		D8236D611B71EA7800EF5DE6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5F1B71EA7800EF5DE6 /* LaunchScreen.xib */; };
 		D82568571C69498C005ADB0F /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
 		D82568581C69498C005ADB0F /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA411BB1BA1000BEB501 /* RxSwift.framework */; };
+		D82E19E01C87F2040021194C /* NKMultipeer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D88C85EB1B6F2B1700CF42CF /* NKMultipeer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D8327BD41BD08FE9009BC6FB /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8327BD31BD08FE9009BC6FB /* Weak.swift */; };
 		D86675A21C6B3F1D005A9A72 /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86675A01C6B3E10005A9A72 /* RxBlocking.framework */; };
 		D86675A51C6B40FD005A9A72 /* Data.txt in Resources */ = {isa = PBXBuildFile; fileRef = D86675A41C6B40FD005A9A72 /* Data.txt */; };
@@ -69,6 +70,16 @@
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D82E19DF1C87F1F90021194C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D82E19E01C87F2040021194C /* NKMultipeer.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -274,6 +285,7 @@
 				D8236D4F1B71EA7800EF5DE6 /* Frameworks */,
 				D8236D501B71EA7800EF5DE6 /* Resources */,
 				D825685A1C6949DA005ADB0F /* Copy Frameworks */,
+				D82E19DF1C87F1F90021194C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -410,8 +422,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = "/usr/local/bin/carthage copy-frameworks";
-			shellScript = "";
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 		D825685A1C6949DA005ADB0F /* Copy Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -421,14 +433,13 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
-				"$(BUILT_PRODUCTS_DIR)/NKMultipeer.framework",
 			);
 			name = "Copy Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = "/usr/local/bin/carthage copy-frameworks";
-			shellScript = "";
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 /* End PBXShellScriptBuildPhase section */
 
