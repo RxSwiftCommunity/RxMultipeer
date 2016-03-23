@@ -6,7 +6,11 @@ import MultipeerConnectivity
 // We want a concise common interface for p2p related operations.
 public protocol Session {
 
+#if swift(>=2.2)
   associatedtype I
+#else
+  typealias I
+#endif
 
   var iden: I { get }
   var meta: [String: String]? { get }
