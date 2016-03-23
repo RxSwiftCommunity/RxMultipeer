@@ -3,7 +3,7 @@ import MultipeerConnectivity
 import RxSwift
 
 public protocol ClientType {
-  typealias IdenType: Hashable
+  associatedtype IdenType: Hashable
   var iden: IdenType { get }
 }
 

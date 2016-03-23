@@ -6,7 +6,7 @@ import MultipeerConnectivity
 // We want a concise common interface for p2p related operations.
 public protocol Session {
 
-  typealias I
+  associatedtype I
 
   var iden: I { get }
   var meta: [String: String]? { get }
