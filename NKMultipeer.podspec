@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "NKMultipeer"
-  s.version          = "1.0.3"
+  s.version          = "1.0.4"
   s.summary          = "A testable, Rx* wrapper around MultipeerConnectivity"
   s.homepage         = "https://github.com/nathankot/NKMultipeer"
   s.license          = 'MIT'
