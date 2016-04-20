@@ -32,6 +32,19 @@ public class IntegrationSpec : QuickSpec {
           .addDisposableTo(disposeBag)
         }
 
+        it("allows a client to find another even if browsing is begun before advertising") {
+          waitUntil { done in
+            clienttwo.stopAdvertising()
+            clienttwo.disconnect()
+            let clientthree = CurrentClient(session: MockSession(name: "two"))
+            clientone.startBrowsing()
+            defer { clientthree.startAdvertising() }
+            clientone.nearbyPeers()
+              .filter { $0.count > 0 }
+              .take(1).subscribeCompleted(done)
+          }
+        }
+
         it("allows client one to browse for client two") {
           waitUntil { done in
             clientone.startBrowsing()
@@ -98,7 +111,6 @@ public class IntegrationSpec : QuickSpec {
             clientone.disconnect()
           }
         }
-
 
         describe("clients are connected") {
 
