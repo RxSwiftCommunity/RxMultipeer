@@ -42,6 +42,7 @@ public class IntegrationSpec : QuickSpec {
             clientone.nearbyPeers()
               .filter { $0.count > 0 }
               .take(1).subscribeCompleted(done)
+              .addDisposableTo(disposeBag)
           }
         }
 
