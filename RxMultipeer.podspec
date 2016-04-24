@@ -3,10 +3,10 @@ Pod::Spec.new do |s|
   s.name             = "RxMultipeer"
   s.version          = "1.0.4"
   s.summary          = "A testable, Rx* wrapper around MultipeerConnectivity"
-  s.homepage         = "https://github.com/nathankot/RxMultipeer"
+  s.homepage         = "https://github.com/RxSwiftCommunity/RxMultipeer"
   s.license          = 'MIT'
   s.author           = { "Nathan Kot" => "nk@nathankot.com" }
-  s.source           = { :git => "https://github.com/nathankot/RxMultipeer.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/RxSwiftCommunity/RxMultipeer.git", :tag => s.version.to_s }
 
   s.platform     = :ios
   s.ios.deployment_target = "8.0"
