@@ -1,6 +1,6 @@
 # A testable RxSwift wrapper around MultipeerConnectivity
 
-RxMultipeer is a [RxSwift][RxSwift] wrapper for MultipeerConnevtivity.
+RxMultipeer is a [RxSwift][RxSwift] wrapper for MultipeerConnectivity.
 
 Using the adapter pattern, we can test multipeer code with heavy mocking. In effect, we are trying to isolate all the
 untestable bits of `MultipeerConnectivity` into one library.
