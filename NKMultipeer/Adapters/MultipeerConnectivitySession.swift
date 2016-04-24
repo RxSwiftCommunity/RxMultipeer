@@ -155,7 +155,7 @@ public class MultipeerConnectivitySession : NSObject, Session {
             }
 
             if event.contains(NSStreamEvent.ErrorOccurred) {
-              observer.on(.Error(stream.streamError ?? NKMultipeerError.UnknownError))
+              observer.on(.Error(stream.streamError ?? RxMultipeerError.UnknownError))
             }
 
             if event.contains(NSStreamEvent.EndEncountered) {
@@ -247,7 +247,7 @@ public class MultipeerConnectivitySession : NSObject, Session {
           }
 
           if event.contains(NSStreamEvent.ErrorOccurred) {
-            observer.on(.Error(stream.streamError ?? NKMultipeerError.UnknownError))
+            observer.on(.Error(stream.streamError ?? RxMultipeerError.UnknownError))
           }
 
           if event.contains(NSStreamEvent.EndEncountered) {

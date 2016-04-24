@@ -1,13 +1,13 @@
 //
 //  ViewController.swift
-//  NKMultipeer Example
+//  RxMultipeer Example
 //
 //  Created by Nathan Kot on 5/08/15.
 //  Copyright (c) 2015 Nathan Kot. All rights reserved.
 //
 
 import UIKit
-import NKMultipeer
+import RxMultipeer
 import MultipeerConnectivity
 import RxSwift
 import RxCocoa

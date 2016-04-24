@@ -1,6 +1,6 @@
 import Foundation
 
-public enum NKMultipeerError : ErrorType {
+public enum RxMultipeerError : ErrorType {
   case ConnectionError
   case UnknownError
 

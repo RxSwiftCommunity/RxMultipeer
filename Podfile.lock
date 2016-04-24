@@ -1,6 +1,6 @@
 PODS:
   - Nimble (2.0.0-rc.3)
-  - NKMultipeer (0.4.2):
+  - RxMultipeer (0.4.2):
     - RxSwift (~> 2.0.0-alpha)
   - Quick (0.6.0)
   - RxCocoa (2.0.0-alpha.3):
@@ -9,18 +9,18 @@ PODS:
 
 DEPENDENCIES:
   - Nimble (~> 2.0.0-rc)
-  - NKMultipeer (from `./`)
+  - RxMultipeer (from `./`)
   - Quick (~> 0.6)
   - RxCocoa (~> 2.0.0-alpha)
   - RxSwift (~> 2.0.0-alpha)
 
 EXTERNAL SOURCES:
-  NKMultipeer:
+  RxMultipeer:
     :path: "./"
 
 SPEC CHECKSUMS:
   Nimble: 9dff98ee195ffe7351d3b2fb01d3a1420fd97948
-  NKMultipeer: 3cd16b75983830f92c318fd6e327157a802d62b6
+  RxMultipeer: 3cd16b75983830f92c318fd6e327157a802d62b6
   Quick: 563686dbcf0ae0f9f7401ac9cd2d786ee1b7f3d7
   RxCocoa: 2a45f35cd0eb6a01e081b3d11849c2fcb0bdb6de
   RxSwift: c66f7956b2e5fb397a62bf4a3ec6072749a816a7

@@ -193,14 +193,14 @@ public class MockSession : Session {
       if let otherSession = MockSession.findForClient(other) {
         // Can't send if not connected
         if !self.isConnected(otherSession) {
-          observer.on(.Error(NKMultipeerError.ConnectionError))
+          observer.on(.Error(RxMultipeerError.ConnectionError))
         } else {
           otherSession.rx_receivedData.on(.Next((self.iden, data)))
           observer.on(.Next(()))
           observer.on(.Completed)
         }
       } else {
-        observer.on(.Error(NKMultipeerError.ConnectionError))
+        observer.on(.Error(RxMultipeerError.ConnectionError))
       }
 
       return AnonymousDisposable {}
@@ -217,7 +217,7 @@ public class MockSession : Session {
       if let otherSession = MockSession.findForClient(other) {
         // Can't send if not connected
         if !self.isConnected(otherSession) {
-          observer.on(.Error(NKMultipeerError.ConnectionError))
+          observer.on(.Error(RxMultipeerError.ConnectionError))
         } else {
           let c = self.iden
           otherSession.rx_receivedResources.on(.Next(c, name, .Progress(NSProgress(totalUnitCount: 1))))
@@ -228,7 +228,7 @@ public class MockSession : Session {
           observer.on(.Completed)
         }
       } else {
-        observer.on(.Error(NKMultipeerError.ConnectionError))
+        observer.on(.Error(RxMultipeerError.ConnectionError))
       }
 
       return AnonymousDisposable {}
@@ -254,10 +254,10 @@ public class MockSession : Session {
         if self.isConnected(otherSession) {
           observer.on(.Next(handler))
         } else {
-          observer.on(.Error(NKMultipeerError.ConnectionError))
+          observer.on(.Error(RxMultipeerError.ConnectionError))
         }
       } else {
-        observer.on(.Error(NKMultipeerError.ConnectionError))
+        observer.on(.Error(RxMultipeerError.ConnectionError))
       }
 
       return AnonymousDisposable {

@@ -1,14 +1,13 @@
 # A testable, Rx* wrapper around MultipeerConnectivity
 
+RxMultipeer is a [RxSwift][RxSwift] wrapper for MultipeerConnevtivity.
+
 Using the adapter pattern, we can test multipeer code with heavy mocking. In effect, we are trying to isolate all the
 untestable bits of `MultipeerConnectivity` into one library.
 
 This library also gives you the flexibility to swap out the underlying mechanics of p2p with some other protocol such as
 websockets. At the moment it only comes with support for Apple's MultipeerConnectivity, however you can easily write
 your own adapters for different protocols.
-
-Please note that NKMultipeer makes heavy use of [RxSwift][RxSwift] which you should read up on if unfamiliar with Rx\*
-libraries. The mantra for this library: **everything is a stream**.
 
 ## Installation
 
@@ -17,26 +16,26 @@ libraries. The mantra for this library: **everything is a stream**.
 Add this to your `Cartfile`
 
 ```
-github "nathankot/NKMultipeer" ~> 1.0.0
+github "RxSwiftCommunity/RxMultipeer" ~> 1.0.0
 ```
 
 #### CocoaPods
 
 ```
 use_frameworks!
-pod "NKMultipeer"
+pod "RxMultipeer"
 ```
 
 ## Example code
 
-_For a working example check out the `NKMultipeer Example` folder._
+_For a working example check out the `RxMultipeer Example` folder._
 
 #### Advertise and accept nearby peers
 
 ```swift
 import RxSwift
 import RxCocoa
-import NKMultipeer
+import RxMultipeer
 
 let acceptButton: UIButton
 let client: CurrentClient<MCPeerID>
@@ -54,7 +53,7 @@ acceptButton.rx_tap
 
 ```swift
 import RxSwift
-import NKMultipeer
+import RxMultipeer
 
 let client: CurrentClient<MCPeerID>
 
@@ -78,7 +77,7 @@ Sending them:
 ```swift
 import RxSwift
 import RxCocoa
-import NKMultipeer
+import RxMultipeer
 
 let client: CurrentClient<MCPeerID>
 let peer: Observable<Client<MCPeerID>>
@@ -96,7 +95,7 @@ And receiving them:
 
 ```swift
 import RxSwift
-import NKMultipeer
+import RxMultipeer
 
 let client: CurrentClient<MCPeerID>
 
@@ -116,7 +115,7 @@ The sender:
 
 ```swift
 import RxSwift
-import NKMultipeer
+import RxMultipeer
 
 let client: CurrentClient<MCPeerID>
 let peer: Observable<Client<MCPeerID>>
@@ -132,7 +131,7 @@ The receiver:
 
 ```swift
 import RxSwift
-import NKMultipeer
+import RxMultipeer
 
 let client: CurrentClient<MCPeerID>
 let peer: Observable<Client<MCPeerID>>
@@ -148,7 +147,7 @@ incomingData.subscribeNext { (data) in print(data) }
 
 ```swift
 import RxSwift
-import NKMultipeer
+import RxMultipeer
 ```
 
 #### Make a new build configuration for testing
@@ -265,4 +264,4 @@ otherclient.receive()
 
 [rx]: http://reactivex.io/
 [RxSwift]: https://github.com/kzaher/RxSwift
-[buildconfig]: https://github.com/nathankot/NKMultipeer/wiki/How-to-define-custom-flags-for-the-testing-environment
+[buildconfig]: https://github.com/nathankot/RxMultipeer/wiki/How-to-define-custom-flags-for-the-testing-environment

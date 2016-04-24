@@ -1,4 +1,4 @@
-import NKMultipeer
+import RxMultipeer
 import Quick
 import Nimble
 import RxSwift

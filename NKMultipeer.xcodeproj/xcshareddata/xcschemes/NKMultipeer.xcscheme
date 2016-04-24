@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D88C85EA1B6F2B1700CF42CF"
-               BuildableName = "NKMultipeer.framework"
-               BlueprintName = "NKMultipeer"
-               ReferencedContainer = "container:NKMultipeer.xcodeproj">
+               BuildableName = "RxMultipeer.framework"
+               BlueprintName = "RxMultipeer"
+               ReferencedContainer = "container:RxMultipeer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D88C85F51B6F2B1700CF42CF"
-               BuildableName = "NKMultipeerTests.xctest"
-               BlueprintName = "NKMultipeerTests"
-               ReferencedContainer = "container:NKMultipeer.xcodeproj">
+               BuildableName = "RxMultipeerTests.xctest"
+               BlueprintName = "RxMultipeerTests"
+               ReferencedContainer = "container:RxMultipeer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D88C85F51B6F2B1700CF42CF"
-               BuildableName = "NKMultipeerTests.xctest"
-               BlueprintName = "NKMultipeerTests"
-               ReferencedContainer = "container:NKMultipeer.xcodeproj">
+               BuildableName = "RxMultipeerTests.xctest"
+               BlueprintName = "RxMultipeerTests"
+               ReferencedContainer = "container:RxMultipeer.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D88C85EA1B6F2B1700CF42CF"
-            BuildableName = "NKMultipeer.framework"
-            BlueprintName = "NKMultipeer"
-            ReferencedContainer = "container:NKMultipeer.xcodeproj">
+            BuildableName = "RxMultipeer.framework"
+            BlueprintName = "RxMultipeer"
+            ReferencedContainer = "container:RxMultipeer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -79,9 +79,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D88C85EA1B6F2B1700CF42CF"
-            BuildableName = "NKMultipeer.framework"
-            BlueprintName = "NKMultipeer"
-            ReferencedContainer = "container:NKMultipeer.xcodeproj">
+            BuildableName = "RxMultipeer.framework"
+            BlueprintName = "RxMultipeer"
+            ReferencedContainer = "container:RxMultipeer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -97,9 +97,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D88C85EA1B6F2B1700CF42CF"
-            BuildableName = "NKMultipeer.framework"
-            BlueprintName = "NKMultipeer"
-            ReferencedContainer = "container:NKMultipeer.xcodeproj">
+            BuildableName = "RxMultipeer.framework"
+            BlueprintName = "RxMultipeer"
+            ReferencedContainer = "container:RxMultipeer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
