@@ -1,4 +1,4 @@
-# A testable, Rx* wrapper around MultipeerConnectivity
+# A testable RxSwift wrapper around MultipeerConnectivity
 
 RxMultipeer is a [RxSwift][RxSwift] wrapper for MultipeerConnevtivity.
 
