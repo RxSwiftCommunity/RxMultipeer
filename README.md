@@ -264,4 +264,4 @@ otherclient.receive()
 
 [rx]: http://reactivex.io/
 [RxSwift]: https://github.com/kzaher/RxSwift
-[buildconfig]: https://github.com/nathankot/RxMultipeer/wiki/How-to-define-custom-flags-for-the-testing-environment
+[buildconfig]: https://github.com/nathankot/NKMultipeer/wiki/How-to-define-custom-flags-for-the-testing-environment
