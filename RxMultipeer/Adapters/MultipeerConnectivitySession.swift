@@ -3,6 +3,7 @@ import RxSwift
 import RxCocoa
 import MultipeerConnectivity
 
+/// A RxMultipeer adapter for Apple's MultipeerConnectivity framework.
 public class MultipeerConnectivitySession : NSObject, Session {
 
   public typealias I = MCPeerID
@@ -90,10 +91,12 @@ public class MultipeerConnectivitySession : NSObject, Session {
     return iden
   }
 
+  /// - Seealso: `MCNearbyServiceAdvertiser.startAdvertisingPeer()`
   public func startAdvertising() {
     advertiser.startAdvertisingPeer()
   }
 
+  /// - Seealso: `MCNearbyServiceAdvertiser.stopAdvertisingPeer()`
   public func stopAdvertising() {
     advertiser.stopAdvertisingPeer()
   }
@@ -106,10 +109,12 @@ public class MultipeerConnectivitySession : NSObject, Session {
     return _nearbyPeers.asObservable()
   }
 
+  /// - Seealso: `MCNearbyServiceBrowser.startBrowsingForPeers()`
   public func startBrowsing() {
     browser.startBrowsingForPeers()
   }
 
+  /// - Seealso: `MCNearbyServiceBrowser.stopBrowsingForPeers()`
   public func stopBrowsing() {
     browser.stopBrowsingForPeers()
     // Because we are aggregating found and lost peers in order
