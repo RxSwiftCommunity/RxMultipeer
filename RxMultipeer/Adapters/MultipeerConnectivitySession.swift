@@ -26,12 +26,26 @@ public class MultipeerConnectivitySession : NSObject, Session {
   public var iden: MCPeerID { return session.myPeerID }
   public var meta: [String: String]? { return self.advertiser.discoveryInfo }
 
+  /// - Parameters:
+  ///   - displayName: Name to display to nearby peers
+  ///   - serviceType: The scope of the multipeer connectivity service, e.g `com.rxmultipeer.example`
+  ///   - meta: Additional data that nearby peers can read when browsing
+  ///   - idenCacheKey: The key to use to store the generated session identity.
+  ///     By default a new `MCPeerID` is generated for each new session, however
+  ///     it may be desirable recycle existing idens with the same `displayName`
+  ///     from in order to prevent weird MultipeerConnectivity bugs.
+  ///     [Read this SO answer for more information](http://goo.gl/mXlQj0)
+  ///   - encryptionPreference: The session's encryption requirement
   public init(
       displayName: String,
       serviceType: String,
       meta: [String: String]? = nil,
+      idenCacheKey: String? = nil,
       encryptionPreference: MCEncryptionPreference = .None) {
-    let peerId = MCPeerID(displayName: displayName)
+
+    let peerId = MultipeerConnectivitySession.getRecycledPeerID(forKey: idenCacheKey,
+                                                                displayName: displayName)
+
     self.serviceType = serviceType
     self.session = MCSession(peer: peerId,
                              securityIdentity: nil,
@@ -53,11 +67,27 @@ public class MultipeerConnectivitySession : NSObject, Session {
     self.browser.delegate = self
   }
 
-  public func incomingConnections() -> Observable<(MCPeerID, [String: AnyObject]?, (Bool) -> ())> {
-    return _incomingConnections
-    .map { [unowned self] (client, context, handler) in
-      return (client, context, { (accept: Bool) in handler(accept, self.session) })
+  /// Given an iden cache key, retrieve either the existing serialized `MCPeerID`
+  /// or generate a new one.
+  ///
+  /// It will return an existing `MCPeerID` when there is both a cache hit and the display names
+  /// are identical. Otherwise, it will create a new one.
+  public static func getRecycledPeerID(forKey key: String?, displayName: String) -> MCPeerID {
+    let defaults = NSUserDefaults.standardUserDefaults()
+    if let k = key,
+            d = defaults.dataForKey(k),
+            p = NSKeyedUnarchiver.unarchiveObjectWithData(d) as? MCPeerID where
+            p.displayName == displayName {
+      return p
     }
+
+    let iden = MCPeerID(displayName: displayName)
+
+    if let k = key {
+      defaults.setObject(NSKeyedArchiver.archivedDataWithRootObject(iden), forKey: k)
+    }
+
+    return iden
   }
 
   public func startAdvertising() {
@@ -102,6 +132,13 @@ public class MultipeerConnectivitySession : NSObject, Session {
         toSession: self.session,
         withContext: data,
         timeout: timeout)
+  }
+
+  public func incomingConnections() -> Observable<(MCPeerID, [String: AnyObject]?, (Bool) -> ())> {
+    return _incomingConnections
+    .map { [unowned self] (client, context, handler) in
+      return (client, context, { (accept: Bool) in handler(accept, self.session) })
+    }
   }
 
   public func disconnect() {
