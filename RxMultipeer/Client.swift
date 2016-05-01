@@ -2,20 +2,9 @@ import Foundation
 import MultipeerConnectivity
 import RxSwift
 
-public protocol ClientType {
-
-#if swift(>=2.2)
-  associatedtype IdenType: Hashable
-#else
-  typealias IdenType: Hashable
-#endif
-
-  var iden: IdenType { get }
-}
-
 // It will work with any underlying object as long as they conform to the
 // `Session` protocol.
-public class Client<I where I: Hashable> : ClientType {
+public class Client<I where I: Hashable> {
   public typealias IdenType = I
   public let iden: IdenType
 
