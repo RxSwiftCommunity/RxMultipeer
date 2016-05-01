@@ -169,6 +169,7 @@ typealias I = MCPeerID
 let client = CurrentClient(session: MultipeerConnectivitySession(
                  displayName: name,
                  serviceType: "multipeerex",
+                 idenCacheKey: "com.rxmultipeer.example.mcpeerid",
                  encryptionPreference: .None))
 #endif
 ```
@@ -227,6 +228,7 @@ typealias I = MCPeerID
 let client = CurrentClient(session: MultipeerConnectivitySession(
                  displayName: name,
                  serviceType: "multipeerex",
+                 idenCacheKey: "com.rxmultipeer.example.mcpeerid",
                  encryptionPreference: .None))
 #endif
 ```
