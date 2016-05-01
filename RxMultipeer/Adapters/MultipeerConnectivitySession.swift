@@ -33,8 +33,8 @@ public class MultipeerConnectivitySession : NSObject, Session {
   ///   - meta: Additional data that nearby peers can read when browsing
   ///   - idenCacheKey: The key to use to store the generated session identity.
   ///     By default a new `MCPeerID` is generated for each new session, however
-  ///     it may be desirable recycle existing idens with the same `displayName`
-  ///     from in order to prevent weird MultipeerConnectivity bugs.
+  ///     it may be desirable to recycle existing idens with the same
+  ///     `displayName` in order to prevent weird MultipeerConnectivity bugs.
   ///     [Read this SO answer for more information](http://goo.gl/mXlQj0)
   ///   - encryptionPreference: The session's encryption requirement
   public init(
