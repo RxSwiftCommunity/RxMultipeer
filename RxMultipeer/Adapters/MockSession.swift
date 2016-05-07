@@ -70,11 +70,11 @@ public class MockSession : Session {
   let rx_connections = Variable<[Weak<MockSession>]>([])
   let rx_connectRequests = PublishSubject<(I, [String: AnyObject]?, (Bool) -> ())>()
 
-  var isAdvertising = false {
+  public var isAdvertising = false {
     didSet { MockSession.digest() }
   }
 
-  var isBrowsing = false {
+  public var isBrowsing = false {
     didSet { MockSession.digest() }
   }
 
