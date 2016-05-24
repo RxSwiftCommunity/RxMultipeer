@@ -427,4 +427,11 @@ extension MultipeerConnectivitySession : MCSessionDelegate {
     self._receivedStreams.on(.Next(peerID, streamName, stream))
   }
 
+  public func session(_: MCSession,
+                      didReceiveCertificate _: [AnyObject]?,
+                      fromPeer _: MCPeerID,
+                      certificateHandler: (Bool) -> Void) {
+    certificateHandler(true)
+  }
+
 }
