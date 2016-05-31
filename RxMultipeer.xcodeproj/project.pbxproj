@@ -10,14 +10,8 @@
 		D80EC2F41BBF372B006BF124 /* RxMultipeerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80EC2F31BBF372B006BF124 /* RxMultipeerError.swift */; };
 		D813DA421BB1BA1000BEB501 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
 		D813DA431BB1BA1000BEB501 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA411BB1BA1000BEB501 /* RxSwift.framework */; };
-		D813DA451BB1BADE00BEB501 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
-		D813DA461BB1BADE00BEB501 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA411BB1BA1000BEB501 /* RxSwift.framework */; };
 		D813DA491BB1BADE00BEB501 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA471BB1BADE00BEB501 /* Nimble.framework */; };
 		D813DA4A1BB1BADE00BEB501 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA481BB1BADE00BEB501 /* Quick.framework */; };
-		D813DA4D1BB1BD5500BEB501 /* Nimble.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = D813DA471BB1BADE00BEB501 /* Nimble.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D813DA4E1BB1BD5500BEB501 /* Quick.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = D813DA481BB1BADE00BEB501 /* Quick.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D813DA4F1BB1BD5500BEB501 /* RxCocoa.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D813DA501BB1BD5500BEB501 /* RxSwift.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = D813DA411BB1BA1000BEB501 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D8236D491B71A9EB00EF5DE6 /* ResourceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8236D481B71A9EB00EF5DE6 /* ResourceState.swift */; };
 		D8236D4D1B71DE4400EF5DE6 /* MultipeerConnectivitySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8236D4C1B71DE4400EF5DE6 /* MultipeerConnectivitySession.swift */; };
 		D8236D571B71EA7800EF5DE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8236D561B71EA7800EF5DE6 /* AppDelegate.swift */; };
@@ -57,20 +51,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D813DA4C1BB1BD2200BEB501 /* Copy Files */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				D813DA4D1BB1BD5500BEB501 /* Nimble.framework in Copy Files */,
-				D813DA4E1BB1BD5500BEB501 /* Quick.framework in Copy Files */,
-				D813DA4F1BB1BD5500BEB501 /* RxCocoa.framework in Copy Files */,
-				D813DA501BB1BD5500BEB501 /* RxSwift.framework in Copy Files */,
-			);
-			name = "Copy Files";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D82E19DF1C87F1F90021194C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
@@ -141,9 +121,7 @@
 				D88C85F71B6F2B1700CF42CF /* RxMultipeer.framework in Frameworks */,
 				D813DA491BB1BADE00BEB501 /* Nimble.framework in Frameworks */,
 				D813DA4A1BB1BADE00BEB501 /* Quick.framework in Frameworks */,
-				D813DA451BB1BADE00BEB501 /* RxCocoa.framework in Frameworks */,
 				D86675A21C6B3F1D005A9A72 /* RxBlocking.framework in Frameworks */,
-				D813DA461BB1BADE00BEB501 /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,7 +283,6 @@
 				D88C85E71B6F2B1700CF42CF /* Frameworks */,
 				D88C85E81B6F2B1700CF42CF /* Headers */,
 				D88C85E91B6F2B1700CF42CF /* Resources */,
-				D813DA4C1BB1BD2200BEB501 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -414,8 +391,6 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Quick.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Nimble.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RxBlocking.framework",
 			);
 			name = "Run Script";
@@ -680,7 +655,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
@@ -699,7 +673,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
