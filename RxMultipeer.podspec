@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "RxMultipeer"
-  s.version          = "1.1.2"
+  s.version          = "1.1.3"
   s.summary          = "A testable, Rx* wrapper around MultipeerConnectivity"
   s.homepage         = "https://github.com/RxSwiftCommunity/RxMultipeer"
   s.license          = 'MIT'
