@@ -1,13 +1,13 @@
 import Foundation
 
-public enum RxMultipeerError : ErrorType {
-  case ConnectionError
-  case UnknownError
+public enum RxMultipeerError : Error {
+  case connectionError
+  case unknownError
 
   public var description: String {
     switch self {
-      case ConnectionError: return "Could not establish connection with peer"
-      case UnknownError: return "An unknown error occurred"
+      case .connectionError: return "Could not establish connection with peer"
+      case .unknownError: return "An unknown error occurred"
     }
   }
 }

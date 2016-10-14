@@ -2,13 +2,13 @@ import Foundation
 import RxSwift
 import MultipeerConnectivity
 
-public class MockIden : Hashable {
+open class MockIden : Hashable {
 
-  public let uid = NSProcessInfo.processInfo().globallyUniqueString
-  public let string: String
-  public var displayName: String { return string }
+  open let uid = ProcessInfo.processInfo.globallyUniqueString
+  open let string: String
+  open var displayName: String { return string }
 
-  public var hashValue: Int {
+  open var hashValue: Int {
     return uid.hashValue
   }
 
@@ -26,26 +26,26 @@ public func ==(left: MockIden, right: MockIden) -> Bool {
   return left.uid == right.uid
 }
 
-public class MockSession : Session {
+open class MockSession : Session {
 
   public typealias I = MockIden
 
   // Store all available sessions in a global
-  static public var sessions: [MockSession] = [] {
+  static open var sessions: [MockSession] = [] {
     didSet { digest() }
   }
 
-  static public let advertisingSessions: Variable<[MockSession]> = Variable([])
+  static open let advertisingSessions: Variable<[MockSession]> = Variable([])
 
-  static public func digest() {
+  static open func digest() {
     advertisingSessions.value = sessions.filter { $0.isAdvertising }
   }
 
-  static public func findForClient(client: I) -> MockSession? {
+  static open func findForClient(_ client: I) -> MockSession? {
     return sessions.filter({ o in return o.iden == client }).first
   }
 
-  static public func reset() {
+  static open func reset() {
     self.sessions = []
   }
 
@@ -53,10 +53,10 @@ public class MockSession : Session {
   //////////////////////////////////////////////////////////////////////////
 
   let _iden: I
-  public var iden: I { return _iden }
+  open var iden: I { return _iden }
 
   let _meta: [String: String]?
-  public var meta: [String: String]? { return _meta }
+  open var meta: [String: String]? { return _meta }
 
   public init(name: String, meta: [String: String]? = nil) {
     self._iden = I(name)
@@ -68,49 +68,49 @@ public class MockSession : Session {
   //////////////////////////////////////////////////////////////////////////
 
   let rx_connections = Variable<[Weak<MockSession>]>([])
-  let rx_connectRequests = PublishSubject<(I, [String: AnyObject]?, (Bool) -> ())>()
+  let rx_connectRequests = PublishSubject<(I, [String: Any]?, (Bool) -> ())>()
 
-  public var isAdvertising = false {
+  open var isAdvertising = false {
     didSet { MockSession.digest() }
   }
 
-  public var isBrowsing = false {
+  open var isBrowsing = false {
     didSet { MockSession.digest() }
   }
 
-  public func connections() -> Observable<[I]> {
+  open func connections() -> Observable<[I]> {
     return rx_connections.asObservable()
       .map { $0.filter { $0.value != nil }.map { $0.value!.iden } }
   }
 
-  public func nearbyPeers() -> Observable<[(I, [String: String]?)]> {
+  open func nearbyPeers() -> Observable<[(I, [String: String]?)]> {
     return MockSession.advertisingSessions
       .asObservable()
       .filter { _ in self.isBrowsing }
       .map { $0.map { ($0.iden, $0.meta) } }
   }
 
-  public func incomingConnections() -> Observable<(I, [String: AnyObject]?, (Bool) -> ())> {
+  open func incomingConnections() -> Observable<(I, [String: Any]?, (Bool) -> ())> {
     return rx_connectRequests.filter { _ in self.isAdvertising }
   }
 
-  public func startBrowsing() {
+  open func startBrowsing() {
     self.isBrowsing = true
   }
 
-  public func stopBrowsing() {
+  open func stopBrowsing() {
     self.isBrowsing = false
   }
 
-  public func startAdvertising() {
+  open func startAdvertising() {
     self.isAdvertising = true
   }
 
-  public func stopAdvertising() {
+  open func stopAdvertising() {
     self.isAdvertising = false
   }
 
-  public func connect(peer: I, context: [String: AnyObject]? = nil, timeout: NSTimeInterval = 12) {
+  open func connect(_ peer: I, context: [String: Any]? = nil, timeout: TimeInterval = 12) {
     let otherm = MockSession.sessions.filter({ return $0.iden == peer }).first
     if let other = otherm {
       // Skip if already connected
@@ -119,19 +119,19 @@ public class MockSession : Session {
       }
 
       if other.isAdvertising {
-        other.rx_connectRequests.on(.Next(
+        other.rx_connectRequests.on(.next(
           (self.iden,
             context,
             { [unowned self] (response: Bool) in
               if !response { return }
               self.rx_connections.value = self.rx_connections.value + [Weak(other)]
               other.rx_connections.value = other.rx_connections.value + [Weak(self)]
-            }) as (I, [String: AnyObject]?, (Bool) -> ())))
+            }) as (I, [String: Any]?, (Bool) -> ())))
       }
     }
   }
 
-  public func disconnect() {
+  open func disconnect() {
     self.rx_connections.value = []
     MockSession.sessions = MockSession.sessions.filter { $0.iden != self.iden }
     for session in MockSession.sessions {
@@ -141,28 +141,28 @@ public class MockSession : Session {
     }
   }
 
-  public func connectionErrors() -> Observable<NSError> {
+  open func connectionErrors() -> Observable<Error> {
     return PublishSubject()
   }
 
   // Data reception concerns
   //////////////////////////////////////////////////////////////////////////
 
-  let rx_receivedData = PublishSubject<(I, NSData)>()
+  let rx_receivedData = PublishSubject<(I, Data)>()
   let rx_receivedResources = PublishSubject<(I, String, ResourceState)>()
   let rx_receivedStreamData = PublishSubject<(I, String, [UInt8])>()
 
-  public func receive() -> Observable<(I, NSData)> {
+  open func receive() -> Observable<(I, Data)> {
     return rx_receivedData
   }
 
-  public func receive() -> Observable<(I, String, ResourceState)> {
+  open func receive() -> Observable<(I, String, ResourceState)> {
     return rx_receivedResources
   }
 
-  public func receive(other: I,
+  open func receive(_ other: I,
                       streamName: String,
-                      runLoop _: NSRunLoop = NSRunLoop.mainRunLoop(),
+                      runLoop _: RunLoop = RunLoop.main,
                       maxLength: Int = 512)
                       -> Observable<[UInt8]> {
     return rx_receivedStreamData
@@ -170,75 +170,74 @@ public class MockSession : Session {
       .map { $2 }
       // need to convert to max `maxLength` sizes
       .map({ data in
-             0.stride(to: data.count, by: maxLength)
-               .map({ Array(data[$0..<$0.advancedBy(maxLength, limit: data.count)]) })
-               .toObservable()
-           })
-           .concat()
+        Observable.from(stride(from: 0, to: data.count, by: maxLength)
+        .map({ Array(data[$0..<$0.advanced(by: min(maxLength, data.count - $0))]) }))
+      })
+      .concat()
   }
 
   // Data delivery concerns
   //////////////////////////////////////////////////////////////////////////
 
-  func isConnected(other: MockSession) -> Bool {
+  func isConnected(_ other: MockSession) -> Bool {
     return rx_connections.value.filter({ $0.value?.iden == other.iden }).first != nil
   }
 
-  public func send
-  (other: I,
-   _ data: NSData,
+  open func send
+  (_ other: I,
+   _ data: Data,
    _ mode: MCSessionSendDataMode)
   -> Observable<()> {
     return Observable.create { [unowned self] observer in
       if let otherSession = MockSession.findForClient(other) {
         // Can't send if not connected
         if !self.isConnected(otherSession) {
-          observer.on(.Error(RxMultipeerError.ConnectionError))
+          observer.on(.error(RxMultipeerError.connectionError))
         } else {
-          otherSession.rx_receivedData.on(.Next((self.iden, data)))
-          observer.on(.Next(()))
-          observer.on(.Completed)
+          otherSession.rx_receivedData.on(.next((self.iden, data)))
+          observer.on(.next(()))
+          observer.on(.completed)
         }
       } else {
-        observer.on(.Error(RxMultipeerError.ConnectionError))
+        observer.on(.error(RxMultipeerError.connectionError))
       }
 
-      return AnonymousDisposable {}
+      return Disposables.create {}
     }
   }
 
-  public func send
-  (other: I,
+  open func send
+  (_ other: I,
    name: String,
-   url: NSURL,
+   url: URL,
    _ mode: MCSessionSendDataMode)
-  -> Observable<(NSProgress)> {
+  -> Observable<(Progress)> {
     return Observable.create { [unowned self] observer in
       if let otherSession = MockSession.findForClient(other) {
         // Can't send if not connected
         if !self.isConnected(otherSession) {
-          observer.on(.Error(RxMultipeerError.ConnectionError))
+          observer.on(.error(RxMultipeerError.connectionError))
         } else {
           let c = self.iden
-          otherSession.rx_receivedResources.on(.Next(c, name, .Progress(NSProgress(totalUnitCount: 1))))
-          otherSession.rx_receivedResources.on(.Next(c, name, .Finished(url)))
-          let completed = NSProgress(totalUnitCount: 1)
+          otherSession.rx_receivedResources.on(.next(c, name, .progress(Progress(totalUnitCount: 1))))
+          otherSession.rx_receivedResources.on(.next(c, name, .finished(url)))
+          let completed = Progress(totalUnitCount: 1)
           completed.completedUnitCount = 1
-          observer.on(.Next(completed))
-          observer.on(.Completed)
+          observer.on(.next(completed))
+          observer.on(.completed)
         }
       } else {
-        observer.on(.Error(RxMultipeerError.ConnectionError))
+        observer.on(.error(RxMultipeerError.connectionError))
       }
 
-      return AnonymousDisposable {}
+      return Disposables.create {}
     }
   }
 
-  public func send
-  (other: I,
+  open func send
+  (_ other: I,
    streamName name: String,
-   runLoop: NSRunLoop = NSRunLoop.mainRunLoop())
+   runLoop: RunLoop = RunLoop.main)
    -> Observable<([UInt8]) -> Void> {
 
     return Observable.create { [unowned self] observer in
@@ -247,20 +246,20 @@ public class MockSession : Session {
 
       if let otherSession = MockSession.findForClient(other) {
         handler = { d in
-          otherSession.rx_receivedStreamData.on(.Next(self.iden, name, d))
-          observer.on(.Next(handler))
+          otherSession.rx_receivedStreamData.on(.next(self.iden, name, d))
+          observer.on(.next(handler))
         }
 
         if self.isConnected(otherSession) {
-          observer.on(.Next(handler))
+          observer.on(.next(handler))
         } else {
-          observer.on(.Error(RxMultipeerError.ConnectionError))
+          observer.on(.error(RxMultipeerError.connectionError))
         }
       } else {
-        observer.on(.Error(RxMultipeerError.ConnectionError))
+        observer.on(.error(RxMultipeerError.connectionError))
       }
 
-      return AnonymousDisposable {
+      return Disposables.create {
         handler = { _ in }
       }
 

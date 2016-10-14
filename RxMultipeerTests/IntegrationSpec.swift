@@ -27,8 +27,8 @@ public class IntegrationSpec : QuickSpec {
           // Advertise and always accept connections
           clienttwo.startAdvertising()
           clienttwo.incomingConnections()
-          .subscribeNext { (client, _, respond) in
-            respond(true) }
+          .subscribe(onNext: { (client, _, respond) in
+            respond(true) })
           .addDisposableTo(disposeBag)
         }
 
@@ -41,7 +41,7 @@ public class IntegrationSpec : QuickSpec {
             defer { clientthree.startAdvertising() }
             clientone.nearbyPeers()
               .filter { $0.count > 0 }
-              .take(1).subscribeCompleted(done)
+              .take(1).subscribe(onCompleted: done)
               .addDisposableTo(disposeBag)
           }
         }
@@ -51,10 +51,10 @@ public class IntegrationSpec : QuickSpec {
             clientone.startBrowsing()
             clientone.nearbyPeers()
             .filter { $0.count > 0 }
-            .subscribeNext { clients in
+            .subscribe(onNext: { clients in
               expect(clients[0].0.iden).to(equal(clienttwo.iden))
               done()
-            }
+            })
             .addDisposableTo(disposeBag)
           }
         }
@@ -63,7 +63,7 @@ public class IntegrationSpec : QuickSpec {
           waitUntil { done in
             clientone.connectedPeer()
             .take(1)
-            .subscribeNext { _ in done() }
+            .subscribe(onCompleted: { _ in done() })
             .addDisposableTo(disposeBag)
 
             clientone.connect(clienttwo)
@@ -75,7 +75,7 @@ public class IntegrationSpec : QuickSpec {
             Observable.combineLatest(
               clientone.connections(),
               clienttwo.connections()) { $0.count + $1.count }
-            .subscribeNext { if $0 == 2 { done() } }
+            .subscribe(onNext: { if $0 == 2 { done() } })
             .addDisposableTo(disposeBag)
 
             clientone.connect(clienttwo)
@@ -86,11 +86,11 @@ public class IntegrationSpec : QuickSpec {
           waitUntil { done in
             Observable.zip(clientone.connectedPeer(), clienttwo.connectedPeer()) { $0 }
               .take(1)
-              .subscribeNext { (two, one) in
+              .subscribe(onNext: { (two, one) in
                 expect(two.iden).to(equal(clienttwo.iden))
                 expect(one.iden).to(equal(clientone.iden))
                 done()
-              }
+              })
               .addDisposableTo(disposeBag)
 
             clientone.connect(clienttwo)
@@ -102,11 +102,11 @@ public class IntegrationSpec : QuickSpec {
             clientone.connect(clienttwo)
             Observable.zip(clientone.disconnectedPeer(), clienttwo.disconnectedPeer()) { $0 }
               .take(1)
-              .subscribeNext { (two, one) in
+              .subscribe(onNext: { (two, one) in
                 expect(two.iden).to(equal(clienttwo.iden))
                 expect(one.iden).to(equal(clientone.iden))
                 done()
-              }
+              })
               .addDisposableTo(disposeBag)
 
             clientone.disconnect()
@@ -119,7 +119,7 @@ public class IntegrationSpec : QuickSpec {
             waitUntil { done in
               clientone.connectedPeer()
               .take(1)
-              .subscribeNext { _ in done() }
+              .subscribe(onNext: { _ in done() })
               .addDisposableTo(disposeBag)
 
               clientone.connect(clienttwo)
@@ -130,10 +130,10 @@ public class IntegrationSpec : QuickSpec {
             waitUntil { done in
               clientone.connections()
                 .skip(1).take(1)
-                .subscribeNext { (connections) in
+                .subscribe(onNext: { (connections) in
                   expect(connections.count).to(equal(0))
                   done()
-                }
+                })
                 .addDisposableTo(disposeBag)
 
               clienttwo.disconnect()
@@ -143,7 +143,7 @@ public class IntegrationSpec : QuickSpec {
           it("fires a next event when sending data") {
             waitUntil { done in
               clientone.send(clienttwo, "hello")
-              .subscribeNext { _ in done() }
+              .subscribe(onNext: { _ in done() })
               .addDisposableTo(disposeBag)
             }
           }
@@ -151,14 +151,14 @@ public class IntegrationSpec : QuickSpec {
           it("lets clients send strings to eachother") {
             waitUntil { done in
               clienttwo.receive()
-              .subscribeNext { (client: Client, string: String) in
+              .subscribe(onNext: { (client: Client, string: String) in
                 expect(client.iden).to(equal(clientone.iden))
                 expect(string).to(equal("hello"))
-              }
+              })
               .addDisposableTo(disposeBag)
 
               clientone.send(clienttwo, "hello")
-              .subscribeCompleted { done() }
+              .subscribe(onCompleted: { done() })
               .addDisposableTo(disposeBag)
             }
           }
@@ -166,17 +166,17 @@ public class IntegrationSpec : QuickSpec {
           it("lets clients send resource urls to each other") {
             waitUntil { done in
               clienttwo.receive()
-              .subscribeNext { (client: Client, name: String, url: NSURL) in
+              .subscribe(onNext: { (client: Client, name: String, url: URL) in
                 expect(client.iden).to(equal(clientone.iden))
                 expect(name).to(equal("txt file"))
-                let contents = NSString(data: NSData(contentsOfURL: url)!, encoding: NSUTF8StringEncoding)
+                let contents = String(data: try! Data(contentsOf: url), encoding: String.Encoding.utf8)
                 expect(contents).to(equal("hello there this is random data"))
-              }
+              })
               .addDisposableTo(disposeBag)
 
-              let url = NSBundle(forClass: self.dynamicType).URLForResource("Data", withExtension: "txt")
+              let url = Bundle(for: type(of: self)).url(forResource: "Data", withExtension: "txt")
               clientone.send(clienttwo, name: "txt file", url: url!)
-              .subscribeCompleted { done() }
+              .subscribe(onCompleted: { done() })
               .addDisposableTo(disposeBag)
             }
           }
@@ -184,17 +184,17 @@ public class IntegrationSpec : QuickSpec {
           it("lets clients send JSON data to each other via foundation objects") {
             waitUntil { done in
               clienttwo.receive()
-              .subscribeNext { (client: Client, json: [String: AnyObject]) in
+              .subscribe(onNext: { (client: Client, json: [String: Any]) in
                 expect(client.iden).to(equal(clientone.iden))
                 expect(json["one"] as? String).to(equal("two"))
                 expect(json["three"] as? Int).to(equal(4))
                 expect(json["five"] as? Bool).to(beTrue())
-              }
+              })
               .addDisposableTo(disposeBag)
 
               clientone.send(clienttwo, [
                 "one": "two", "three": 4, "five": true])
-              .subscribeCompleted { done() }
+              .subscribe(onCompleted: { done() })
               .addDisposableTo(disposeBag)
             }
           }
@@ -203,10 +203,10 @@ public class IntegrationSpec : QuickSpec {
             waitUntil { done in
               clienttwo.receive(clientone, streamName: "hello")
                 .take(1)
-                .subscribeNext { data in
+                .subscribe(onNext: { data in
                   expect(data).to(equal([0b00110011, 0b11111111]))
                   done()
-                }
+                })
                 .addDisposableTo(disposeBag)
 
               let data: Observable<[UInt8]> = Observable.of(
@@ -214,7 +214,7 @@ public class IntegrationSpec : QuickSpec {
                 [0b00000000, 0b00000001])
 
               Observable.zip(clientone.send(clienttwo, streamName: "hello"), data) { $0 }
-                .subscribeNext { (fetcher, data) in fetcher(data) }
+                .subscribe(onNext: { (fetcher, data) in fetcher(data) })
                 .addDisposableTo(disposeBag)
             }
           }
@@ -224,17 +224,17 @@ public class IntegrationSpec : QuickSpec {
               clienttwo.receive(clientone, streamName: "hello")
                 .take(2)
                 .reduce([], accumulator: { $0 + [$1] })
-                .subscribeNext { data in
+                .subscribe(onNext: { data in
                   expect(data[0].count).to(equal(512))
                   expect(data[1].count).to(equal(4))
                   done()
-                }
+                })
                 .addDisposableTo(disposeBag)
 
-              let data = Observable.just([UInt8](count: 516, repeatedValue: 0x4D))
+              let data = Observable.just([UInt8](repeating: 0x4D, count: 516))
 
               Observable.zip(clientone.send(clienttwo, streamName: "hello"), data) { $0 }
-                .subscribeNext { (fetcher, data) in fetcher(data) }
+                .subscribe(onNext: { (fetcher, data) in fetcher(data) })
                 .addDisposableTo(disposeBag)
             }
 

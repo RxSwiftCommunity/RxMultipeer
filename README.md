@@ -183,18 +183,18 @@ func send(other: Client, _ string: String, _ mode: MCSessionSendDataMode = .Reli
 func receive() -> Observable<(Client, String)>
 ```
 
-#### NSData
+#### Data
 
 ```swift
-func send(other: Client, _ data: NSData, _ mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
-func receive() -> Observable<(Client, NSData)>
+func send(other: Client, _ data: Data, _ mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
+func receive() -> Observable<(Client, Data)>
 ```
 
 #### JSON
 
 ```swift
-func send(other: Client, _ json: [String: AnyObject], _ mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
-func receive() -> Observable<(Client, [String: AnyObject])>
+func send(other: Client, _ json: [String: Any], _ mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
+func receive() -> Observable<(Client, [String: Any])>
 ```
 
 #### NSURL
