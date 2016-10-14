@@ -1,13 +1,13 @@
 import Foundation
 
 public enum ResourceState {
-  case Progress(NSProgress)
-  case Finished(NSURL)
-  case Errored(NSError)
+  case progress(Foundation.Progress)
+  case finished(URL)
+  case errored(Error)
 
-  public func fromFinished() -> NSURL? {
+  public func fromFinished() -> URL? {
     switch self {
-    case .Finished(let u): return u
+    case .finished(let u): return u
     default: return nil
     }
   }

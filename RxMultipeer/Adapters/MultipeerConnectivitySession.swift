@@ -4,28 +4,28 @@ import RxCocoa
 import MultipeerConnectivity
 
 /// A RxMultipeer adapter for Apple's MultipeerConnectivity framework.
-public class MultipeerConnectivitySession : NSObject, Session {
+open class MultipeerConnectivitySession : NSObject, Session {
 
   public typealias I = MCPeerID
 
-  public let session: MCSession
-  public let serviceType: String
+  open let session: MCSession
+  open let serviceType: String
 
-  private let disposeBag = DisposeBag()
+  fileprivate let disposeBag = DisposeBag()
 
-  private let advertiser: MCNearbyServiceAdvertiser
-  private let browser: MCNearbyServiceBrowser
+  fileprivate let advertiser: MCNearbyServiceAdvertiser
+  fileprivate let browser: MCNearbyServiceBrowser
 
-  private let _incomingConnections: PublishSubject<(MCPeerID, [String: AnyObject]?, (Bool, MCSession) -> Void)> = PublishSubject()
-  private let _connections = Variable<[MCPeerID]>([])
-  private let _nearbyPeers: Variable<[(MCPeerID, [String: String]?)]> = Variable([])
-  private let _connectionErrors: PublishSubject<NSError> = PublishSubject()
-  private let _receivedData: PublishSubject<(MCPeerID, NSData)> = PublishSubject()
-  private let _receivedResource: PublishSubject<(MCPeerID, String, ResourceState)> = PublishSubject()
-  private let _receivedStreams = PublishSubject<(MCPeerID, String, NSInputStream)>()
+  fileprivate let _incomingConnections: PublishSubject<(MCPeerID, [String: Any]?, (Bool, MCSession?) -> Void)> = PublishSubject()
+  fileprivate let _connections = Variable<[MCPeerID]>([])
+  fileprivate let _nearbyPeers: Variable<[(MCPeerID, [String: String]?)]> = Variable([])
+  fileprivate let _connectionErrors: PublishSubject<Error> = PublishSubject()
+  fileprivate let _receivedData: PublishSubject<(MCPeerID, Data)> = PublishSubject()
+  fileprivate let _receivedResource: PublishSubject<(MCPeerID, String, ResourceState)> = PublishSubject()
+  fileprivate let _receivedStreams = PublishSubject<(MCPeerID, String, InputStream)>()
 
-  public var iden: MCPeerID { return session.myPeerID }
-  public var meta: [String: String]? { return self.advertiser.discoveryInfo }
+  open var iden: MCPeerID { return session.myPeerID }
+  open var meta: [String: String]? { return self.advertiser.discoveryInfo }
 
   /// - Parameters:
   ///   - displayName: Name to display to nearby peers
@@ -42,7 +42,7 @@ public class MultipeerConnectivitySession : NSObject, Session {
       serviceType: String,
       meta: [String: String]? = nil,
       idenCacheKey: String? = nil,
-      encryptionPreference: MCEncryptionPreference = .None) {
+      encryptionPreference: MCEncryptionPreference = .none) {
 
     let peerId = MultipeerConnectivitySession.getRecycledPeerID(forKey: idenCacheKey,
                                                                 displayName: displayName)
@@ -73,11 +73,11 @@ public class MultipeerConnectivitySession : NSObject, Session {
   ///
   /// It will return an existing `MCPeerID` when there is both a cache hit and the display names
   /// are identical. Otherwise, it will create a new one.
-  public static func getRecycledPeerID(forKey key: String?, displayName: String) -> MCPeerID {
-    let defaults = NSUserDefaults.standardUserDefaults()
+  open static func getRecycledPeerID(forKey key: String?, displayName: String) -> MCPeerID {
+    let defaults = UserDefaults.standard
     if let k = key,
-            d = defaults.dataForKey(k),
-            p = NSKeyedUnarchiver.unarchiveObjectWithData(d) as? MCPeerID where
+            let d = defaults.data(forKey: k),
+            let p = NSKeyedUnarchiver.unarchiveObject(with: d) as? MCPeerID,
             p.displayName == displayName {
       return p
     }
@@ -85,37 +85,37 @@ public class MultipeerConnectivitySession : NSObject, Session {
     let iden = MCPeerID(displayName: displayName)
 
     if let k = key {
-      defaults.setObject(NSKeyedArchiver.archivedDataWithRootObject(iden), forKey: k)
+      defaults.set(NSKeyedArchiver.archivedData(withRootObject: iden), forKey: k)
     }
 
     return iden
   }
 
   /// - Seealso: `MCNearbyServiceAdvertiser.startAdvertisingPeer()`
-  public func startAdvertising() {
+  open func startAdvertising() {
     advertiser.startAdvertisingPeer()
   }
 
   /// - Seealso: `MCNearbyServiceAdvertiser.stopAdvertisingPeer()`
-  public func stopAdvertising() {
+  open func stopAdvertising() {
     advertiser.stopAdvertisingPeer()
   }
 
-  public func connections() -> Observable<[MCPeerID]> {
+  open func connections() -> Observable<[MCPeerID]> {
     return _connections.asObservable()
   }
 
-  public func nearbyPeers() -> Observable<[(MCPeerID, [String: String]?)]> {
+  open func nearbyPeers() -> Observable<[(MCPeerID, [String: String]?)]> {
     return _nearbyPeers.asObservable()
   }
 
   /// - Seealso: `MCNearbyServiceBrowser.startBrowsingForPeers()`
-  public func startBrowsing() {
+  open func startBrowsing() {
     browser.startBrowsingForPeers()
   }
 
   /// - Seealso: `MCNearbyServiceBrowser.stopBrowsingForPeers()`
-  public func stopBrowsing() {
+  open func stopBrowsing() {
     browser.stopBrowsingForPeers()
     // Because we are aggregating found and lost peers in order
     // to get nearby peers, we should start with a clean slate when
@@ -123,48 +123,48 @@ public class MultipeerConnectivitySession : NSObject, Session {
     _nearbyPeers.value = []
   }
 
-  public func connect(peer: MCPeerID, context: [String: AnyObject]?, timeout: NSTimeInterval) {
-    let data: NSData?
+  open func connect(_ peer: MCPeerID, context: [String: Any]?, timeout: TimeInterval) {
+    let data: Data?
     if let c = context {
-      data = try? NSJSONSerialization.dataWithJSONObject(
-        c, options: NSJSONWritingOptions())
+      data = try? JSONSerialization.data(
+        withJSONObject: c, options: JSONSerialization.WritingOptions())
     } else {
       data = nil
     }
 
     browser.invitePeer(
         peer,
-        toSession: self.session,
+        to: self.session,
         withContext: data,
         timeout: timeout)
   }
 
-  public func incomingConnections() -> Observable<(MCPeerID, [String: AnyObject]?, (Bool) -> ())> {
+  open func incomingConnections() -> Observable<(MCPeerID, [String: Any]?, (Bool) -> ())> {
     return _incomingConnections
     .map { [unowned self] (client, context, handler) in
       return (client, context, { (accept: Bool) in handler(accept, self.session) })
     }
   }
 
-  public func disconnect() {
+  open func disconnect() {
     self.session.disconnect()
   }
 
-  public func connectionErrors() -> Observable<NSError> {
+  open func connectionErrors() -> Observable<Error> {
     return _connectionErrors
   }
 
-  public func receive() -> Observable<(MCPeerID, NSData)> {
+  open func receive() -> Observable<(MCPeerID, Data)> {
     return _receivedData
   }
 
-  public func receive() -> Observable<(MCPeerID, String, ResourceState)> {
+  open func receive() -> Observable<(MCPeerID, String, ResourceState)> {
     return _receivedResource
       .map { (p, n, s) -> Observable<(MCPeerID, String, ResourceState)> in
         switch s {
-        case .Progress(let progress):
+        case .progress(let progress):
           return progress
-            .rx_observe(Double.self, "fractionCompleted", retainSelf: false)
+            .rx.observe(Double.self, "fractionCompleted", retainSelf: false)
             .map { _ in (p, n, s) }
         default:
           return Observable.just((p, n, s))
@@ -173,10 +173,10 @@ public class MultipeerConnectivitySession : NSObject, Session {
       .merge()
   }
 
-  public func receive(
-    other: MCPeerID,
+  open func receive(
+    _ other: MCPeerID,
     streamName: String,
-    runLoop: NSRunLoop = NSRunLoop.mainRunLoop(),
+    runLoop: RunLoop = RunLoop.main,
     maxLength: Int = 512)
     -> Observable<[UInt8]> {
 
@@ -187,29 +187,29 @@ public class MultipeerConnectivitySession : NSObject, Session {
         Observable.create { observer in
           var delegate: NSStreamDelegateProxy?
           delegate = NSStreamDelegateProxy { (stream, event) in
-            if event.contains(NSStreamEvent.HasBytesAvailable) {
-              guard let s = stream as? NSInputStream else { return }
-              var buffer = [UInt8](count: maxLength, repeatedValue: 0)
+            if event.contains(Stream.Event.hasBytesAvailable) {
+              guard let s = stream as? InputStream else { return }
+              var buffer = [UInt8](repeating: 0, count: maxLength)
               let readBytes = s.read(&buffer, maxLength: maxLength)
               if readBytes > 0 {
-                observer.on(.Next(Array(buffer[0..<readBytes])))
+                observer.on(.next(Array(buffer[0..<readBytes])))
               }
             }
 
-            if event.contains(NSStreamEvent.ErrorOccurred) {
-              observer.on(.Error(stream.streamError ?? RxMultipeerError.UnknownError))
+            if event.contains(Stream.Event.errorOccurred) {
+              observer.on(.error(stream.streamError ?? RxMultipeerError.unknownError))
             }
 
-            if event.contains(NSStreamEvent.EndEncountered) {
-              observer.on(.Completed)
+            if event.contains(Stream.Event.endEncountered) {
+              observer.on(.completed)
             }
           }
 
           stream.open()
           stream.delegate = delegate
-          stream.scheduleInRunLoop(runLoop, forMode: NSDefaultRunLoopMode)
+          stream.schedule(in: runLoop, forMode: RunLoopMode.defaultRunLoopMode)
 
-          return AnonymousDisposable {
+          return Disposables.create {
             stream.delegate = nil
             delegate = nil
             stream.close()
@@ -220,43 +220,43 @@ public class MultipeerConnectivitySession : NSObject, Session {
 
   }
 
-  public func send(other: MCPeerID,
-                   _ data: NSData,
+  open func send(_ other: MCPeerID,
+                   _ data: Data,
                    _ mode: MCSessionSendDataMode) -> Observable<()> {
     return Observable.create { observer in
       do {
-        try self.session.sendData(data, toPeers: [other], withMode: mode)
-        observer.on(.Next(()))
-        observer.on(.Completed)
+        try self.session.send(data, toPeers: [other], with: mode)
+        observer.on(.next(()))
+        observer.on(.completed)
       } catch let error {
-        observer.on(.Error(error))
+        observer.on(.error(error))
       }
 
       // There's no way to cancel this operation,
       // so do nothing on dispose.
-      return AnonymousDisposable {}
+      return Disposables.create {}
     }
   }
 
-  public func send(other: MCPeerID,
+  open func send(_ other: MCPeerID,
                    name: String,
-                   url: NSURL,
-                   _ mode: MCSessionSendDataMode) -> Observable<NSProgress> {
+                   url: URL,
+                   _ mode: MCSessionSendDataMode) -> Observable<Progress> {
     return Observable.create { observer in
-      let progress = self.session.sendResourceAtURL(url, withName: name, toPeer: other) { (err) in
-        if let e = err { observer.on(.Error(e)) }
+      let progress = self.session.sendResource(at: url, withName: name, toPeer: other) { (err) in
+        if let e = err { observer.on(.error(e)) }
         else {
-          observer.on(.Completed)
+          observer.on(.completed)
         }
       }
 
-      let progressDisposable = progress?.rx_observe(Double.self, "fractionCompleted", retainSelf: false)
-        .subscribeNext { (_: Double?) in observer.on(.Next(progress!)) }
+      let progressDisposable = progress?.rx.observe(Double.self, "fractionCompleted", retainSelf: false)
+        .subscribe(onNext: { (_: Double?) in observer.on(.next(progress!)) })
 
       return CompositeDisposable(
-          progressDisposable ?? AnonymousDisposable { },
-          AnonymousDisposable {
-            if let cancellable = progress?.cancellable {
+          progressDisposable ?? Disposables.create { },
+          Disposables.create {
+            if let cancellable = progress?.isCancellable {
               if cancellable == true {
                 progress?.cancel()
               }
@@ -265,46 +265,48 @@ public class MultipeerConnectivitySession : NSObject, Session {
     }
   }
 
-  public func send(
-      other: MCPeerID,
+  open func send(
+      _ other: MCPeerID,
       streamName: String,
-      runLoop: NSRunLoop = NSRunLoop.mainRunLoop())
+      runLoop: RunLoop = RunLoop.main)
       -> Observable<([UInt8]) -> Void> {
 
     return Observable.create { observer in
-      var stream: NSOutputStream?
+      var stream: OutputStream?
       var delegate: NSStreamDelegateProxy?
 
       do {
-        stream = try self.session.startStreamWithName(streamName, toPeer: other)
+        stream = try self.session.startStream(withName: streamName, toPeer: other)
         delegate = NSStreamDelegateProxy { (s, event) in
-          guard let stream = s as? NSOutputStream else { return }
+          guard let stream = s as? OutputStream else { return }
 
-          if event.contains(NSStreamEvent.HasSpaceAvailable) {
-            observer.on(.Next({ d in
+          if event.contains(Stream.Event.hasSpaceAvailable) {
+            observer.on(.next({ d in
               d.withUnsafeBufferPointer {
-                stream.write($0.baseAddress, maxLength: d.count)
+                if let baseAddress = $0.baseAddress {
+                  stream.write(baseAddress, maxLength: d.count)
+                }
               }
             }))
           }
 
-          if event.contains(NSStreamEvent.ErrorOccurred) {
-            observer.on(.Error(stream.streamError ?? RxMultipeerError.UnknownError))
+          if event.contains(Stream.Event.errorOccurred) {
+            observer.on(.error(stream.streamError ?? RxMultipeerError.unknownError))
           }
 
-          if event.contains(NSStreamEvent.EndEncountered) {
-            observer.on(.Completed)
+          if event.contains(Stream.Event.endEncountered) {
+            observer.on(.completed)
           }
         }
 
         stream?.delegate = delegate
-        stream?.scheduleInRunLoop(runLoop, forMode: NSDefaultRunLoopMode)
+        stream?.schedule(in: runLoop, forMode: RunLoopMode.defaultRunLoopMode)
         stream?.open()
       } catch let e {
-        observer.on(.Error(e))
+        observer.on(.error(e))
       }
 
-      return AnonymousDisposable {
+      return Disposables.create {
         stream?.delegate = nil
         stream?.close()
         delegate = nil
@@ -314,15 +316,15 @@ public class MultipeerConnectivitySession : NSObject, Session {
 
 }
 
-private class NSStreamDelegateProxy : NSObject, NSStreamDelegate {
+private class NSStreamDelegateProxy : NSObject, StreamDelegate {
 
-  let handler: (NSStream, NSStreamEvent) -> ()
+  let handler: (Stream, Stream.Event) -> ()
 
-  init(handler: (NSStream, NSStreamEvent) -> ()) {
+  init(handler: @escaping (Stream, Stream.Event) -> ()) {
     self.handler = handler
   }
 
-  @objc func stream(stream: NSStream, handleEvent event: NSStreamEvent) {
+  @objc func stream(_ stream: Stream, handle event: Stream.Event) {
     handler(stream, event)
   }
 
@@ -330,41 +332,35 @@ private class NSStreamDelegateProxy : NSObject, NSStreamDelegate {
 
 extension MultipeerConnectivitySession : MCNearbyServiceAdvertiserDelegate {
 
-  public func advertiser(advertiser: MCNearbyServiceAdvertiser,
+  public func advertiser(_ advertiser: MCNearbyServiceAdvertiser,
                          didReceiveInvitationFromPeer peerID: MCPeerID,
-                         withContext context: NSData?,
-                         invitationHandler: ((Bool, MCSession) -> Void)) {
-    let json: AnyObject?
+                         withContext context: Data?,
+                         invitationHandler: (@escaping (Bool, MCSession?) -> Void)) {
+    var json: Any? = nil
     if let c = context {
-      json = try? NSJSONSerialization.JSONObjectWithData(
-        c, options: NSJSONReadingOptions())
-    } else {
-      json = nil
+      json = try? JSONSerialization.jsonObject(with: c)
     }
 
-    _incomingConnections.on(.Next(
-      peerID,
-      json as? [String: AnyObject],
-      invitationHandler
-    ))
+    let jsonCast = json as? [String: Any]
+    _incomingConnections.on(.next(peerID, jsonCast, invitationHandler))
   }
 
-  public func advertiser(advertiser: MCNearbyServiceAdvertiser,
-                         didNotStartAdvertisingPeer err: NSError) {
-    _connectionErrors.on(.Next(err))
+  public func advertiser(_ advertiser: MCNearbyServiceAdvertiser,
+                         didNotStartAdvertisingPeer err: Error) {
+    _connectionErrors.on(.next(err))
   }
 
 }
 
 extension MultipeerConnectivitySession : MCNearbyServiceBrowserDelegate {
 
-  public func browser(browser: MCNearbyServiceBrowser,
+  public func browser(_ browser: MCNearbyServiceBrowser,
                       foundPeer peerId: MCPeerID,
                       withDiscoveryInfo info: [String: String]?) {
     // Get a unique list of peers
     var result: [(MCPeerID, [String: String]?)] = []
     for o in (self._nearbyPeers.value + [(peerId, info)]) {
-      if (result.map { $0.0 }).indexOf(o.0) == nil {
+      if (result.map { $0.0 }).index(of: o.0) == nil {
         result = result + [o]
       }
     }
@@ -372,65 +368,65 @@ extension MultipeerConnectivitySession : MCNearbyServiceBrowserDelegate {
     self._nearbyPeers.value = result
   }
 
-  public func browser(browser: MCNearbyServiceBrowser,
+  public func browser(_ browser: MCNearbyServiceBrowser,
                       lostPeer peerId: MCPeerID) {
     self._nearbyPeers.value = self._nearbyPeers.value.filter { (id, _) in
       id != peerId
     }
   }
 
-  public func browser(browser: MCNearbyServiceBrowser,
-                      didNotStartBrowsingForPeers err: NSError) {
-    _connectionErrors.on(.Next(err))
+  public func browser(_ browser: MCNearbyServiceBrowser,
+                      didNotStartBrowsingForPeers err: Error) {
+    _connectionErrors.on(.next(err))
   }
 
 }
 
 extension MultipeerConnectivitySession : MCSessionDelegate {
 
-  public func session(session: MCSession,
+  public func session(_ session: MCSession,
                       peer peerID: MCPeerID,
-                      didChangeState state: MCSessionState) {
+                      didChange state: MCSessionState) {
     _connections.value = session.connectedPeers
   }
 
-  public func session(session: MCSession,
-                      didReceiveData data: NSData,
+  public func session(_ session: MCSession,
+                      didReceive data: Data,
                       fromPeer peerID: MCPeerID) {
-    _receivedData.on(.Next(peerID, data))
+    _receivedData.on(.next(peerID, data))
   }
 
-  public func session(session: MCSession,
+  public func session(_ session: MCSession,
                       didStartReceivingResourceWithName name: String,
                       fromPeer peerID: MCPeerID,
-                      withProgress progress: NSProgress) {
-    _receivedResource.on(.Next(peerID, name, .Progress(progress)))
+                      with progress: Progress) {
+    _receivedResource.on(.next(peerID, name, .progress(progress)))
   }
 
-  public func session(session: MCSession,
+  public func session(_ session: MCSession,
                       didFinishReceivingResourceWithName name: String,
                       fromPeer peerID: MCPeerID,
-                      atURL url: NSURL,
-                      withError err: NSError?) {
+                      at url: URL,
+                      withError err: Error?) {
     if let e = err {
-      _receivedResource.on(.Next(peerID, name, .Errored(e)))
+      _receivedResource.on(.next(peerID, name, ResourceState.errored(e)))
       return
     }
 
-    _receivedResource.on(.Next(peerID, name, .Finished(url)))
+    _receivedResource.on(.next(peerID, name, .finished(url)))
   }
 
-  public func session(session: MCSession,
-                      didReceiveStream stream: NSInputStream,
+  public func session(_ session: MCSession,
+                      didReceive stream: InputStream,
                       withName streamName: String,
                       fromPeer peerID: MCPeerID) {
-    self._receivedStreams.on(.Next(peerID, streamName, stream))
+    self._receivedStreams.on(.next(peerID, streamName, stream))
   }
 
   public func session(_: MCSession,
-                      didReceiveCertificate _: [AnyObject]?,
+                      didReceiveCertificate _: [Any]?,
                       fromPeer _: MCPeerID,
-                      certificateHandler: (Bool) -> Void) {
+                      certificateHandler: @escaping (Bool) -> Void) {
     certificateHandler(true)
   }
 
