@@ -68,7 +68,7 @@ class ViewController: UIViewController {
     .merge()
     .map { (c: Client<I>) -> Observable<()> in
       print("\(name): sending yo to \(c.iden)")
-      return client.send(c, "yo")
+      return client.send(toPeer: c, string: "yo")
     }
     .merge()
     .subscribe(onNext: { _ in })
@@ -84,7 +84,7 @@ class ViewController: UIViewController {
       print("\(name): there are \($0.count) devices nearby")
       for p in $0 {
         print("\(name): connecting to \(p.0.iden)")
-        client.connect(p.0)
+        client.connect(toPeer: p.0)
       }
     })
     .addDisposableTo(disposeBag)
@@ -108,7 +108,7 @@ class ViewController: UIViewController {
     .addDisposableTo(disposeBag)
 
     let stream = other
-      .map { client.send($0, streamName: "hellothere") }
+      .map { client.send(toPeer: $0, streamName: "hellothere") }
       .debug()
       .switchLatest()
       .shareReplay(1)
@@ -119,7 +119,7 @@ class ViewController: UIViewController {
       .subscribe(onNext: { fetcher in fetcher([0x00, 0x89]) })
       .addDisposableTo(disposeBag)
 
-    other.map { client.receive($0, streamName: "hellothere") }
+    other.map { client.receive(fromPeer: $0, streamName: "hellothere") }
       .switchLatest()
       .debug()
       .subscribe(onNext: { (d: [UInt8]) in

@@ -104,7 +104,7 @@ open class CurrentClient<I: Hashable, S: Session> : Client<I> where S.I == I {
   ///   - peer: The recipient peer
   ///   - context: The context
   ///   - timeout: The amount of time to wait for a response before giving up
-  open func connect(_ peer: Client<I>, context: [String: Any]? = nil, timeout: TimeInterval = 12) {
+  open func connect(toPeer peer: Client<I>, context: [String: Any]? = nil, timeout: TimeInterval = 12) {
     return session.connect(peer.iden, context: context, timeout: timeout)
   }
 
@@ -126,23 +126,23 @@ open class CurrentClient<I: Hashable, S: Session> : Client<I> where S.I == I {
   /// - Returns: An `Observable` that calls `Event.Completed` once the transfer is complete.
   ///   The semantics of _completed_ depends on the `mode` parameter.
   open func send
-  (_ other: Client<I>,
-   _ data: Data,
-   _ mode: MCSessionSendDataMode = .reliable)
-  -> Observable<()> {
-    return session.send(other.iden, data, mode)
+  (toPeer other: Client<I>,
+   data: Data,
+   mode: MCSessionSendDataMode = .reliable) -> Observable<()> {
+    return session.send(toPeer: other.iden, data: data, mode: mode)
   }
 
   /// Send `String` to the given peer.
   ///
   /// - Returns: An `Observable` that calls `Event.Completed` once the transfer is complete.
   ///   The semantics of _completed_ depends on the `mode` parameter.
-  open func send
-  (_ other: Client<I>,
-   _ string: String,
-   _ mode: MCSessionSendDataMode = .reliable)
-  -> Observable<()> {
-    return send(other, string.data(using: String.Encoding.utf8)!, mode)
+  open func send(
+    toPeer other: Client<I>,
+    string: String,
+    mode: MCSessionSendDataMode = .reliable) -> Observable<()> {
+    return send(toPeer: other,
+                data: string.data(using: String.Encoding.utf8)!,
+                mode: mode)
   }
 
   /// Send json in the form of `[String: Any]` to the given peer.
@@ -151,15 +151,14 @@ open class CurrentClient<I: Hashable, S: Session> : Client<I> where S.I == I {
   ///   `Observable` if a serialization error occurs.
   /// - Returns: An `Observable` that calls `Event.Completed` once the transfer is complete.
   ///   The semantics of _completed_ depends on the `mode` parameter.
-  open func send
-  (_ other: Client<I>,
-   _ json: [String: Any],
-   _ mode: MCSessionSendDataMode = .reliable)
-  -> Observable<()> {
+  open func send(
+    toPeer other: Client<I>,
+    json: [String: Any],
+    mode: MCSessionSendDataMode = .reliable) -> Observable<()> {
     do {
       let data = try JSONSerialization.data(
         withJSONObject: json, options: JSONSerialization.WritingOptions())
-      return send(other, data, mode)
+      return send(toPeer: other, data: data, mode: mode)
     } catch let error as NSError {
       return Observable.error(error)
     }
@@ -171,13 +170,12 @@ open class CurrentClient<I: Hashable, S: Session> : Client<I> where S.I == I {
   /// - Returns: An `Observable` that represents the `NSProgress` of the file transfer.
   ///   It emits `Event.Completed` once the transfer is complete.
   ///   The semantics of _completed_ depends on the `mode` parameter.
-  open func send
-  (_ other: Client<I>,
-   name: String,
-   url: URL,
-   _ mode: MCSessionSendDataMode = .reliable)
-  -> Observable<Progress> {
-    return session.send(other.iden, name: name, url: url, mode)
+  open func send(
+    toPeer other: Client<I>,
+    name: String,
+    url: URL,
+    mode: MCSessionSendDataMode = .reliable) -> Observable<Progress> {
+    return session.send(toPeer: other.iden, name: name, resource: url, mode: mode)
   }
 
   /// Open a pipe to the given peer, allowing you send them bits.
@@ -186,11 +184,11 @@ open class CurrentClient<I: Hashable, S: Session> : Client<I> where S.I == I {
   ///   - streamName: The name of the stream that is passed to the recipient
   ///   - runLoop: The runloop that is respondsible for fetching more source data when necessary
   /// - Returns: An `Observable` that emits requests for more data, in the form of a callback.
-  open func send(_ other: Client<I>,
-                   streamName: String,
-                   runLoop: RunLoop = RunLoop.main)
-                   -> Observable<([UInt8]) -> Void> {
-    return session.send(other.iden,
+  open func send(
+    toPeer other: Client<I>,
+    streamName: String,
+    runLoop: RunLoop = RunLoop.main) -> Observable<([UInt8]) -> Void> {
+    return session.send(toPeer: other.iden,
                         streamName: streamName,
                         runLoop: runLoop)
   }
@@ -276,12 +274,13 @@ open class CurrentClient<I: Hashable, S: Session> : Client<I> where S.I == I {
   /// - Returns: An `Observable` of bytes as they are received.
   /// - Remark: Even though most of the time data is received in the exact
   ///   same buffer sizes/segments as they were sent, this is not guaranteed.
-  open func receive(_ other: Client<I>,
-                      streamName: String,
-                      runLoop: RunLoop = RunLoop.main,
-                      maxLength: Int = 512)
-                      -> Observable<[UInt8]> {
-    return session.receive(other.iden,
+  open func receive(
+    fromPeer other: Client<I>,
+    streamName: String,
+    runLoop: RunLoop = RunLoop.main,
+    maxLength: Int = 512) -> Observable<[UInt8]> {
+
+    return session.receive(fromPeer: other.iden,
                            streamName: streamName,
                            runLoop: runLoop,
                            maxLength: maxLength)

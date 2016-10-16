@@ -160,11 +160,11 @@ open class MockSession : Session {
     return rx_receivedResources
   }
 
-  open func receive(_ other: I,
-                      streamName: String,
-                      runLoop _: RunLoop = RunLoop.main,
-                      maxLength: Int = 512)
-                      -> Observable<[UInt8]> {
+  open func receive(fromPeer other: I,
+                    streamName: String,
+                    runLoop _: RunLoop = RunLoop.main,
+                    maxLength: Int = 512)
+    -> Observable<[UInt8]> {
     return rx_receivedStreamData
       .filter { (c, n, d) in c == other && n == streamName }
       .map { $2 }
@@ -182,12 +182,11 @@ open class MockSession : Session {
   func isConnected(_ other: MockSession) -> Bool {
     return rx_connections.value.filter({ $0.value?.iden == other.iden }).first != nil
   }
-
-  open func send
-  (_ other: I,
-   _ data: Data,
-   _ mode: MCSessionSendDataMode)
-  -> Observable<()> {
+  
+  open func send(toPeer other: I,
+                 data: Data,
+                 mode: MCSessionSendDataMode)
+    -> Observable<()> {
     return Observable.create { [unowned self] observer in
       if let otherSession = MockSession.findForClient(other) {
         // Can't send if not connected
@@ -207,11 +206,11 @@ open class MockSession : Session {
   }
 
   open func send
-  (_ other: I,
-   name: String,
-   url: URL,
-   _ mode: MCSessionSendDataMode)
-  -> Observable<(Progress)> {
+    (toPeer other: I,
+     name: String,
+     resource url: URL,
+     mode: MCSessionSendDataMode)
+    -> Observable<(Progress)> {
     return Observable.create { [unowned self] observer in
       if let otherSession = MockSession.findForClient(other) {
         // Can't send if not connected
@@ -235,7 +234,7 @@ open class MockSession : Session {
   }
 
   open func send
-  (_ other: I,
+  (toPeer other: I,
    streamName name: String,
    runLoop: RunLoop = RunLoop.main)
    -> Observable<([UInt8]) -> Void> {

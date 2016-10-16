@@ -174,7 +174,7 @@ open class MultipeerConnectivitySession : NSObject, Session {
   }
 
   open func receive(
-    _ other: MCPeerID,
+    fromPeer other: MCPeerID,
     streamName: String,
     runLoop: RunLoop = RunLoop.main,
     maxLength: Int = 512)
@@ -220,9 +220,9 @@ open class MultipeerConnectivitySession : NSObject, Session {
 
   }
 
-  open func send(_ other: MCPeerID,
-                   _ data: Data,
-                   _ mode: MCSessionSendDataMode) -> Observable<()> {
+  open func send(toPeer other: MCPeerID,
+                 data: Data,
+                 mode: MCSessionSendDataMode) -> Observable<()> {
     return Observable.create { observer in
       do {
         try self.session.send(data, toPeers: [other], with: mode)
@@ -238,10 +238,10 @@ open class MultipeerConnectivitySession : NSObject, Session {
     }
   }
 
-  open func send(_ other: MCPeerID,
-                   name: String,
-                   url: URL,
-                   _ mode: MCSessionSendDataMode) -> Observable<Progress> {
+  open func send(toPeer other: MCPeerID,
+                 name: String,
+                 resource url: URL,
+                 mode: MCSessionSendDataMode) -> Observable<Progress> {
     return Observable.create { observer in
       let progress = self.session.sendResource(at: url, withName: name, toPeer: other) { (err) in
         if let e = err { observer.on(.error(e)) }
@@ -266,7 +266,7 @@ open class MultipeerConnectivitySession : NSObject, Session {
   }
 
   open func send(
-      _ other: MCPeerID,
+      toPeer other: MCPeerID,
       streamName: String,
       runLoop: RunLoop = RunLoop.main)
       -> Observable<([UInt8]) -> Void> {
