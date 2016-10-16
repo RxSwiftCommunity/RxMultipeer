@@ -34,13 +34,13 @@ public protocol Session {
 
   func receive() -> Observable<(I, Data)>
   func receive() -> Observable<(I, String, ResourceState)>
-  func receive(_ other: I, streamName: String, runLoop: RunLoop, maxLength: Int) -> Observable<[UInt8]>
+  func receive(fromPeer: I, streamName: String, runLoop: RunLoop, maxLength: Int) -> Observable<[UInt8]>
 
   // Data delivery concerns
   //////////////////////////////////////////////////////////////////////////
 
-  func send(_ other: I, _ data: Data, _ mode: MCSessionSendDataMode) -> Observable<()>
-  func send(_ other: I, name: String, url: URL, _ mode: MCSessionSendDataMode) -> Observable<Progress>
-  func send(_ other: I, streamName: String, runLoop: RunLoop) -> Observable<([UInt8]) -> Void>
+  func send(toPeer: I, data: Data, mode: MCSessionSendDataMode) -> Observable<()>
+  func send(toPeer: I, name: String, resource: URL, mode: MCSessionSendDataMode) -> Observable<Progress>
+  func send(toPeer: I, streamName: String, runLoop: RunLoop) -> Observable<([UInt8]) -> Void>
 
 }
