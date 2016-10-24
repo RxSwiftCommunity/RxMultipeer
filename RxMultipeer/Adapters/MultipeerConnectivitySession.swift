@@ -76,9 +76,9 @@ open class MultipeerConnectivitySession : NSObject, Session {
   open static func getRecycledPeerID(forKey key: String?, displayName: String) -> MCPeerID {
     let defaults = UserDefaults.standard
     if let k = key,
-            let d = defaults.data(forKey: k),
-            let p = NSKeyedUnarchiver.unarchiveObject(with: d) as? MCPeerID,
-            p.displayName == displayName {
+       let d = defaults.data(forKey: k),
+       let p = NSKeyedUnarchiver.unarchiveObject(with: d) as? MCPeerID,
+       p.displayName == displayName {
       return p
     }
 
