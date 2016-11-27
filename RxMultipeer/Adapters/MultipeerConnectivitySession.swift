@@ -42,6 +42,7 @@ open class MultipeerConnectivitySession : NSObject, Session {
       serviceType: String,
       meta: [String: String]? = nil,
       idenCacheKey: String? = nil,
+      securityIdentity: [Any]? = nil,
       encryptionPreference: MCEncryptionPreference = .none) {
 
     let peerId = MultipeerConnectivitySession.getRecycledPeerID(forKey: idenCacheKey,
@@ -49,7 +50,7 @@ open class MultipeerConnectivitySession : NSObject, Session {
 
     self.serviceType = serviceType
     self.session = MCSession(peer: peerId,
-                             securityIdentity: nil,
+                             securityIdentity: securityIdentity,
                              encryptionPreference: encryptionPreference)
 
     self.advertiser = MCNearbyServiceAdvertiser(
