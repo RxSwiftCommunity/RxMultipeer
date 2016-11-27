@@ -16,7 +16,7 @@ your own adapters for different protocols.
 Add this to your `Cartfile`
 
 ```
-github "RxSwiftCommunity/RxMultipeer" ~> 1.0
+github "RxSwiftCommunity/RxMultipeer" ~> 2.0
 ```
 
 #### CocoaPods
@@ -45,7 +45,7 @@ let connectionRequests = client.incomingConnections().shareReplay(1)
 
 acceptButton.rx_tap
   .withLatestFrom(connectionRequests)
-  .subscribeNext { (peer, context, respond) in respond(true) }
+  .subscribe(onNext: { (peer, context, respond) in respond(true) })
   .addDisposableTo(disposeBag)
 ```
 
@@ -64,7 +64,7 @@ let nearbyPeers = client.nearbyPeers().shareReplay(1)
 // Attempt to connect to all peers
 nearbyPeers
   .map { (peers: [Client<MCPeerID>]) in
-    peers.map { client.connect($0, context: ["Hello": "there"], timeout: 12) }.zip()
+    peers.map { client.connect(toPeer: $0, context: ["Hello": "there"], timeout: 12) }.zip()
   }
   .subscribe()
   .addDisposableTo(disposeBag)
@@ -85,9 +85,9 @@ let sendButton: UIButton
 
 sendButton.rx_tap
   .withLatestFrom(peer)
-  .map { client.send(peer, "Hello!") }
+  .map { client.send(toPeer: peer, string: "Hello!") }
   .switchLatest()
-  .subscribeNext { _ in print("Message sent") }
+  .subscribe(onNext: { _ in print("Message sent") })
   .addDisposableTo(disposeBag)
 ```
 
@@ -100,9 +100,9 @@ import RxMultipeer
 let client: CurrentClient<MCPeerID>
 
 client.receive()
-.subscribeNext { (peer: Client<MCPeerID>, message: String) in
+.subscribe(onNext: { (peer: Client<MCPeerID>, message: String) in
   print("got message \(message), from peer \(peer)")
-}
+})
 .addDisposableTo(disposeBag)
 ```
 
@@ -121,9 +121,9 @@ let client: CurrentClient<MCPeerID>
 let peer: Observable<Client<MCPeerID>>
 let queuedMessages: Observable<[UInt8]>
 
-let pipe = peer.map { client.send(peer, streamName: "data.stream") }
+let pipe = peer.map { client.send(toPeer: peer, streamName: "data.stream") }
 pipe.withLatestFrom(queuedMessages) { $0 }
-  .subscribeNext { (sender, message) in sender(message) }
+  .subscribe(onNext: { (sender, message) in sender(message) })
   .addDisposableTo(disposeBag)
 ```
 
@@ -136,8 +136,9 @@ import RxMultipeer
 let client: CurrentClient<MCPeerID>
 let peer: Observable<Client<MCPeerID>>
 
-let incomingData = client.receive(peer, streamName: "data.stream").shareReplay(1)
-incomingData.subscribeNext { (data) in print(data) }
+let incomingData = client.receive(fromPeer: peer, streamName: "data.stream").shareReplay(1)
+incomingData
+  .subscribe(onNext: { (data) in print(data) })
   .addDisposableTo(disposeBag)
 ```
 
@@ -179,36 +180,36 @@ let client = CurrentClient(session: MultipeerConnectivitySession(
 #### String
 
 ```swift
-func send(other: Client, _ string: String, _ mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
+func send(toPeer: Client, string: String, mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
 func receive() -> Observable<(Client, String)>
 ```
 
 #### Data
 
 ```swift
-func send(other: Client, _ data: Data, _ mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
+func send(toPeer: Client, data: Data, mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
 func receive() -> Observable<(Client, Data)>
 ```
 
 #### JSON
 
 ```swift
-func send(other: Client, _ json: [String: Any], _ mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
+func send(toPeer: Client, json: [String: Any], mode: MCSessionSendDataMode = .Reliable) -> Observable<()>
 func receive() -> Observable<(Client, [String: Any])>
 ```
 
 #### NSURL
 
 ```swift
-func send(other: Client, name: String, url: NSURL, _ mode: MCSessionSendDataMode = .Reliable) -> Observable<NSProgress>
+func send(toPeer: Client, name: String, url: NSURL, mode: MCSessionSendDataMode = .Reliable) -> Observable<NSProgress>
 func receive() -> Observable<(Client, String, ResourceState)>
 ```
 
 #### NSStream
 
 ```swift
-func send(other: Client, streamName: String, runLoop: NSRunLoop = NSRunLoop.mainRunLoop()) -> Observable<([UInt8]) -> Void>
-func receive(other: Client, streamName: String, runLoop: NSRunLoop = NSRunLoop.mainRunLoop(), maxLength: Int = 512) -> Observable<[UInt8]>
+func send(toPeer: Client, streamName: String, runLoop: NSRunLoop = NSRunLoop.mainRunLoop()) -> Observable<([UInt8]) -> Void>
+func receive(fromPeer: Client, streamName: String, runLoop: NSRunLoop = NSRunLoop.mainRunLoop(), maxLength: Int = 512) -> Observable<[UInt8]>
 ```
 
 ## Testing
@@ -251,7 +252,7 @@ otherclient.incomingConnections()
 
 // Respond to all messages with 'Roger'
 otherclient.receive()
-.map { (client: Client<MockIden>, string: String) in return otherclient.send(client, "Roger") }
+.map { (client: Client<MockIden>, string: String) in otherclient.send(toPeer: client, "Roger") }
 .concat()
 .subscribeNext { _ in print("Response sent") }
 .addDisposableTo(disposeBag)
