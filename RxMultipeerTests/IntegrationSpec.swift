@@ -26,10 +26,14 @@ public class IntegrationSpec : QuickSpec {
         beforeEach {
           // Advertise and always accept connections
           clienttwo.startAdvertising()
+
+          clienttwo.incomingCertificateVerifications()
+            .subscribe(onNext: { $2(true) })
+            .addDisposableTo(disposeBag)
+
           clienttwo.incomingConnections()
-          .subscribe(onNext: { (client, _, respond) in
-            respond(true) })
-          .addDisposableTo(disposeBag)
+            .subscribe(onNext: { $2(true) })
+            .addDisposableTo(disposeBag)
         }
 
         it("allows a client to find another even if browsing is begun before advertising") {

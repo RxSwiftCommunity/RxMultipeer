@@ -47,6 +47,13 @@ acceptButton.rx_tap
   .withLatestFrom(connectionRequests)
   .subscribe(onNext: { (peer, context, respond) in respond(true) })
   .addDisposableTo(disposeBag)
+
+client.incomingCertificateVerifications()
+    .subscribe(onNext: { (peer, certificateChain, respond) in
+      // Validate the certificateChain
+      respond(true)
+    })
+    .addDisposableTo(disposeBag)
 ```
 
 #### Browse for and connect to peers
@@ -246,8 +253,15 @@ let otherclient = CurrentClient(session: MockSession(name: "mockedother"))
 
 // Accept all connections
 otherclient.startAdvertising()
+
 otherclient.incomingConnections()
 .subscribeNext { (client, context, respond) in respond(true) }
+.addDisposableTo(disposeBag)
+
+// Starting from version 3.0.0 the following handler needs to be implemented
+// for this library to work:
+otherclient.incomingCertificateVerifications()
+.subscribeNext { (client, certificateChain, respond) in respond(true) }
 .addDisposableTo(disposeBag)
 
 // Respond to all messages with 'Roger'

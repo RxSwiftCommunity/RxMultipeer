@@ -17,6 +17,7 @@ open class MultipeerConnectivitySession : NSObject, Session {
   fileprivate let browser: MCNearbyServiceBrowser
 
   fileprivate let _incomingConnections: PublishSubject<(MCPeerID, [String: Any]?, (Bool, MCSession?) -> Void)> = PublishSubject()
+  fileprivate let _incomingCertificateVerifications: PublishSubject<(MCPeerID, [Any]?, (Bool) -> Void)> = PublishSubject()
   fileprivate let _connections = Variable<[MCPeerID]>([])
   fileprivate let _nearbyPeers: Variable<[(MCPeerID, [String: String]?)]> = Variable([])
   fileprivate let _connectionErrors: PublishSubject<Error> = PublishSubject()
@@ -145,6 +146,10 @@ open class MultipeerConnectivitySession : NSObject, Session {
     .map { [unowned self] (client, context, handler) in
       return (client, context, { (accept: Bool) in handler(accept, self.session) })
     }
+  }
+
+  open func incomingCertificateVerifications() -> Observable<(I, [Any]?, (Bool) -> Void)> {
+    return _incomingCertificateVerifications
   }
 
   open func disconnect() {
@@ -421,14 +426,17 @@ extension MultipeerConnectivitySession : MCSessionDelegate {
                       didReceive stream: InputStream,
                       withName streamName: String,
                       fromPeer peerID: MCPeerID) {
-    self._receivedStreams.on(.next(peerID, streamName, stream))
+    _receivedStreams.on(.next(peerID, streamName, stream))
   }
 
   public func session(_: MCSession,
-                      didReceiveCertificate _: [Any]?,
-                      fromPeer _: MCPeerID,
+                      didReceiveCertificate certificateChain: [Any]?,
+                      fromPeer peerID: MCPeerID,
                       certificateHandler: @escaping (Bool) -> Void) {
-    certificateHandler(true)
+    _incomingCertificateVerifications.on(
+      .next(peerID,
+            certificateChain,
+            certificateHandler))
   }
 
 }

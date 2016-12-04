@@ -19,6 +19,7 @@ public protocol Session {
   //////////////////////////////////////////////////////////////////////////
 
   func incomingConnections() -> Observable<(I, [String: Any]?, (Bool) -> ())>
+  func incomingCertificateVerifications() -> Observable<(I, [Any]?, (Bool) -> Void)>
   func connections() -> Observable<[I]>
   func nearbyPeers() -> Observable<[(I, [String: String]?)]>
   func startAdvertising()

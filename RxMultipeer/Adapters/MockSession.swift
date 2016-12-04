@@ -58,9 +58,16 @@ open class MockSession : Session {
   let _meta: [String: String]?
   open var meta: [String: String]? { return _meta }
 
-  public init(name: String, meta: [String: String]? = nil) {
+  open var emulateCertificationHandler = true
+
+  public init(
+    name: String,
+    meta: [String: String]? = nil,
+    emulateCertificationHandler emulateCert: Bool = true) {
+
     self._iden = I(name)
     self._meta = meta
+    self.emulateCertificationHandler = emulateCert
     MockSession.sessions.append(self)
   }
 
@@ -69,6 +76,7 @@ open class MockSession : Session {
 
   let rx_connections = Variable<[Weak<MockSession>]>([])
   let rx_connectRequests = PublishSubject<(I, [String: Any]?, (Bool) -> ())>()
+  let rx_certificateVerificationRequests = PublishSubject<(I, [Any]?, (Bool) -> ())>()
 
   open var isAdvertising = false {
     didSet { MockSession.digest() }
@@ -92,6 +100,10 @@ open class MockSession : Session {
 
   open func incomingConnections() -> Observable<(I, [String: Any]?, (Bool) -> ())> {
     return rx_connectRequests.filter { _ in self.isAdvertising }
+  }
+
+  open func incomingCertificateVerifications() -> Observable<(I, [Any]?, (Bool) -> Void)> {
+    return rx_certificateVerificationRequests.filter { _ in self.isAdvertising }
   }
 
   open func startBrowsing() {
@@ -118,16 +130,29 @@ open class MockSession : Session {
         return
       }
 
-      if other.isAdvertising {
-        other.rx_connectRequests.on(.next(
-          (self.iden,
-            context,
-            { [unowned self] (response: Bool) in
-              if !response { return }
-              self.rx_connections.value = self.rx_connections.value + [Weak(other)]
-              other.rx_connections.value = other.rx_connections.value + [Weak(self)]
-            }) as (I, [String: Any]?, (Bool) -> ())))
+      if !other.isAdvertising {
+        return
       }
+
+      let makeConnection = { (certificateResponse: Bool) in
+        if !certificateResponse {
+          return
+        }
+
+        other.rx_connectRequests.on(
+          .next(
+            (self.iden,
+             context,
+             { [unowned self] (response: Bool) in
+               if !response { return }
+               self.rx_connections.value = self.rx_connections.value + [Weak(other)]
+               other.rx_connections.value = other.rx_connections.value + [Weak(self)]
+             }) as (I, [String: Any]?, (Bool) -> ())))
+      }
+
+      emulateCertificationHandler ?
+        other.rx_certificateVerificationRequests.on(.next(self.iden, nil, makeConnection)) :
+        makeConnection(true);
     }
   }
 
@@ -182,7 +207,7 @@ open class MockSession : Session {
   func isConnected(_ other: MockSession) -> Bool {
     return rx_connections.value.filter({ $0.value?.iden == other.iden }).first != nil
   }
-  
+
   open func send(toPeer other: I,
                  data: Data,
                  mode: MCSessionSendDataMode)

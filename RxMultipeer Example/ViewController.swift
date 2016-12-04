@@ -94,6 +94,10 @@ class ViewController: UIViewController {
     .subscribe(onNext: { (_, _, respond) in respond(true) })
     .addDisposableTo(disposeBag)
 
+    client.incomingCertificateVerifications()
+    .subscribe(onNext: { (_, _, respond) in respond(true) })
+    .addDisposableTo(disposeBag)
+
     // Logging
     other
     .subscribe(onNext: { print("\(name): \($0.iden) successfully connected") })

@@ -72,6 +72,17 @@ open class CurrentClient<I: Hashable, S: Session> : Client<I> where S.I == I {
     }
   }
 
+  /// - Returns: An `Observable` of incoming certificate verifications, as a tuple of:
+  ///   - Sender's `Client`
+  ///   - Maybe a certificate chain
+  ///   - The response handler, calling it with `true` will attempt to establish the connection
+  open func incomingCertificateVerifications() -> Observable<(Client<I>, [Any]?, (Bool) -> ())> {
+    return session.incomingCertificateVerifications()
+    .map { (iden, certificatChain, respond) in
+      (Client(iden: iden), certificatChain, respond)
+    }
+  }
+
   /// - Returns: An `Observable` of clients that are nearby, as a tuple of:
   ///   - The nearby peer's `Client`
   ///   - The nearby peer's `metaData`
