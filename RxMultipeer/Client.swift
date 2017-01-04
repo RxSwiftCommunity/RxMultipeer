@@ -78,8 +78,8 @@ open class CurrentClient<I: Hashable, S: Session> : Client<I> where S.I == I {
   ///   - The response handler, calling it with `true` will attempt to establish the connection
   open func incomingCertificateVerifications() -> Observable<(Client<I>, [Any]?, (Bool) -> ())> {
     return session.incomingCertificateVerifications()
-    .map { (iden, certificatChain, respond) in
-      (Client(iden: iden), certificatChain, respond)
+    .map { (iden, certificateChain, respond) in
+      (Client(iden: iden), certificateChain, respond)
     }
   }
 
