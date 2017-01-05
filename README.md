@@ -37,6 +37,7 @@ import RxSwift
 import RxCocoa
 import RxMultipeer
 
+let disposeBag: DisposeBag
 let acceptButton: UIButton
 let client: CurrentClient<MCPeerID>
 
@@ -62,6 +63,7 @@ client.incomingCertificateVerifications()
 import RxSwift
 import RxMultipeer
 
+let disposeBag: DisposeBag
 let client: CurrentClient<MCPeerID>
 
 client.startBrowsing()
@@ -86,6 +88,7 @@ import RxSwift
 import RxCocoa
 import RxMultipeer
 
+let disposeBag: DisposeBag
 let client: CurrentClient<MCPeerID>
 let peer: Observable<Client<MCPeerID>>
 let sendButton: UIButton
@@ -104,6 +107,7 @@ And receiving them:
 import RxSwift
 import RxMultipeer
 
+let disposeBag: DisposeBag
 let client: CurrentClient<MCPeerID>
 
 client.receive()
@@ -124,6 +128,7 @@ The sender:
 import RxSwift
 import RxMultipeer
 
+let disposeBag: DisposeBag
 let client: CurrentClient<MCPeerID>
 let peer: Observable<Client<MCPeerID>>
 let queuedMessages: Observable<[UInt8]>
@@ -140,6 +145,7 @@ The receiver:
 import RxSwift
 import RxMultipeer
 
+let disposeBag: DisposeBag
 let client: CurrentClient<MCPeerID>
 let peer: Observable<Client<MCPeerID>>
 
@@ -249,27 +255,47 @@ MockSession(name: "other"))`. For example, if your app is running in a testing e
 a nearby client:
 
 ```swift
+let disposeBag: DisposeBag
 let otherclient = CurrentClient(session: MockSession(name: "mockedother"))
 
 // Accept all connections
 otherclient.startAdvertising()
 
 otherclient.incomingConnections()
-.subscribeNext { (client, context, respond) in respond(true) }
-.addDisposableTo(disposeBag)
+  .subscribeNext { (client, context, respond) in respond(true) }
+  .addDisposableTo(disposeBag)
 
 // Starting from version 3.0.0 the following handler needs to be implemented
 // for this library to work:
 otherclient.incomingCertificateVerifications()
-.subscribeNext { (client, certificateChain, respond) in respond(true) }
-.addDisposableTo(disposeBag)
+  .subscribeNext { (client, certificateChain, respond) in respond(true) }
+  .addDisposableTo(disposeBag)
 
 // Respond to all messages with 'Roger'
 otherclient.receive()
-.map { (client: Client<MockIden>, string: String) in otherclient.send(toPeer: client, "Roger") }
-.concat()
-.subscribeNext { _ in print("Response sent") }
-.addDisposableTo(disposeBag)
+  .map { (client: Client<MockIden>, string: String) in otherclient.send(toPeer: client, "Roger") }
+  .concat()
+  .subscribeNext { _ in print("Response sent") }
+  .addDisposableTo(disposeBag)
+```
+
+## Breaking changes
+
+### Version 3.0.0
+
+Starting from version `3.0.0`, `incomingCertificateVerifications() -> Observable<(MCPeerID, [Any]?, (Bool) -> Void)>`
+was introduced. This needs to be implemented in order for mock and real
+connections to work. Behaviour prior to this update can be reproduced by simply
+accepting all certificates:
+
+```
+let client: CurrentClient<MCPeerID
+client.incomingCertificateVerifications()
+    .subscribe(onNext: { (peer, certificateChain, respond) in
+      // Validate the certificateChain
+      respond(true)
+    })
+    .addDisposableTo(disposeBag)
 ```
 
 ## Contributing
