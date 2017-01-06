@@ -103,7 +103,7 @@ open class MockSession : Session {
   }
 
   open func incomingCertificateVerifications() -> Observable<(I, [Any]?, (Bool) -> Void)> {
-    return rx_certificateVerificationRequests.filter { _ in self.isAdvertising }
+    return rx_certificateVerificationRequests.filter { _ in self.isAdvertising || self.isBrowsing }
   }
 
   open func startBrowsing() {
