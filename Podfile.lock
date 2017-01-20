@@ -1,28 +1,31 @@
 PODS:
-  - Nimble (2.0.0-rc.3)
-  - RxMultipeer (0.4.2):
-    - RxSwift (~> 2.0.0-alpha)
-  - Quick (0.6.0)
-  - RxCocoa (2.0.0-alpha.3):
-    - RxSwift (~> 2.0.0-alpha)
-  - RxSwift (2.0.0-alpha.3)
+  - Nimble (5.1.1)
+  - Quick (0.10.0)
+  - RxCocoa (3.1.0):
+    - RxSwift (~> 3.1)
+  - RxMultipeer (3.0.1):
+    - RxCocoa (~> 3.0)
+    - RxSwift (~> 3.0)
+  - RxSwift (3.1.0)
 
 DEPENDENCIES:
-  - Nimble (~> 2.0.0-rc)
+  - Nimble (~> 5.0)
+  - Quick (~> 0.10.0)
+  - RxCocoa (~> 3.0)
   - RxMultipeer (from `./`)
-  - Quick (~> 0.6)
-  - RxCocoa (~> 2.0.0-alpha)
-  - RxSwift (~> 2.0.0-alpha)
+  - RxSwift (~> 3.0)
 
 EXTERNAL SOURCES:
   RxMultipeer:
     :path: "./"
 
 SPEC CHECKSUMS:
-  Nimble: 9dff98ee195ffe7351d3b2fb01d3a1420fd97948
-  RxMultipeer: 3cd16b75983830f92c318fd6e327157a802d62b6
-  Quick: 563686dbcf0ae0f9f7401ac9cd2d786ee1b7f3d7
-  RxCocoa: 2a45f35cd0eb6a01e081b3d11849c2fcb0bdb6de
-  RxSwift: c66f7956b2e5fb397a62bf4a3ec6072749a816a7
+  Nimble: 415e3aa3267e7bc2c96b05fa814ddea7bb686a29
+  Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
+  RxCocoa: 50d7564866da9299161e86a263ce12a0873904d8
+  RxMultipeer: ce64377691f800647a485ff0aa949a5184f1aadd
+  RxSwift: 83ff553e7593fdfdcb2562933a64c0284dffdadc
 
-COCOAPODS: 0.39.0.beta.4
+PODFILE CHECKSUM: 818ad61a282c829247c6ea91400546d0c10ea2e8
+
+COCOAPODS: 1.1.1

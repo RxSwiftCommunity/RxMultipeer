@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "RxMultipeer"
-  s.version          = "3.0.0"
+  s.version          = "3.0.1"
   s.summary          = "A testable, Rx* wrapper around MultipeerConnectivity"
   s.homepage         = "https://github.com/RxSwiftCommunity/RxMultipeer"
   s.license          = 'MIT'
@@ -17,6 +17,6 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'MultipeerConnectivity'
-  s.dependency 'RxSwift', '~> 2.3.0'
-  s.dependency 'RxCocoa', '~> 2.3.0'
+  s.dependency 'RxSwift', '~> 3.0'
+  s.dependency 'RxCocoa', '~> 3.0'
 end
