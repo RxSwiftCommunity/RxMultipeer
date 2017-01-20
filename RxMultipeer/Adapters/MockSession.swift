@@ -192,9 +192,9 @@ open class MockSession : Session {
     -> Observable<[UInt8]> {
     return rx_receivedStreamData
       .filter { (c, n, d) in c == other && n == streamName }
-      .map { $2 }
+      .map { (o: (I, String, [UInt8])) in o.2 }
       // need to convert to max `maxLength` sizes
-      .map({ data in
+      .map({ data -> Observable<[UInt8]> in
         Observable.from(stride(from: 0, to: data.count, by: maxLength)
         .map({ Array(data[$0..<$0.advanced(by: min(maxLength, data.count - $0))]) }))
       })
