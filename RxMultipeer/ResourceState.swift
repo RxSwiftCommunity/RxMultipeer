@@ -1,7 +1,7 @@
 import Foundation
 
 public enum ResourceState {
-  case progress(Foundation.Progress)
+  case progress(Progress)
   case finished(URL)
   case errored(Error)
 
