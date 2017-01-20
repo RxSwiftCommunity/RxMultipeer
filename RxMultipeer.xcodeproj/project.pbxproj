@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		763117F4E4F5FD3119678FE2 /* Pods_RxMultipeer_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 381C19C7AFFF708E9CD702AD /* Pods_RxMultipeer_Example.framework */; };
-		ACBC0A752A45BFD3E7ECAFC4 /* Pods_RxMultipeerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C295AFE5B726207CA0E0C107 /* Pods_RxMultipeerTests.framework */; };
 		D80EC2F41BBF372B006BF124 /* RxMultipeerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80EC2F31BBF372B006BF124 /* RxMultipeerError.swift */; };
 		D813DA421BB1BA1000BEB501 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
 		D813DA431BB1BA1000BEB501 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA411BB1BA1000BEB501 /* RxSwift.framework */; };
@@ -33,7 +31,6 @@
 		D88C860C1B6F308600CF42CF /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C860B1B6F308600CF42CF /* Client.swift */; };
 		D88C86131B6F4F3700CF42CF /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86111B6F4F3700CF42CF /* Session.swift */; };
 		D88C86161B7060E000CF42CF /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86151B7060E000CF42CF /* MockSession.swift */; };
-		EE9906B8EDA67F1340AD1B43 /* Pods_RxMultipeer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8BC5FAB5987A5219834AC62 /* Pods_RxMultipeer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,7 +110,6 @@
 			files = (
 				D82568571C69498C005ADB0F /* RxCocoa.framework in Frameworks */,
 				D82568581C69498C005ADB0F /* RxSwift.framework in Frameworks */,
-				763117F4E4F5FD3119678FE2 /* Pods_RxMultipeer_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +120,6 @@
 				D88C86081B6F2D9000CF42CF /* MultipeerConnectivity.framework in Frameworks */,
 				D813DA421BB1BA1000BEB501 /* RxCocoa.framework in Frameworks */,
 				D813DA431BB1BA1000BEB501 /* RxSwift.framework in Frameworks */,
-				EE9906B8EDA67F1340AD1B43 /* Pods_RxMultipeer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +131,6 @@
 				D813DA491BB1BADE00BEB501 /* Nimble.framework in Frameworks */,
 				D813DA4A1BB1BADE00BEB501 /* Quick.framework in Frameworks */,
 				D86675A21C6B3F1D005A9A72 /* RxBlocking.framework in Frameworks */,
-				ACBC0A752A45BFD3E7ECAFC4 /* Pods_RxMultipeerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,14 +285,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8236D721B71EA7800EF5DE6 /* Build configuration list for PBXNativeTarget "RxMultipeer Example" */;
 			buildPhases = (
-				7C3F7BE913912EC6EBC5E214 /* [CP] Check Pods Manifest.lock */,
 				D8236D4E1B71EA7800EF5DE6 /* Sources */,
 				D8236D4F1B71EA7800EF5DE6 /* Frameworks */,
 				D8236D501B71EA7800EF5DE6 /* Resources */,
 				D825685A1C6949DA005ADB0F /* Copy Frameworks */,
 				D82E19DF1C87F1F90021194C /* CopyFiles */,
-				59372EAD32751B3380DD5385 /* [CP] Embed Pods Frameworks */,
-				D00B3571EDC50BB770EB5D3E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -314,12 +305,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D88C86011B6F2B1700CF42CF /* Build configuration list for PBXNativeTarget "RxMultipeer" */;
 			buildPhases = (
-				0A822ED6CCBB69EC9EB316F0 /* [CP] Check Pods Manifest.lock */,
 				D88C85E61B6F2B1700CF42CF /* Sources */,
 				D88C85E71B6F2B1700CF42CF /* Frameworks */,
 				D88C85E81B6F2B1700CF42CF /* Headers */,
 				D88C85E91B6F2B1700CF42CF /* Resources */,
-				3C545565875B51A581A0D27F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -334,13 +323,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D88C86041B6F2B1700CF42CF /* Build configuration list for PBXNativeTarget "RxMultipeerTests" */;
 			buildPhases = (
-				BAE204A033428450A569A66E /* [CP] Check Pods Manifest.lock */,
 				D88C85F21B6F2B1700CF42CF /* Sources */,
 				D88C85F31B6F2B1700CF42CF /* Frameworks */,
 				D88C85F41B6F2B1700CF42CF /* Resources */,
 				D813DA4B1BB1BBC300BEB501 /* Run Script */,
-				39DC478EE9A20580D09049D7 /* [CP] Embed Pods Frameworks */,
-				B6A606253EEB573C23A39D14 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -427,126 +413,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0A822ED6CCBB69EC9EB316F0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		39DC478EE9A20580D09049D7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RxMultipeerTests/Pods-RxMultipeerTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3C545565875B51A581A0D27F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RxMultipeer/Pods-RxMultipeer-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		59372EAD32751B3380DD5385 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RxMultipeer Example/Pods-RxMultipeer Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7C3F7BE913912EC6EBC5E214 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		B6A606253EEB573C23A39D14 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RxMultipeerTests/Pods-RxMultipeerTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BAE204A033428450A569A66E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		D00B3571EDC50BB770EB5D3E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RxMultipeer Example/Pods-RxMultipeer Example-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D813DA4B1BB1BBC300BEB501 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
