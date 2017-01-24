@@ -414,8 +414,19 @@ extension MultipeerConnectivitySession : MCSessionDelegate {
                       fromPeer peerID: MCPeerID,
                       at url: URL,
                       withError err: Error?) {
-    if let e = err {
-      _receivedResource.on(.next(peerID, name, ResourceState.errored(e)))
+    if let e = err as? CustomStringConvertible {
+      _receivedResource.on(
+        .next(
+          peerID,
+          name,
+          ResourceState.errored(RxMultipeerError.resourceError(e.description))))
+      return
+    } else if err != nil {
+      _receivedResource.on(
+        .next(
+          peerID,
+          name,
+          ResourceState.errored(RxMultipeerError.resourceError("Unknown"))))
       return
     }
 

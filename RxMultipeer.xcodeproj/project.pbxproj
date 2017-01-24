@@ -64,13 +64,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1B17E50D4586447F2AE7499B /* Pods-RxMultipeer Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxMultipeer Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxMultipeer Example/Pods-RxMultipeer Example.release.xcconfig"; sourceTree = "<group>"; };
-		381C19C7AFFF708E9CD702AD /* Pods_RxMultipeer_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxMultipeer_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5A339E4D49C77FD6DAEBA950 /* Pods-RxMultipeer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxMultipeer.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxMultipeer/Pods-RxMultipeer.release.xcconfig"; sourceTree = "<group>"; };
-		B0E850BEF998D3E031207B7D /* Pods-RxMultipeer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxMultipeer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxMultipeer/Pods-RxMultipeer.debug.xcconfig"; sourceTree = "<group>"; };
-		B0FC262C08A644A9AFC74C10 /* Pods-RxMultipeerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxMultipeerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxMultipeerTests/Pods-RxMultipeerTests.debug.xcconfig"; sourceTree = "<group>"; };
-		B8BC5FAB5987A5219834AC62 /* Pods_RxMultipeer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxMultipeer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C295AFE5B726207CA0E0C107 /* Pods_RxMultipeerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxMultipeerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D80EC2F31BBF372B006BF124 /* RxMultipeerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMultipeerError.swift; sourceTree = "<group>"; };
 		D813DA3C1BB1BA0900BEB501 /* RxSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RxSwift.framework.dSYM; path = Carthage/Build/iOS/RxSwift.framework.dSYM; sourceTree = "<group>"; };
 		D813DA3D1BB1BA0900BEB501 /* RxCocoa.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RxCocoa.framework.dSYM; path = Carthage/Build/iOS/RxCocoa.framework.dSYM; sourceTree = "<group>"; };
@@ -99,8 +92,6 @@
 		D88C860B1B6F308600CF42CF /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
 		D88C86111B6F4F3700CF42CF /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		D88C86151B7060E000CF42CF /* MockSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
-		F2ED6CE955A955F93A99AB58 /* Pods-RxMultipeerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxMultipeerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxMultipeerTests/Pods-RxMultipeerTests.release.xcconfig"; sourceTree = "<group>"; };
-		F58C139EB7E364AB775A9749 /* Pods-RxMultipeer Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxMultipeer Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxMultipeer Example/Pods-RxMultipeer Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,24 +139,8 @@
 				D813DA3C1BB1BA0900BEB501 /* RxSwift.framework.dSYM */,
 				D813DA3D1BB1BA0900BEB501 /* RxCocoa.framework.dSYM */,
 				D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */,
-				B8BC5FAB5987A5219834AC62 /* Pods_RxMultipeer.framework */,
-				381C19C7AFFF708E9CD702AD /* Pods_RxMultipeer_Example.framework */,
-				C295AFE5B726207CA0E0C107 /* Pods_RxMultipeerTests.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		BF50E73F4B75018FD125987C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				B0E850BEF998D3E031207B7D /* Pods-RxMultipeer.debug.xcconfig */,
-				5A339E4D49C77FD6DAEBA950 /* Pods-RxMultipeer.release.xcconfig */,
-				F58C139EB7E364AB775A9749 /* Pods-RxMultipeer Example.debug.xcconfig */,
-				1B17E50D4586447F2AE7499B /* Pods-RxMultipeer Example.release.xcconfig */,
-				B0FC262C08A644A9AFC74C10 /* Pods-RxMultipeerTests.debug.xcconfig */,
-				F2ED6CE955A955F93A99AB58 /* Pods-RxMultipeerTests.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		D8236D531B71EA7800EF5DE6 /* RxMultipeer Example */ = {
@@ -205,7 +180,6 @@
 				D8236D531B71EA7800EF5DE6 /* RxMultipeer Example */,
 				D88C85FA1B6F2B1700CF42CF /* RxMultipeerTests */,
 				D88C85EC1B6F2B1700CF42CF /* Products */,
-				BF50E73F4B75018FD125987C /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -521,7 +495,6 @@
 /* Begin XCBuildConfiguration section */
 		D8236D6E1B71EA7800EF5DE6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F58C139EB7E364AB775A9749 /* Pods-RxMultipeer Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = U7299KCYL8;
@@ -543,7 +516,6 @@
 		};
 		D8236D6F1B71EA7800EF5DE6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B17E50D4586447F2AE7499B /* Pods-RxMultipeer Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = U7299KCYL8;
@@ -651,7 +623,6 @@
 		};
 		D88C86021B6F2B1700CF42CF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B0E850BEF998D3E031207B7D /* Pods-RxMultipeer.debug.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -673,7 +644,6 @@
 		};
 		D88C86031B6F2B1700CF42CF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5A339E4D49C77FD6DAEBA950 /* Pods-RxMultipeer.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -695,7 +665,6 @@
 		};
 		D88C86051B6F2B1700CF42CF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B0FC262C08A644A9AFC74C10 /* Pods-RxMultipeerTests.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -715,7 +684,6 @@
 		};
 		D88C86061B6F2B1700CF42CF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F2ED6CE955A955F93A99AB58 /* Pods-RxMultipeerTests.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
