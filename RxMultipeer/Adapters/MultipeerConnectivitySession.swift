@@ -416,10 +416,9 @@ extension MultipeerConnectivitySession : MCSessionDelegate {
                       withError err: Error?) {
     if let e = err {
       _receivedResource.on(.next(peerID, name, ResourceState.errored(e)))
-      return
+    } else {
+      _receivedResource.on(.next(peerID, name, .finished(url)))
     }
-
-    _receivedResource.on(.next(peerID, name, .finished(url)))
   }
 
   public func session(_ session: MCSession,
