@@ -65,7 +65,7 @@ open class MultipeerConnectivitySession : NSObject, Session {
 
     super.init()
 
-    self.session.delegate = self
+    self.session.delegate = MCSessionDelegateWrapper(delegate: self)
     self.advertiser.delegate = self
     self.browser.delegate = self
   }
@@ -388,7 +388,7 @@ extension MultipeerConnectivitySession : MCNearbyServiceBrowserDelegate {
 
 }
 
-extension MultipeerConnectivitySession : MCSessionDelegate {
+extension MultipeerConnectivitySession : MCSessionSwiftDelegate {
 
   public func session(_ session: MCSession,
                       peer peerID: MCPeerID,
@@ -412,13 +412,18 @@ extension MultipeerConnectivitySession : MCSessionDelegate {
   public func session(_ session: MCSession,
                       didFinishReceivingResourceWithName name: String,
                       fromPeer peerID: MCPeerID,
-                      at url: URL,
+                      at url: URL?,
                       withError err: Error?) {
+    
     if let e = err {
-      _receivedResource.on(.next(peerID, name, ResourceState.errored(e)))
-    } else {
-      _receivedResource.on(.next(peerID, name, .finished(url)))
+      return _receivedResource.on(.next(peerID, name, ResourceState.errored(e)))
     }
+    
+    guard let u = url else {
+      return _receivedResource.on(.next(peerID, name, ResourceState.errored(RxMultipeerError.unknownError)))
+    }
+    
+    _receivedResource.on(.next(peerID, name, .finished(u)))
   }
 
   public func session(_ session: MCSession,
