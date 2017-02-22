@@ -16,7 +16,7 @@ your own adapters for different protocols.
 Add this to your `Cartfile`
 
 ```
-github "RxSwiftCommunity/RxMultipeer" ~> 2.0
+github "RxSwiftCommunity/RxMultipeer" ~> 3.0
 ```
 
 #### CocoaPods
