@@ -19,13 +19,6 @@ Add this to your `Cartfile`
 github "RxSwiftCommunity/RxMultipeer" ~> 3.0
 ```
 
-#### CocoaPods
-
-```
-use_frameworks!
-pod "RxMultipeer"
-```
-
 ## Example code
 
 _For a working example check out the `RxMultipeer Example` folder._
