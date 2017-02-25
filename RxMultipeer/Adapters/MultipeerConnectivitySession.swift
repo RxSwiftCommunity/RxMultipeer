@@ -11,6 +11,9 @@ open class MultipeerConnectivitySession : NSObject, Session {
   open let session: MCSession
   open let serviceType: String
 
+  open var iden: MCPeerID { return session.myPeerID }
+  open var meta: [String: String]? { return self.advertiser.discoveryInfo }
+
   fileprivate let disposeBag = DisposeBag()
 
   fileprivate let advertiser: MCNearbyServiceAdvertiser
@@ -25,8 +28,7 @@ open class MultipeerConnectivitySession : NSObject, Session {
   fileprivate let _receivedResource: PublishSubject<(MCPeerID, String, ResourceState)> = PublishSubject()
   fileprivate let _receivedStreams = PublishSubject<(MCPeerID, String, InputStream)>()
 
-  open var iden: MCPeerID { return session.myPeerID }
-  open var meta: [String: String]? { return self.advertiser.discoveryInfo }
+  fileprivate var sessionDelegate: MCSessionDelegate?
 
   /// - Parameters:
   ///   - displayName: Name to display to nearby peers
@@ -65,7 +67,8 @@ open class MultipeerConnectivitySession : NSObject, Session {
 
     super.init()
 
-    self.session.delegate = self
+    self.sessionDelegate = MCSessionDelegateWrapper(delegate: self)
+    self.session.delegate = sessionDelegate
     self.advertiser.delegate = self
     self.browser.delegate = self
   }
@@ -342,6 +345,7 @@ extension MultipeerConnectivitySession : MCNearbyServiceAdvertiserDelegate {
                          didReceiveInvitationFromPeer peerID: MCPeerID,
                          withContext context: Data?,
                          invitationHandler: (@escaping (Bool, MCSession?) -> Void)) {
+
     var json: Any? = nil
     if let c = context {
       json = try? JSONSerialization.jsonObject(with: c)
@@ -388,7 +392,7 @@ extension MultipeerConnectivitySession : MCNearbyServiceBrowserDelegate {
 
 }
 
-extension MultipeerConnectivitySession : MCSessionDelegate {
+extension MultipeerConnectivitySession : MCSessionDelegateWrapperDelegate {
 
   public func session(_ session: MCSession,
                       peer peerID: MCPeerID,
@@ -412,13 +416,18 @@ extension MultipeerConnectivitySession : MCSessionDelegate {
   public func session(_ session: MCSession,
                       didFinishReceivingResourceWithName name: String,
                       fromPeer peerID: MCPeerID,
-                      at url: URL,
+                      at url: URL?,
                       withError err: Error?) {
+
     if let e = err {
-      _receivedResource.on(.next(peerID, name, ResourceState.errored(e)))
-    } else {
-      _receivedResource.on(.next(peerID, name, .finished(url)))
+      return _receivedResource.on(.next(peerID, name, ResourceState.errored(e)))
     }
+
+    guard let u = url else {
+      return _receivedResource.on(.next(peerID, name, ResourceState.errored(RxMultipeerError.unknownError)))
+    }
+
+    _receivedResource.on(.next(peerID, name, .finished(u)))
   }
 
   public func session(_ session: MCSession,

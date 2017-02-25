@@ -19,6 +19,9 @@
 		D8236D5C1B71EA7800EF5DE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5A1B71EA7800EF5DE6 /* Main.storyboard */; };
 		D8236D5E1B71EA7800EF5DE6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5D1B71EA7800EF5DE6 /* Images.xcassets */; };
 		D8236D611B71EA7800EF5DE6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5F1B71EA7800EF5DE6 /* LaunchScreen.xib */; };
+		D823DDAD1E41E61A001C3ED7 /* RxMultipeer-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = D823DDAC1E41E61A001C3ED7 /* RxMultipeer-Bridging-Header.h */; };
+		D823DDB01E41E8BC001C3ED7 /* MCSessionDelegateWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = D823DDAF1E41E8B8001C3ED7 /* MCSessionDelegateWrapper.h */; };
+		D823DDB21E41E8CD001C3ED7 /* MCSessionDelegateWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = D823DDB11E41E8CD001C3ED7 /* MCSessionDelegateWrapper.m */; };
 		D82568571C69498C005ADB0F /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
 		D82568581C69498C005ADB0F /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA411BB1BA1000BEB501 /* RxSwift.framework */; };
 		D82E19E01C87F2040021194C /* RxMultipeer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D88C85EB1B6F2B1700CF42CF /* RxMultipeer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -80,6 +83,9 @@
 		D8236D5B1B71EA7800EF5DE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D8236D5D1B71EA7800EF5DE6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D8236D601B71EA7800EF5DE6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		D823DDAC1E41E61A001C3ED7 /* RxMultipeer-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RxMultipeer-Bridging-Header.h"; sourceTree = "<group>"; };
+		D823DDAF1E41E8B8001C3ED7 /* MCSessionDelegateWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCSessionDelegateWrapper.h; sourceTree = "<group>"; };
+		D823DDB11E41E8CD001C3ED7 /* MCSessionDelegateWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSessionDelegateWrapper.m; sourceTree = "<group>"; };
 		D8327BD31BD08FE9009BC6FB /* Weak.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weak.swift; sourceTree = "<group>"; };
 		D86675A01C6B3E10005A9A72 /* RxBlocking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBlocking.framework; path = Carthage/Build/iOS/RxBlocking.framework; sourceTree = "<group>"; };
 		D86675A41C6B40FD005A9A72 /* Data.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Data.txt; sourceTree = "<group>"; };
@@ -203,6 +209,9 @@
 				D8236D481B71A9EB00EF5DE6 /* ResourceState.swift */,
 				D88C86111B6F4F3700CF42CF /* Session.swift */,
 				D8327BD31BD08FE9009BC6FB /* Weak.swift */,
+				D823DDAC1E41E61A001C3ED7 /* RxMultipeer-Bridging-Header.h */,
+				D823DDAF1E41E8B8001C3ED7 /* MCSessionDelegateWrapper.h */,
+				D823DDB11E41E8CD001C3ED7 /* MCSessionDelegateWrapper.m */,
 			);
 			path = RxMultipeer;
 			sourceTree = "<group>";
@@ -249,6 +258,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D823DDB01E41E8BC001C3ED7 /* MCSessionDelegateWrapper.h in Headers */,
+				D823DDAD1E41E61A001C3ED7 /* RxMultipeer-Bridging-Header.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,7 +341,7 @@
 					};
 					D88C85EA1B6F2B1700CF42CF = {
 						CreatedOnToolsVersion = 6.4;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 					};
 					D88C85F51B6F2B1700CF42CF = {
 						CreatedOnToolsVersion = 6.4;
@@ -443,6 +454,7 @@
 				D8236D491B71A9EB00EF5DE6 /* ResourceState.swift in Sources */,
 				D80EC2F41BBF372B006BF124 /* RxMultipeerError.swift in Sources */,
 				D88C86161B7060E000CF42CF /* MockSession.swift in Sources */,
+				D823DDB21E41E8CD001C3ED7 /* MCSessionDelegateWrapper.m in Sources */,
 				D88C86131B6F4F3700CF42CF /* Session.swift in Sources */,
 				D8327BD41BD08FE9009BC6FB /* Weak.swift in Sources */,
 			);
@@ -624,6 +636,7 @@
 		D88C86021B6F2B1700CF42CF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -638,6 +651,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/RxMultipeer/RxMultipeer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -645,6 +660,7 @@
 		D88C86031B6F2B1700CF42CF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -659,6 +675,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/RxMultipeer/RxMultipeer-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
