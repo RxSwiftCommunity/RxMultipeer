@@ -397,7 +397,11 @@ extension MultipeerConnectivitySession : MCSessionDelegateWrapperDelegate {
   public func session(_ session: MCSession,
                       peer peerID: MCPeerID,
                       didChange state: MCSessionState) {
-    _connections.value = session.connectedPeers
+    // If the peer is connecting, then we know that connected peers has not
+    // changed, so we can avoid re-emitting the observable by not setting the value
+    if state != .connecting {
+      _connections.value = session.connectedPeers
+    }
   }
 
   public func session(_ session: MCSession,
