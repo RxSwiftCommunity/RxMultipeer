@@ -7,6 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13CBFDD61E7973E700C06615 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C860B1B6F308600CF42CF /* Client.swift */; };
+		13CBFDD71E7973E700C06615 /* MultipeerConnectivitySession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8236D4C1B71DE4400EF5DE6 /* MultipeerConnectivitySession.swift */; };
+		13CBFDD81E7973E700C06615 /* ResourceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8236D481B71A9EB00EF5DE6 /* ResourceState.swift */; };
+		13CBFDD91E7973E700C06615 /* RxMultipeerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80EC2F31BBF372B006BF124 /* RxMultipeerError.swift */; };
+		13CBFDDA1E7973E700C06615 /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86151B7060E000CF42CF /* MockSession.swift */; };
+		13CBFDDB1E7973E700C06615 /* MCSessionDelegateWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = D823DDB11E41E8CD001C3ED7 /* MCSessionDelegateWrapper.m */; };
+		13CBFDDC1E7973E700C06615 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86111B6F4F3700CF42CF /* Session.swift */; };
+		13CBFDDD1E7973E700C06615 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8327BD31BD08FE9009BC6FB /* Weak.swift */; };
+		13CBFDDF1E7973E700C06615 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */; };
+		13CBFDE31E7973E700C06615 /* MCSessionDelegateWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = D823DDAF1E41E8B8001C3ED7 /* MCSessionDelegateWrapper.h */; };
+		13CBFDE41E7973E700C06615 /* RxMultipeer-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = D823DDAC1E41E61A001C3ED7 /* RxMultipeer-Bridging-Header.h */; };
+		13CBFDF31E797DB200C06615 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13CBFDEC1E797C8800C06615 /* RxCocoa.framework */; };
+		13CBFDF41E797DB200C06615 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13CBFDED1E797C8800C06615 /* RxSwift.framework */; };
 		D80EC2F41BBF372B006BF124 /* RxMultipeerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80EC2F31BBF372B006BF124 /* RxMultipeerError.swift */; };
 		D813DA421BB1BA1000BEB501 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
 		D813DA431BB1BA1000BEB501 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA411BB1BA1000BEB501 /* RxSwift.framework */; };
@@ -67,6 +80,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		13CBFDE91E7973E700C06615 /* RxMultipeer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxMultipeer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		13CBFDEA1E7973E700C06615 /* RxMultipeer Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "RxMultipeer Info.plist"; path = "/Users/harvand/src/RxMultipeer/RxMultipeer Info.plist"; sourceTree = "<absolute>"; };
+		13CBFDEC1E797C8800C06615 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/tvOS/RxCocoa.framework; sourceTree = "<group>"; };
+		13CBFDED1E797C8800C06615 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/tvOS/RxSwift.framework; sourceTree = "<group>"; };
 		D80EC2F31BBF372B006BF124 /* RxMultipeerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMultipeerError.swift; sourceTree = "<group>"; };
 		D813DA3C1BB1BA0900BEB501 /* RxSwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RxSwift.framework.dSYM; path = Carthage/Build/iOS/RxSwift.framework.dSYM; sourceTree = "<group>"; };
 		D813DA3D1BB1BA0900BEB501 /* RxCocoa.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = RxCocoa.framework.dSYM; path = Carthage/Build/iOS/RxCocoa.framework.dSYM; sourceTree = "<group>"; };
@@ -101,6 +118,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		13CBFDDE1E7973E700C06615 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13CBFDDF1E7973E700C06615 /* MultipeerConnectivity.framework in Frameworks */,
+				13CBFDF31E797DB200C06615 /* RxCocoa.framework in Frameworks */,
+				13CBFDF41E797DB200C06615 /* RxSwift.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D8236D4F1B71EA7800EF5DE6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,6 +164,8 @@
 		6A362B832317E525259BEBB4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				13CBFDEC1E797C8800C06615 /* RxCocoa.framework */,
+				13CBFDED1E797C8800C06615 /* RxSwift.framework */,
 				D86675A01C6B3E10005A9A72 /* RxBlocking.framework */,
 				D813DA471BB1BADE00BEB501 /* Nimble.framework */,
 				D813DA481BB1BADE00BEB501 /* Quick.framework */,
@@ -186,6 +215,7 @@
 				D8236D531B71EA7800EF5DE6 /* RxMultipeer Example */,
 				D88C85FA1B6F2B1700CF42CF /* RxMultipeerTests */,
 				D88C85EC1B6F2B1700CF42CF /* Products */,
+				13CBFDEA1E7973E700C06615 /* RxMultipeer Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -195,6 +225,7 @@
 				D88C85EB1B6F2B1700CF42CF /* RxMultipeer.framework */,
 				D88C85F61B6F2B1700CF42CF /* RxMultipeerTests.xctest */,
 				D8236D521B71EA7800EF5DE6 /* RxMultipeer Example.app */,
+				13CBFDE91E7973E700C06615 /* RxMultipeer.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -254,6 +285,15 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		13CBFDE21E7973E700C06615 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13CBFDE31E7973E700C06615 /* MCSessionDelegateWrapper.h in Headers */,
+				13CBFDE41E7973E700C06615 /* RxMultipeer-Bridging-Header.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D88C85E81B6F2B1700CF42CF /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -266,6 +306,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		13CBFDD41E7973E700C06615 /* RxMultipeer-tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 13CBFDE61E7973E700C06615 /* Build configuration list for PBXNativeTarget "RxMultipeer-tvOS" */;
+			buildPhases = (
+				13CBFDD51E7973E700C06615 /* Sources */,
+				13CBFDDE1E7973E700C06615 /* Frameworks */,
+				13CBFDE21E7973E700C06615 /* Headers */,
+				13CBFDE51E7973E700C06615 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "RxMultipeer-tvOS";
+			productName = RxMultipeer;
+			productReference = 13CBFDE91E7973E700C06615 /* RxMultipeer.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		D8236D511B71EA7800EF5DE6 /* RxMultipeer Example */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D8236D721B71EA7800EF5DE6 /* Build configuration list for PBXNativeTarget "RxMultipeer Example" */;
@@ -363,6 +421,7 @@
 			projectRoot = "";
 			targets = (
 				D88C85EA1B6F2B1700CF42CF /* RxMultipeer */,
+				13CBFDD41E7973E700C06615 /* RxMultipeer-tvOS */,
 				D88C85F51B6F2B1700CF42CF /* RxMultipeerTests */,
 				D8236D511B71EA7800EF5DE6 /* RxMultipeer Example */,
 			);
@@ -370,6 +429,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		13CBFDE51E7973E700C06615 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D8236D501B71EA7800EF5DE6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -436,6 +502,21 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		13CBFDD51E7973E700C06615 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13CBFDD61E7973E700C06615 /* Client.swift in Sources */,
+				13CBFDD71E7973E700C06615 /* MultipeerConnectivitySession.swift in Sources */,
+				13CBFDD81E7973E700C06615 /* ResourceState.swift in Sources */,
+				13CBFDD91E7973E700C06615 /* RxMultipeerError.swift in Sources */,
+				13CBFDDA1E7973E700C06615 /* MockSession.swift in Sources */,
+				13CBFDDB1E7973E700C06615 /* MCSessionDelegateWrapper.m in Sources */,
+				13CBFDDC1E7973E700C06615 /* Session.swift in Sources */,
+				13CBFDDD1E7973E700C06615 /* Weak.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D8236D4E1B71EA7800EF5DE6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -505,6 +586,57 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		13CBFDE71E7973E700C06615 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = "RxMultipeer copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = RxMultipeer;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/RxMultipeer/RxMultipeer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		13CBFDE81E7973E700C06615 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = "RxMultipeer copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = RxMultipeer;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/RxMultipeer/RxMultipeer-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		D8236D6E1B71EA7800EF5DE6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -717,6 +849,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		13CBFDE61E7973E700C06615 /* Build configuration list for PBXNativeTarget "RxMultipeer-tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				13CBFDE71E7973E700C06615 /* Debug */,
+				13CBFDE81E7973E700C06615 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D8236D721B71EA7800EF5DE6 /* Build configuration list for PBXNativeTarget "RxMultipeer Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
