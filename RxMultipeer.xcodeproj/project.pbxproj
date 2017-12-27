@@ -81,7 +81,6 @@
 
 /* Begin PBXFileReference section */
 		13CBFDE91E7973E700C06615 /* RxMultipeer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxMultipeer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		13CBFDEA1E7973E700C06615 /* RxMultipeer Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "RxMultipeer Info.plist"; path = "/Users/harvand/src/RxMultipeer/RxMultipeer Info.plist"; sourceTree = "<absolute>"; };
 		13CBFDEC1E797C8800C06615 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/tvOS/RxCocoa.framework; sourceTree = "<group>"; };
 		13CBFDED1E797C8800C06615 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/tvOS/RxSwift.framework; sourceTree = "<group>"; };
 		D80EC2F31BBF372B006BF124 /* RxMultipeerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxMultipeerError.swift; sourceTree = "<group>"; };
@@ -215,7 +214,6 @@
 				D8236D531B71EA7800EF5DE6 /* RxMultipeer Example */,
 				D88C85FA1B6F2B1700CF42CF /* RxMultipeerTests */,
 				D88C85EC1B6F2B1700CF42CF /* Products */,
-				13CBFDEA1E7973E700C06615 /* RxMultipeer Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -803,7 +801,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/RxMultipeer/RxMultipeer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "RxMultipeer/RxMultipeer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -828,7 +826,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.nathankot.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/RxMultipeer/RxMultipeer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "RxMultipeer/RxMultipeer-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
