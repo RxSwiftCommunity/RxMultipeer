@@ -17,7 +17,6 @@
 		13CBFDDD1E7973E700C06615 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8327BD31BD08FE9009BC6FB /* Weak.swift */; };
 		13CBFDDF1E7973E700C06615 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */; };
 		13CBFDE31E7973E700C06615 /* MCSessionDelegateWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = D823DDAF1E41E8B8001C3ED7 /* MCSessionDelegateWrapper.h */; };
-		13CBFDE41E7973E700C06615 /* RxMultipeer-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = D823DDAC1E41E61A001C3ED7 /* RxMultipeer-Bridging-Header.h */; };
 		13CBFDF31E797DB200C06615 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13CBFDEC1E797C8800C06615 /* RxCocoa.framework */; };
 		13CBFDF41E797DB200C06615 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13CBFDED1E797C8800C06615 /* RxSwift.framework */; };
 		D80EC2F41BBF372B006BF124 /* RxMultipeerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80EC2F31BBF372B006BF124 /* RxMultipeerError.swift */; };
@@ -32,7 +31,6 @@
 		D8236D5C1B71EA7800EF5DE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5A1B71EA7800EF5DE6 /* Main.storyboard */; };
 		D8236D5E1B71EA7800EF5DE6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5D1B71EA7800EF5DE6 /* Images.xcassets */; };
 		D8236D611B71EA7800EF5DE6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8236D5F1B71EA7800EF5DE6 /* LaunchScreen.xib */; };
-		D823DDAD1E41E61A001C3ED7 /* RxMultipeer-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = D823DDAC1E41E61A001C3ED7 /* RxMultipeer-Bridging-Header.h */; };
 		D823DDB01E41E8BC001C3ED7 /* MCSessionDelegateWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = D823DDAF1E41E8B8001C3ED7 /* MCSessionDelegateWrapper.h */; };
 		D823DDB21E41E8CD001C3ED7 /* MCSessionDelegateWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = D823DDB11E41E8CD001C3ED7 /* MCSessionDelegateWrapper.m */; };
 		D82568571C69498C005ADB0F /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813DA401BB1BA1000BEB501 /* RxCocoa.framework */; };
@@ -41,6 +39,8 @@
 		D8327BD41BD08FE9009BC6FB /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8327BD31BD08FE9009BC6FB /* Weak.swift */; };
 		D86675A21C6B3F1D005A9A72 /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D86675A01C6B3E10005A9A72 /* RxBlocking.framework */; };
 		D86675A51C6B40FD005A9A72 /* Data.txt in Resources */ = {isa = PBXBuildFile; fileRef = D86675A41C6B40FD005A9A72 /* Data.txt */; };
+		D881836B1FF3EB5C00DCA3D2 /* RxMultipeer-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = D823DDAC1E41E61A001C3ED7 /* RxMultipeer-Bridging-Header.h */; };
+		D881836C1FF3EB5C00DCA3D2 /* RxMultipeer-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = D823DDAC1E41E61A001C3ED7 /* RxMultipeer-Bridging-Header.h */; };
 		D88C85F71B6F2B1700CF42CF /* RxMultipeer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C85EB1B6F2B1700CF42CF /* RxMultipeer.framework */; };
 		D88C86081B6F2D9000CF42CF /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D88C86071B6F2D9000CF42CF /* MultipeerConnectivity.framework */; };
 		D88C860A1B6F307700CF42CF /* IntegrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88C86091B6F307700CF42CF /* IntegrationSpec.swift */; };
@@ -288,7 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13CBFDE31E7973E700C06615 /* MCSessionDelegateWrapper.h in Headers */,
-				13CBFDE41E7973E700C06615 /* RxMultipeer-Bridging-Header.h in Headers */,
+				D881836B1FF3EB5C00DCA3D2 /* RxMultipeer-Bridging-Header.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D823DDB01E41E8BC001C3ED7 /* MCSessionDelegateWrapper.h in Headers */,
-				D823DDAD1E41E61A001C3ED7 /* RxMultipeer-Bridging-Header.h in Headers */,
+				D881836C1FF3EB5C00DCA3D2 /* RxMultipeer-Bridging-Header.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,7 +604,7 @@
 				PRODUCT_NAME = RxMultipeer;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/RxMultipeer/RxMultipeer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "RxMultipeer/RxMultipeer-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -631,7 +631,7 @@
 				PRODUCT_NAME = RxMultipeer;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/RxMultipeer/RxMultipeer-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "RxMultipeer/RxMultipeer-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 3;
 			};
